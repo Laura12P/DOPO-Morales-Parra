@@ -1,0 +1,22 @@
+#BlueJ class context
+comment0.target=Rectangle
+comment0.text=\r\nRepresenta\ un\ rect\u00E1ngulo\ dibujable\ con\ tama\u00F1o,\ posici\u00F3n\ y\ estado\ de\ visibilidad.\r\n\r\n@author\ Laura\ Juliana\ Parra\ Velandia\ y\ Daniel\ Santiago\ Morales\ Perdomo\r\n\ @version\ 1.1\r\n
+comment1.params=width\ height
+comment1.target=Rectangle(int,\ int)
+comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ Rectangle\r\n
+comment2.params=x\ y
+comment2.target=void\ setPosition(int,\ int)
+comment2.text=\r\n\ Establece\ la\ posici\u00F3n\ del\ rect\u00E1ngulo\r\n\ @param\ x\ coordenada\ horizontal\r\n\ @param\ y\ coordenada\ vertical\r\n
+comment3.params=color
+comment3.target=void\ makeVisible(java.lang.String)
+comment3.text=\r\n\ Hace\ visible\ el\ rect\u00E1ngulo\ en\ el\ Canvas\r\n
+comment4.params=
+comment4.target=void\ makeInvisible()
+comment4.text=\r\n\ \ Oculta\ el\ rect\u00E1ngulo\ del\ Canvas\r\n
+comment5.params=color
+comment5.target=void\ draw(java.lang.String)
+comment5.text=\r\n\ \ Dibuja\ el\ rect\u00E1ngulo\ en\ el\ Canvas\ si\ est\u00E1\ visible\r\n
+comment6.params=
+comment6.target=void\ erase()
+comment6.text=\r\n\ Borra\ el\ rect\u00E1ngulo\ del\ Canvas\ si\ est\u00E1\ visible\r\n
+numComments=7

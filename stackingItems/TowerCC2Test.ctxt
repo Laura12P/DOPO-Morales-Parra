@@ -1,0 +1,15 @@
+#BlueJ class context
+comment0.target=TowerCC2Test
+comment0.text=\r\n\ Pruebas\ unitarias\ para\ Tower\ -\ Ciclo\ 2.\r\n\ Modo\ invisible.\ 2\ pruebas\ por\ m\u00E9todo\:\ deber\u00EDa\ /\ no\ deber\u00EDa.\r\n\ @author\ Laura\ Juliana\ Parra\ Velandia\ y\ Daniel\ Santiago\ Morales\ Perdomo\r\n
+comment1.params=
+comment1.target=TowerCC2Test()
+comment1.text=\r\n\ Default\ constructor\ for\ test\ class\ TowerCC2Test\r\n
+comment2.params=
+comment2.target=void\ shouldCreateCups()
+comment3.params=
+comment3.target=void\ shouldNotAcceptZeroCups()
+comment4.params=
+comment4.target=void\ swapShouldExchange()
+comment5.params=
+comment5.target=void\ swapFails()
+numComments=6

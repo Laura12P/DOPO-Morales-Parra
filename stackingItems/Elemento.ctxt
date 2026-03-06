@@ -1,0 +1,16 @@
+#BlueJ class context
+comment0.target=Elemento
+comment0.text=\r\n\ Representa\ un\ elemento\ base\ del\ sistema.\ Contiene\ el\ n\u00FAmero\ identificador\ y\ sus\ dimensiones\ (ancho\ y\ alto),\ es\ la\ superclase\ de\ lid\ y\ cup.\r\n\ \r\n\ @author\ Laura\ Juliana\ Parra\ Velandia\ y\ Daniel\ Santiago\ Morales\ Perdomo\r\n\ @version\ 1.1\r\n
+comment1.params=number\ width\ height
+comment1.target=Elemento(int,\ int,\ int)
+comment1.text=\r\n\ Crea\ un\ elemento\ con\ n\u00FAmero\ y\ dimensiones\ especificadas.\r\n\r\n\ @param\ number\ numero\ identificador\ del\ elemento\r\n\ @param\ width\ ancho\ del\ elemento\r\n\ @param\ height\ altura\ del\ elemento\r\n
+comment2.params=
+comment2.target=int\ getNumber()
+comment2.text=\r\n\ Retorna\ el\ numero\ identificador\ del\ elemento\r\n\ \r\n\ @return\ int\ -\ n\u00FAmero\ identificador\r\n
+comment3.params=
+comment3.target=int\ getWidth()
+comment3.text=\r\n\ Retorna\ el\ ancho\ del\ elemento\r\n\ \r\n\ @return\ int\ -\ ancho\ del\ elemento\r\n
+comment4.params=
+comment4.target=int\ getHeight()
+comment4.text=\r\n\ Retorna\ la\ altura\ del\ elemento\r\n\ \r\n\ @return\ int\ -\ altura\ del\ elemento\r\n
+numComments=5

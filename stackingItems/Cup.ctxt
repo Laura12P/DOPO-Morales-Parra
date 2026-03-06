@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.target=Cup
+comment0.text=\r\n\ La\ clase\ taza\ (cup)\ es\ una\ subclase\ de\ elemento,\ su\ tama\u00F1o\ se\ calcula\ en\ funci\u00F3n\ del\ n\u00FAmero\ identificador.\r\n\r\n\ @author\ Laura\ Juliana\ Parra\ Velandia\ y\ Daniel\ Santiago\ Morales\ Perdomo\r\n\ @version\ 1.1\r\n
+comment1.params=number
+comment1.target=Cup(int)
+comment1.text=\r\n\ Crea\ una\ taza\ con\ altura\ y\ ancho\ calculado\ a\ partir\ de\ su\ numero\ identificador\r\n\ \r\n\ @param\ number\ numero\ entero\ positivo,\ que\ es\ un\ identificador\ y\ es\ usado\ para\ calcular\ las\ dimensiones\ de\ la\ taza\r\n
+numComments=2
