@@ -418,6 +418,7 @@ public class Tower
         stack.remove(index);
         currentHeight = calculateCurrentHeight();
         currentWidth = calculateCurrentWidth();
+        ok(' ');
         if (isVisible) redraw();
     }
     
