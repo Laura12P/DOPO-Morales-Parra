@@ -80,17 +80,18 @@ public class Canvas{
      * the canvas (true or false) 
      */
     public void setVisible(boolean visible){
+        frame.setVisible(visible);
         if(graphic == null) {
-            // first time: instantiate the offscreen image and fill it with
-            // the background colour
-            Dimension size = canvas.getSize();
-            canvasImage = canvas.createImage(size.width, size.height);
-            graphic = (Graphics2D)canvasImage.getGraphics();
+            Dimension size = canvas.getPreferredSize();
+            canvasImage = new java.awt.image.BufferedImage(
+                size.width, size.height, 
+                java.awt.image.BufferedImage.TYPE_INT_RGB
+            );
+            graphic = (Graphics2D) canvasImage.getGraphics();
             graphic.setColor(backgroundColour);
             graphic.fillRect(0, 0, size.width, size.height);
             graphic.setColor(Color.black);
         }
-        frame.setVisible(visible);
     }
 
     /**
@@ -124,22 +125,29 @@ public class Canvas{
      * @param  newColour   the new colour for the foreground of the Canvas 
      */
     public void setForegroundColor(String colorString){
-        if(colorString.equals("red"))
+        if (colorString != null && colorString.startsWith("#")) {
+            try {
+                graphic.setColor(Color.decode(colorString));
+            } catch (NumberFormatException e) {
+                graphic.setColor(Color.black);
+            }
+        } else if (colorString.equals("red")) {
             graphic.setColor(Color.red);
-        else if(colorString.equals("black"))
+        } else if (colorString.equals("black")) {
             graphic.setColor(Color.black);
-        else if(colorString.equals("blue"))
+        } else if (colorString.equals("blue")) {
             graphic.setColor(Color.blue);
-        else if(colorString.equals("yellow"))
+        } else if (colorString.equals("yellow")) {
             graphic.setColor(Color.yellow);
-        else if(colorString.equals("green"))
+        } else if (colorString.equals("green")) {
             graphic.setColor(Color.green);
-        else if(colorString.equals("magenta"))
+        } else if (colorString.equals("magenta")) {
             graphic.setColor(Color.magenta);
-        else if(colorString.equals("white"))
+        } else if (colorString.equals("white")) {
             graphic.setColor(Color.white);
-        else
+        } else {
             graphic.setColor(Color.black);
+        }
     }
 
     /**

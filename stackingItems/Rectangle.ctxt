@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=Rectangle
-comment0.text=\r\nRepresenta\ un\ rect\u00E1ngulo\ dibujable\ con\ tama\u00F1o,\ posici\u00F3n\ y\ estado\ de\ visibilidad.\r\n\r\n@author\ Laura\ Juliana\ Parra\ Velandia\ y\ Daniel\ Santiago\ Morales\ Perdomo\r\n\ @version\ 1.1\r\n
+comment0.text=\r\n\ Representa\ un\ rect\u00E1ngulo\ dibujable\ con\ tama\u00F1o,\ posici\u00F3n\ y\ estado\ de\ visibilidad.\r\n\r\n\ @author\ Laura\ Juliana\ Parra\ Velandia\ y\ Daniel\ Santiago\ Morales\ Perdomo\r\n\ @version\ 1.3\r\n
 comment1.params=width\ height
 comment1.target=Rectangle(int,\ int)
 comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ Rectangle\r\n

@@ -1,10 +1,10 @@
 import java.awt.*;
 
 /**
- *Representa un rectángulo dibujable con tamaño, posición y estado de visibilidad.
+ * Representa un rectángulo dibujable con tamaño, posición y estado de visibilidad.
  *
- *@author Laura Juliana Parra Velandia y Daniel Santiago Morales Perdomo
- * @version 1.1
+ * @author Laura Juliana Parra Velandia y Daniel Santiago Morales Perdomo
+ * @version 1.3
  */
 public class Rectangle
 {
