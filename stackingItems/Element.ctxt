@@ -1,0 +1,19 @@
+#BlueJ class context
+comment0.target=Element
+comment0.text=\r\n\ Representa\ un\ elemento\ base\ del\ sistema.\ Contiene\ el\ n\u00FAmero\ identificador\ y\ sus\ dimensiones\ (ancho\ y\ alto),\ es\ la\ superclase\ de\ lid\ y\ cup.\r\n\ \r\n\ @author\ Laura\ Juliana\ Parra\ Velandia\ y\ Daniel\ Santiago\ Morales\ Perdomo\r\n\ @version\ 1.3\r\n
+comment1.params=number\ width\ height
+comment1.target=Element(int,\ int,\ int)
+comment1.text=\r\n\ Crea\ un\ Element\ con\ n\u00FAmero\ y\ dimensiones\ especificadas.\r\n\r\n\ @param\ number\ Numero\ identificador\ del\ elemento.\r\n\ @param\ width\ Ancho\ del\ elemento.\r\n\ @param\ height\ Altura\ del\ elemento.\r\n
+comment2.params=
+comment2.target=int\ getNumber()
+comment2.text=\r\n\ Retorna\ el\ numero\ identificador\ del\ Element.\r\n\ \r\n\ @return\ int\ -\ N\u00FAmero\ identificador.\r\n
+comment3.params=
+comment3.target=int\ getWidth()
+comment3.text=\r\n\ Retorna\ el\ ancho\ del\ Element.\r\n\ \r\n\ @return\ int\ -\ Ancho\ del\ Element.\r\n
+comment4.params=
+comment4.target=int\ getHeight()
+comment4.text=\r\n\ Retorna\ la\ altura\ del\ Element.\r\n\ \r\n\ @return\ int\ -\ Altura\ del\ Element.\r\n
+comment5.params=
+comment5.target=java.lang.String[]\ Tuple()
+comment5.text=\r\n\ Genera\ la\ tupla\ del\ Element,\ que\ especifica\ su\ subclase\ y\ su\ ancho.\r\n\ \r\n\ @return\ String[]\ -\ Arreglo\ de\ dos\ pocisiones\ que\ contiene\ los\ dos\ datos\ de\ un\ Element,\ para\ ser\ procesado\ en\ la\ simulacion.\r\n
+numComments=6

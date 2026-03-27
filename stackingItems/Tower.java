@@ -9,16 +9,17 @@ import java.lang.Math;
  */
 public class Tower
 {
-    private final String DIMENSION_EXCEEDS_HEIGHT = "Al insertar el nuevo elemento, se supera la altura maxima de la torre.";
-    private final String DIMENSION_EXCEEDS_WIDTH = "Al insertar el nuevo elemento, se supera el ancho maximo de la torre.";
-    private final String ALREADY_EXISTS = "Ya existe este numero de elemento en la torre.";
-    private final String TOWER_EMPTY = "La torre esta vacia.";
+    private final static String DIMENSION_EXCEEDS_HEIGHT = "Al insertar el nuevo Element, se supera la altura maxima de la torre.";
+    private final static String DIMENSION_EXCEEDS_WIDTH = "Al insertar el nuevo Element, se supera el ancho maximo de la torre.";
+    private final static String ALREADY_EXISTS = "Ya existe este numero de Element en la torre.";
+    private final static String TOWER_EMPTY = "La torre esta vacia.";
     private int maxWidth;
     private int maxHeight;
     private int currentHeight;
     private int currentWidth;
-    private ArrayList<Elemento> stack;
-    private HashMap<Elemento, Rectangle> visualElements;
+    private ArrayList<Element> stack;
+    private HashMap<Element, Rectangle> visualElements;
+    private boolean ok;
     private boolean isVisible;
     private Canvas canvas;
     
@@ -31,17 +32,15 @@ public class Tower
     public Tower(int maxWidth, int maxHeight)
     {
         if (maxWidth <= 0 || maxHeight <= 0) {
-            ok('N');
             throw new IllegalArgumentException("Las dimensiones deben ser numeros enteros positivos.");
         }
         this.maxWidth = maxWidth;
         this.maxHeight = maxHeight;
         currentHeight = 0;
         currentWidth = 0;
-        stack = new ArrayList<Elemento>();
-        visualElements = new HashMap<Elemento, Rectangle>();
+        stack = new ArrayList<Element>();
+        visualElements = new HashMap<Element, Rectangle>();
         isVisible = false;
-        ok(' ');
     }
     
     /**
@@ -52,7 +51,6 @@ public class Tower
     public Tower(int cups)
     {
         if (cups <= 0) {
-            ok('N');
             throw new IllegalArgumentException("El número de tazas debe ser un numero entero positivo.");
         }
         //Inicializamos valores teniendo en cuenta la altura de las tazas apiladas desde la pequeña a la mas grande (Altura maxima posible)
@@ -60,52 +58,27 @@ public class Tower
         maxWidth = (2 * cups) - 1;
         currentHeight = (2 * cups) - 1;
         currentWidth = (2 * cups) - 1;
-        stack = new ArrayList<Elemento>();
-        visualElements = new HashMap<Elemento, Rectangle>();
+        stack = new ArrayList<Element>();
+        visualElements = new HashMap<Element, Rectangle>();
         isVisible = false;
         for (int i = cups; i >= 1; i--) {
             stack.add(new Cup(i));
         }
-        ok(' ');
     }
     
     /**
-     * Retorna un valor de verdad, respecto al exito de una operación.
+     * Retorna el valor de verdad del estado de la ultima operacion realizada sobre el objeto.
      * 
-     * @param operacion Afirmacion sobre el exito de la operacion, 'N' para No y caracter vacio para Si.
-     * 
-     * @return boolean - Valor de verdad segun la afirmacion de la operacion, 'N' retorna false, ' ' retorna true.
+     * @return boolean - Valor de verdad que responde al estado "ok" de la ultima operacion realizada sobre el objeto.
      */
-    public static boolean ok(char operacion) {
-        if (operacion == 'N') {//Si 'N'o se completo la operacion retornar false, caso contrario se completo retornar true
-            return false;
-        } else {
-            return true;
-        }
-    }
-    
-    /**
-     * Genera una tupla a partir de un Element, que especifica si es una taza o tapa, y su ancho.
-     * 
-     * @param e Es un Element del cual se desea , obtener dos datos; su subclase y su ancho, para almacenarlos en un ArrayList de String.
-     * 
-     * @return String[] - Arreglo de dos pocisiones que contiene los dos datos de un elemento, para ser procesado en la simulacion.
-     */
-    private String[] Tupla(Elemento e) {
-        String[] tupla =new String[2];
-        if (e instanceof Cup) {
-                tupla[0] = "C";
-            } else {
-                tupla[0] = "L";
-            }
-            tupla[1] = String.valueOf(e.getWidth());
-        return tupla;
+    public boolean ok() {
+        return ok;
     }
     
     /**
      * Realiza la suma total de la altura de todos los Element simulados, de acuerdo a su subclase. 
      * 
-     * @param sim Es la simulacion de los elementos de la torre.
+     * @param sim Es la simulacion de los Elements de la torre.
      * 
      * @return int - Numero entero positivo que representa la altura total actual de la torre.
      */
@@ -122,15 +95,52 @@ public class Tower
     }
     
     /**
-     * Devuelve la altura de un elemento, segun su subclase.
+     * Devuelve la altura de un Element, segun su subclase.
      * 
-     * @param element La tupla con la subclase y ancho del elemento.
+     * @param element La Tuple con la subclase y ancho del Element.
      * 
-     * @return int - Numero entero positivo que representa la altura del elemento recibido.
+     * @return int - Numero entero positivo que representa la altura del Element recibido.
      */
     private int elementHeight(String[] element) {
-        if (element[0].equals("L")) return 1;
-        else return Integer.valueOf(element[1]);
+        if (element[0].equals("L")) {
+            return 1;
+        } else {
+            return Integer.valueOf(element[1]);
+        }
+    }
+    
+    /**
+     * Añade un elemento a la simulacion de la torre, teniendo en cuenta su subclase y sus dimensiones.
+     * 
+     * @param element Elemento que se desea añadir a la simulacion.
+     */
+    private void addToSimulation(ArrayList<String[]> simulation, String[] addElement, int dimension, int space) {
+        int startClear = simulation.size();
+        int widthLastElement = Integer.valueOf(simulation.get(simulation.size()-1)[1]);
+        if (dimension <= widthLastElement) {
+            simulation.add(addElement);
+        } else {
+            String[] extra = {null,null};
+            for (int j = simulation.size() - 1; j >= 0; j--) {
+                if ((dimension > Integer.valueOf(simulation.get(j)[1])) && !(addElement[0].equals("L"))) {
+                    space = space - elementHeight(simulation.get(j));
+                    startClear = j;
+                    if (space == 0) {
+                        break;
+                    }else if (space < 0) {
+                        extra[0] = "E";
+                        extra[1] = String.valueOf(Math.abs(space));
+                    }
+                } else {
+                    break;
+                }
+            }
+            simulation.subList(startClear,simulation.size()).clear();
+            if (extra[0] != null) {
+                simulation.add(extra);
+            }
+            simulation.add(addElement);
+        }
     }
     
     /**
@@ -139,94 +149,46 @@ public class Tower
      * @return int - Numero entero positivo que representa la altura total actual de la torre.
      */
     private int calculateCurrentHeight() {
-        if (stack.isEmpty()) return 0;
-        ArrayList<String[]> simulacion = new ArrayList<String[]>();
+        if (stack.isEmpty()) {
+            return 0;
+        }
+        ArrayList<String[]> simulation = new ArrayList<String[]>();
         for (int i = stack.size() - 1;i >= 0; i--) {
-            Elemento elemento = stack.get(i);
-            String[] agregar = Tupla(elemento);
-            int dimension = elemento.getWidth();
-            int espacio = elemento.getHeight() - 1;
-            if (simulacion.isEmpty()) {
-                simulacion.add(agregar);
+            Element element = stack.get(i);
+            String[] addElement = element.Tuple();
+            int dimension = element.getWidth();
+            int space = element.getHeight() - 1;
+            if (simulation.isEmpty()) {
+                simulation.add(addElement);
             } else {
-                int inicioEliminar = simulacion.size();
-                int anchoUltimoElemento = Integer.valueOf(simulacion.get(simulacion.size()-1)[1]);
-                if (dimension <= anchoUltimoElemento) {
-                    simulacion.add(agregar);
-                } else {
-                    String[] extra = {null,null};
-                    for (int j = simulacion.size() - 1; j >= 0; j--) {
-                        if ((dimension > Integer.valueOf(simulacion.get(j)[1])) && !(agregar[0].equals("L"))) {
-                            espacio = espacio - elementHeight(simulacion.get(j));
-                            inicioEliminar = j;
-                            if (espacio == 0) {
-                                break;
-                            }else if (espacio < 0) {
-                                extra[0] = "E";
-                                extra[1] = String.valueOf(Math.abs(espacio));
-                            }
-                        } else {
-                            break;
-                        }
-                    }
-                    simulacion.subList(inicioEliminar,simulacion.size()).clear();
-                    if (extra[0] != null) {
-                        simulacion.add(extra);
-                    }
-                    simulacion.add(agregar);
-                }
+                addToSimulation(simulation, addElement, dimension, space);
             }
         }
-        return sumSimulation(simulacion);
+        return sumSimulation(simulation);
     }
     
     /**
      * Calcula la altura total actual de la torre, pero teniendo en cuenta un nuevo Element apilado.
      * 
-     * @param nuevo La tupla con la subclase y ancho del nuevo elemento.
+     * @param nuevo La Tuple con la subclase y ancho del nuevo Element.
      * 
-     * @return int - Numero entero positivo que representa la altura total de la torre, en caso de apilarse el nuevo elemento.
+     * @return int - Numero entero positivo que representa la altura total de la torre, en caso de apilarse el nuevo Element.
      */
-    private int calculateHeightWithNewElement(String[] nuevo) {
+    private int calculateHeightWithNewElement(String[] newElement) {
         if (stack.isEmpty()) {
-            return elementHeight(nuevo);
+            return elementHeight(newElement);
         }
-        ArrayList<String[]> simulacion = new ArrayList<String[]>();
-        simulacion.add(nuevo);
+        ArrayList<String[]> simulation = new ArrayList<String[]>();
+        simulation.add(newElement);
         for (int i = stack.size() - 1;i >= 0; i--) {
-            Elemento elemento = stack.get(i);
-            String[] agregar = Tupla(elemento);
-            int dimension = elemento.getWidth();
-            int espacio = elemento.getHeight() - 1;
+            Element element = stack.get(i);
+            String[] addElement = element.Tuple();
+            int dimension = element.getWidth();
+            int space = element.getHeight() - 1;
             //Inicio de comprobar la altura
-            int inicioEliminar = simulacion.size();
-            int anchoUltimoElemento = Integer.valueOf(simulacion.get(simulacion.size()-1)[1]);
-            if (dimension <= anchoUltimoElemento) {
-                simulacion.add(agregar);
-            } else {
-                String[] extra = {null,null};
-                for (int j = simulacion.size() - 1; j >= 0; j--) {
-                    if ((dimension > Integer.valueOf(simulacion.get(j)[1])) && !(agregar[0].equals("L"))) {
-                        espacio = espacio - elementHeight(simulacion.get(j));
-                        inicioEliminar = j;
-                        if (espacio == 0) {
-                            break;
-                        }else if (espacio < 0) {
-                            extra[0] = "E";
-                            extra[1] = String.valueOf(Math.abs(espacio));
-                        }
-                    } else {
-                        break;
-                    }
-                }
-                simulacion.subList(inicioEliminar,simulacion.size()).clear();
-                if (extra[0] != null) {
-                    simulacion.add(extra);
-                }
-                simulacion.add(agregar);
-            }
+            addToSimulation(simulation, addElement, dimension, space);
         }
-        return sumSimulation(simulacion);
+        return sumSimulation(simulation);
     }
     
     /**
@@ -252,146 +214,176 @@ public class Tower
      * Apila una taza con numero identificador i a la torre, no permite agregar tazas repetidas, ni que superen las dimensiones maximas de la torre.
      * 
      * @param i Numero entero positivo, que es un identificador y es usado para calcular las dimensiones de la taza.
-     * 
-     * @return void
      */
     public void pushCup(int i) {
-        int dimension = (2 * (validateNumber(i)) ) - 1;
+        ok = false;
+        try {
+            validateNumber(i);
+        } catch (Exception e) {
+            return;
+        }
+        int dimension = (2 * i) - 1;
         if (dimension > maxHeight) {
-            ok('N');
             throw new IllegalArgumentException(DIMENSION_EXCEEDS_HEIGHT);
         }
         if (dimension > maxWidth) {
-            ok('N');
             throw new IllegalArgumentException(DIMENSION_EXCEEDS_WIDTH);
         }
-        for (Elemento e : stack) {
+        for (Element e : stack) {
             if (e instanceof Cup && ((Cup) e).getNumber() == i) {
-                ok('N');
                 throw new IllegalArgumentException(ALREADY_EXISTS);
             }
         }
-        String[] nuevo = {"C",String.valueOf(dimension)};
-        int alturaPosible = calculateHeightWithNewElement(nuevo);
-        if (alturaPosible > maxHeight) {
-            ok('N');
+        String[] newElement = {"C",String.valueOf(dimension)};
+        int possibleHeight = calculateHeightWithNewElement(newElement);
+        if (possibleHeight > maxHeight) {
             throw new IllegalArgumentException(DIMENSION_EXCEEDS_HEIGHT);
         } else {
             stack.add(new Cup(i));
-            currentHeight = alturaPosible;
+            currentHeight = possibleHeight;
             currentWidth = calculateCurrentWidth();
-            ok(' ');
         }
+        ok = true;
         if (isVisible) redraw();
     }
     
     /**
-     * Elimina el elemento superior o recientemente apilado, solo si es una taza.
-     * 
-     * @return void
+     * Elimina el Element superior o recientemente apilado, solo si es una taza.
      */
     public void popCup() {
+        ok = false;
         if (stack.isEmpty()) {
-            ok('N');
             throw new IllegalArgumentException(TOWER_EMPTY);
         }
-        Elemento top = stack.get(stack.size() - 1);
+        Element top = stack.get(stack.size() - 1);
         if (!(top instanceof Cup)) {
-            ok('N');
-            throw new IllegalArgumentException("El ultimo elemento de la torre no es una taza.");
+            throw new IllegalArgumentException("El ultimo Element de la torre no es una taza.");
         }
         stack.remove(stack.size() - 1);
         currentHeight = calculateCurrentHeight();
         currentWidth = calculateCurrentWidth();
-        ok(' ');
+        ok = true;
         if (isVisible) redraw();
+    }
+    
+    /**
+     * Devuelve los indices del stack que apuntan a la Cup y Lid de igual numero identificador, la posicion 0 del arreglo es el indice de la Cup, la posicion 1 
+     * es el indice de la Lid, y la posicion 2 es un bit de verdad, que indica si la Lid esta tapando a la Cup, se devulve -1 en la respectiva posicion del Element
+     * que no se haya encontrado dentro del stack.
+     * 
+     * @return int[] - Arreglo de enteros de 3 posiciones que contiene la posicion de la Cup y Lid de igual number, y en la tercera posicion es un bit de verdad
+     * que indica si la Lid esta tapando a la taza.
+     */
+    public int[] cupAndLidPositions(int number) {
+        int[] result = {-1,-1,0};
+        if (stack.isEmpty()) {
+            return result;
+        }
+        ArrayList<String[]> simulation = new ArrayList<String[]>();
+        for (int i = stack.size() - 1;i >= 0; i--) {
+            Element element = stack.get(i);
+            if (element instanceof Lid && element.getNumber() == number) {
+                result[1] = i;
+            }
+            if (result[1] != -1 && result[0] < result[1]) {
+                String[] addElement = element.Tuple();
+                int dimension = element.getWidth();
+                int space = element.getHeight() - 1;
+                if (simulation.isEmpty()) {
+                    simulation.add(addElement);
+                } else {
+                    addToSimulation(simulation, addElement, dimension, space);
+                }
+                if (element instanceof Cup && element.getNumber() == number) {
+                    result[0] = i;
+                    break;
+                }
+            }
+            if (element instanceof Cup && element.getNumber() == number) {
+                result[0] = i;
+            }
+            if (result[1] != -1 && result[0] != -1 && result[0] > result[1]) {
+                return result;
+            }
+        }
+        if (simulation.size() == 2) {
+            result[2] = 1;
+        }
+        return result;
     }
     
     /**
      * Elimina la taza con numero identificador i; Si la taza esta cubierta por su tapa, también se elimina.
      *
      * @param i Numero entero positivo, que es el identificador de la taza que se desea eliminar.
-     * 
-     * @return void
      */
     public void removeCup(int i) {
-        for (int j = 0; j < stack.size(); j++) {
-            Elemento actual = stack.get(j);
-            if (actual instanceof Cup && actual.getNumber() == i) {
-                // Si tiene tapa encima
-                if (j + 1 < stack.size()) {
-                    Elemento arriba = stack.get(j + 1);
-                    if (arriba instanceof Lid && arriba.getNumber() == i) {
-                        stack.remove(j + 1);
-                    }
-                }
-                stack.remove(j);
-                currentHeight = calculateCurrentHeight();
-                currentWidth = calculateCurrentWidth();
-                if (isVisible) redraw();
-                ok(' ');
-                return;
-            }
+        ok = false;
+        if (stack.isEmpty()) {
+            throw new IllegalArgumentException(TOWER_EMPTY);
         }
-        ok('N');
+        int[] positions = cupAndLidPositions(i);
+        if (positions[2] == 1) {
+            stack.remove(positions[1]);
+        }
+        if (positions[0] == -1) {
+            throw new IllegalArgumentException("La taza que se desea eliminar no existe.");
+        }
+        stack.remove(positions[0]);
+        currentHeight = calculateCurrentHeight();
+        currentWidth = calculateCurrentWidth();
+        ok = true;
+        if (isVisible) redraw();
     }
     
     /**
      * Apila una tapa con numero identificador i a la torre, no permite agregar tapas repetidas, ni que superen las dimensiones maximas de la torre.
      * 
      * @param i Numero entero positivo, que es un identificador y es usado para calcular el ancho de la tapa.
-     * 
-     * @return void
      */
     public void pushLid(int i) {
+        ok = false;
         int dimension = (2 * (validateNumber(i)) ) - 1;
         if (1 > maxHeight) {
-            ok('N');
             throw new IllegalArgumentException(DIMENSION_EXCEEDS_HEIGHT);
         }
         if (dimension > maxWidth) {
-            ok('N');
             throw new IllegalArgumentException(DIMENSION_EXCEEDS_WIDTH);
         }
-        for (Elemento e : stack) {
+        for (Element e : stack) {
             if (e instanceof Lid && ((Lid) e).getNumber() == i) {
-                ok('N');
                 throw new IllegalArgumentException(ALREADY_EXISTS);
             }
         }
-        String[] nuevo = {"L",String.valueOf(dimension)};
-        int alturaPosible = calculateHeightWithNewElement(nuevo);
-        if (alturaPosible > maxHeight) {
-            ok('N');
+        String[] newElement = {"L",String.valueOf(dimension)};
+        int possibleHeight = calculateHeightWithNewElement(newElement);
+        if (possibleHeight > maxHeight) {
             throw new IllegalArgumentException(DIMENSION_EXCEEDS_HEIGHT);
         } else {
             stack.add(new Lid(i));
-            currentHeight = alturaPosible;
+            currentHeight = possibleHeight;
             currentWidth = calculateCurrentWidth();
-            ok(' ');
         }
+        ok = true;
         if (isVisible) redraw();
     }
     
     /**
-     * Elimina el elemento superior o recientemente apilado, solo si es una tapa.
-     * 
-     * @return void
+     * Elimina el Element superior o recientemente apilado, solo si es una tapa.
      */
     public void popLid() {
+        ok = false;
         if (stack.isEmpty()) {
-            ok('N');
             throw new IllegalArgumentException(TOWER_EMPTY);
         }
-        Elemento top = stack.get(stack.size() - 1);
+        Element top = stack.get(stack.size() - 1);
         if (!(top instanceof Lid)) {
-            ok('N');
-            throw new IllegalArgumentException("El ultimo elemento de la torre no es una tapa.");
+            throw new IllegalArgumentException("El ultimo Element de la torre no es una tapa.");
         }
         stack.remove(stack.size() - 1);
         currentHeight = calculateCurrentHeight();
         currentWidth = calculateCurrentWidth();
-        ok(' ');
+        ok = true;
         if (isVisible) redraw();
     }
     
@@ -399,174 +391,164 @@ public class Tower
      * Elimina la tapa con numero identificador i.
      *
      * @param i Numero entero positivo, que es el identificador de la tapa que se desea eliminar.
-     * 
-     * @return void
      */
     public void removeLid(int i) {
+        ok = false;
         int index = -1;
         for (int j = 0; j < stack.size(); j++) {
-            Elemento actual = stack.get(j);
-            if (actual instanceof Lid && actual.getNumber() == i) {
+            Element current = stack.get(j);
+            if (current instanceof Lid && current.getNumber() == i) {
                 index = j;
                 break;
             }
         }
         if (index == -1) {
-            ok('N');
             throw new IllegalArgumentException("La tapa que se desea eliminar no existe.");
         }
         stack.remove(index);
         currentHeight = calculateCurrentHeight();
         currentWidth = calculateCurrentWidth();
-        ok(' ');
+        ok = true;
         if (isVisible) redraw();
     }
     
     /**
      *  Ordena la torre por numero identificador (dimension), de mayor a menor, ademas tapando cada taza con su respectiva tapa si existe.
-     *  
-     *  @return void
      */
     public void orderTower() {
+        ok = false;
         ArrayList<Cup> cups = new ArrayList<Cup>();
         ArrayList<Lid> lids = new ArrayList<Lid>();
         for (int i = 0; i < stack.size(); i++) {
-            Elemento e = stack.get(i);
+            Element e = stack.get(i);
             if (e instanceof Cup) cups.add((Cup) e);
             else if (e instanceof Lid) lids.add((Lid) e);
         }
         // Crear bloques (taza + posible tapa)
-        ArrayList<ArrayList<Elemento>> bloques = new ArrayList<ArrayList<Elemento>>();
+        ArrayList<ArrayList<Element>> blocks = new ArrayList<ArrayList<Element>>();
         for (int i = 0; i < cups.size(); i++) {
             Cup cup = cups.get(i);
-            int numero = cup.getNumber();
-            ArrayList<Elemento> bloque = new ArrayList<Elemento>();
-            bloque.add(cup);
+            int number = cup.getNumber();
+            ArrayList<Element> block = new ArrayList<Element>();
+            block.add(cup);
             for (int j = 0; j < lids.size(); j++) {
-                if (lids.get(j).getNumber() == numero) {
-                    bloque.add(lids.get(j));
+                if (lids.get(j).getNumber() == number) {
+                    block.add(lids.get(j));
                     lids.remove(j);
                     break;
                 }
             }
-            bloques.add(bloque);
+            blocks.add(block);
         }
         // Tapas que quedaron solas
         for (int i = 0; i < lids.size(); i++) {
-            ArrayList<Elemento> bloque = new ArrayList<Elemento>();
-            bloque.add(lids.get(i));
-            bloques.add(bloque);
+            ArrayList<Element> block = new ArrayList<Element>();
+            block.add(lids.get(i));
+            blocks.add(block);
         }
         // Ordenar bloques de mayor a menor
-        for (int a = 0; a < bloques.size(); a++) {
-            for (int b = a + 1; b < bloques.size(); b++) {
-                int numA = bloques.get(a).get(0).getNumber();
-                int numB = bloques.get(b).get(0).getNumber();
+        for (int a = 0; a < blocks.size(); a++) {
+            for (int b = a + 1; b < blocks.size(); b++) {
+                int numA = blocks.get(a).get(0).getNumber();
+                int numB = blocks.get(b).get(0).getNumber();
                 if (numB > numA) {
-                    ArrayList<Elemento> temp = bloques.get(a);
-                    bloques.set(a, bloques.get(b));
-                    bloques.set(b, temp);
+                    ArrayList<Element> temp = blocks.get(a);
+                    blocks.set(a, blocks.get(b));
+                    blocks.set(b, temp);
                 }
             }
         }
         //Reconstruir torre respetando límites
-        ArrayList<Elemento> nueva = new ArrayList<Elemento>();
-        int nuevaAltura = 0;
+        ArrayList<Element> newStack = new ArrayList<Element>();
+        int newHeight = 0;
 
-        for (int i = 0; i < bloques.size(); i++) {
-            ArrayList<Elemento> bloque = bloques.get(i);
-            int alturaBloque = 0;
-            boolean cabe = true;
-            for (int j = 0; j < bloque.size(); j++) {
-                Elemento e = bloque.get(j);
+        for (int i = 0; i < blocks.size(); i++) {
+            ArrayList<Element> block = blocks.get(i);
+            int blockHeight = 0;
+            boolean fit = true;
+            for (int j = 0; j < block.size(); j++) {
+                Element e = block.get(j);
                 if (e.getWidth() > maxWidth) {
-                    cabe = false;
+                    fit = false;
                     break;
                 }
-                alturaBloque += e.getHeight();
+                blockHeight += e.getHeight();
             }
-            if (cabe && nuevaAltura + alturaBloque <= maxHeight) {
-                for (int j = 0; j < bloque.size(); j++) {
-                    nueva.add(bloque.get(j));
+            if (fit && newHeight + blockHeight <= maxHeight) {
+                for (int j = 0; j < block.size(); j++) {
+                    newStack.add(block.get(j));
                 }
-                nuevaAltura += alturaBloque;
+                newHeight += blockHeight;
             }
         }
-        stack = nueva;
-        currentHeight = nuevaAltura;
-        ok(' ');
-        if (isVisible) {
-            redraw();
-        }
+        stack = newStack;
+        currentHeight = newHeight;
+        ok = true;
+        if (isVisible) redraw();
     }
     
     /**
      * Invierte el orden de los bloques (taza con su tapa si existe), respetando los límites de tamaño.
-     * 
-     * @return void
      */
     public void reverseTower() {
-        ArrayList<ArrayList<Elemento>> bloques = new ArrayList<ArrayList<Elemento>>();
+        ok = false;
+        ArrayList<ArrayList<Element>> blocks = new ArrayList<ArrayList<Element>>();
         int i = 0;
         // Agrupar en bloques relacionados
         while (i < stack.size()) {
-            ArrayList<Elemento> bloque = new ArrayList<Elemento>();
-            Elemento actual = stack.get(i);
-            if (actual instanceof Cup && i + 1 < stack.size()) {
-                Elemento siguiente = stack.get(i + 1);
-                if (siguiente instanceof Lid &&
-                    siguiente.getNumber() == actual.getNumber()) {
-                    bloque.add(actual);
-                    bloque.add(siguiente);
-                    bloques.add(bloque);
+            ArrayList<Element> block = new ArrayList<Element>();
+            Element current = stack.get(i);
+            if (current instanceof Cup && i + 1 < stack.size()) {
+                Element next = stack.get(i + 1);
+                if (next instanceof Lid && next.getNumber() == current.getNumber()) {
+                    block.add(current);
+                    block.add(next);
+                    blocks.add(block);
                     i = i + 2;
                     continue;
                 }
             }
-            bloque.add(actual);
-            bloques.add(bloque);
+            block.add(current);
+            blocks.add(block);
             i = i + 1;
         }
         // Reconstruir en orden inverso
-        ArrayList<Elemento> nueva = new ArrayList<Elemento>();
-        int nuevaAltura = 0;
-        for (int j = bloques.size() - 1; j >= 0; j--) {
-            ArrayList<Elemento> bloque = bloques.get(j);
-            int alturaBloque = 0;
-            boolean cabe = true;
-            for (int k = 0; k < bloque.size(); k++) {
-                Elemento e = bloque.get(k);
+        ArrayList<Element> newStack = new ArrayList<Element>();
+        int newHeight = 0;
+        for (int j = blocks.size() - 1; j >= 0; j--) {
+            ArrayList<Element> block = blocks.get(j);
+            int blockHeight = 0;
+            boolean fit = true;
+            for (int k = 0; k < block.size(); k++) {
+                Element e = block.get(k);
                 if (e.getWidth() > maxWidth) {
-                    cabe = false;
+                    fit = false;
                     break;
                 }
-                alturaBloque += e.getHeight();
+                blockHeight += e.getHeight();
             }
-            if (cabe && nuevaAltura + alturaBloque <= maxHeight) {
-                for (int k = 0; k < bloque.size(); k++) {
-                    nueva.add(bloque.get(k));
+            if (fit && newHeight + blockHeight <= maxHeight) {
+                for (int k = 0; k < block.size(); k++) {
+                    newStack.add(block.get(k));
                 }
-                nuevaAltura += alturaBloque;
+                newHeight += blockHeight;
             }
         }
-        stack = nueva;
-        currentHeight = nuevaAltura;
-        ok(' ');
-        if (isVisible) {
-            redraw();
-        }
+        stack = newStack;
+        currentHeight = newHeight;
+        ok = true;
+        if (isVisible) redraw();
     }
     
     /**
-     * Intercambia dos elementos de la torre según su tipo y número. Si alguno es una taza con su tapa encima, el bloque se mueve completo
+     * Intercambia dos Elements de la torre según su tipo y número. Si alguno es una taza con su tapa encima, el bloque se mueve completo
      * 
-     * @param o1 arreglo con el tipo ("cup" o "lid") y número del primer elemento
-     * @param o2 arreglo con el tipo ("cup" o "lid") y número del segundo elemento
+     * @param o1 arreglo con el tipo ("cup" o "lid") y número del primer Element
+     * @param o2 arreglo con el tipo ("cup" o "lid") y número del segundo Element
      */
-    public void swap(String[] o1, String[] o2) 
-    {
+    public void swap(String[] o1, String[] o2) {
+        ok = false;
         if (o1 == null || o2 == null || o1.length < 2 || o2.length < 2) {
-            ok('N');
             return;
         }
 
@@ -574,7 +556,6 @@ public class Tower
         int idx2 = findIndex(o2[0], o2[1]);
 
         if (idx1 == -1 || idx2 == -1 || idx1 == idx2) {
-            ok('N');
             return;
         }
         //Verificar si alguno esta tapado 
@@ -585,41 +566,40 @@ public class Tower
             int temp = idx1; idx1 = idx2; idx2 = temp;
             boolean tempB = cup1Lidded; cup1Lidded = cup2Lidded; cup2Lidded = tempB;
         }
-        ArrayList<Elemento> bloque2 = extractBlock(idx2, cup2Lidded);
-        ArrayList<Elemento> bloque1 = extractBlock(idx1, cup1Lidded);
+        ArrayList<Element> block2 = extractBlock(idx2, cup2Lidded);
+        ArrayList<Element> block1 = extractBlock(idx1, cup1Lidded);
         int insertPos1 = idx1;
-        for (int k = 0; k < bloque2.size(); k++) {
-            stack.add(insertPos1 + k, bloque2.get(k));
+        for (int k = 0; k < block2.size(); k++) {
+            stack.add(insertPos1 + k, block2.get(k));
         }
-        int insertPos2 = idx2 - bloque1.size() + bloque2.size();
-        for (int k = 0; k < bloque1.size(); k++) {
-            stack.add(insertPos2 + k, bloque1.get(k));
+        int insertPos2 = idx2 - block1.size() + block2.size();
+        for (int k = 0; k < block1.size(); k++) {
+            stack.add(insertPos2 + k, block1.get(k));
         }
 
         currentHeight = calculateCurrentHeight();
         currentWidth = calculateCurrentWidth();
-        ok(' ');
+        ok = true;
         if (isVisible) redraw();
     }
     
     /**
      * Tapa todas las tazas que tienen su tapa disponible en la torre, colocando la tapa inmediatamente encima de su taza correspondiente.
      * Si la tapa ya está sobre la taza, no hace nada.
-     * 
-     * @return void
      */
     public void cover() {
-        boolean cambio = true;
-        while (cambio) {
-            cambio = false;
+        ok = false;
+        boolean change = true;
+        while (change) {
+            change = false;
             for (int i = 0; i < stack.size(); i++) {
-                Elemento actual = stack.get(i);
-                if (!(actual instanceof Cup)) continue;
-                    int num = actual.getNumber();
+                Element current = stack.get(i);
+                if (!(current instanceof Cup)) continue;
+                    int num = current.getNumber();
                     // Buscar si ya tiene tapa encima
                     if (i + 1 < stack.size()) {
-                        Elemento siguiente = stack.get(i + 1);
-                        if (siguiente instanceof Lid && siguiente.getNumber() == num) {
+                        Element next = stack.get(i + 1);
+                        if (next instanceof Lid && next.getNumber() == num) {
                             continue; // Ya está tapada
                         }
                     }
@@ -627,7 +607,7 @@ public class Tower
                     int lidIdx = -1;
                     for (int j = 0; j < stack.size(); j++) {
                         if (j == i) continue;
-                        Elemento e = stack.get(j);
+                        Element e = stack.get(j);
                         if (e instanceof Lid && e.getNumber() == num) {
                             lidIdx = j;
                             break;
@@ -635,23 +615,23 @@ public class Tower
                     }
                     if (lidIdx == -1) continue;
                         // Mover la tapa justo encima de la taza
-                    Elemento lid = stack.get(lidIdx);
+                    Element lid = stack.get(lidIdx);
                     stack.remove(lidIdx);
-                    int newCupIdx = stack.indexOf(actual);
+                    int newCupIdx = stack.indexOf(current);
                     stack.add(newCupIdx + 1, lid);
-                    int nuevaAltura = calculateCurrentHeight();
-                    if (nuevaAltura > maxHeight) {
+                    int newHeight = calculateCurrentHeight();
+                    if (newHeight > maxHeight) {
                     // Revertir si no cabe
                         stack.remove(newCupIdx + 1);
                         stack.add(lidIdx, lid);
                     } else {
-                        currentHeight = nuevaAltura;
-                        cambio = true;
+                        currentHeight = newHeight;
+                        change = true;
                         break;
                 }
             }
         }
-        ok(' ');
+        ok = true;
         if (isVisible) redraw();
     }
     
@@ -670,138 +650,132 @@ public class Tower
      * @return int[] - Arreglo con los números de las tazas tapadas, si no hay ninguna, retorna un arreglo vacío.
      */
     public int[] lidedCups() {
-        ArrayList<Integer> numeros = new ArrayList<Integer>();
+        ok = false;
+        ArrayList<Integer> numbers = new ArrayList<Integer>();
         for (int i = 0; i < stack.size() - 1; i++) {
-            Elemento actual = stack.get(i);
-            Elemento siguiente = stack.get(i + 1);
-            if (actual instanceof Cup && siguiente instanceof Lid && actual.getNumber() == siguiente.getNumber()) {
-                numeros.add(actual.getNumber());
+            Element current = stack.get(i);
+            Element next = stack.get(i + 1);
+            if (current instanceof Cup && next instanceof Lid && current.getNumber() == next.getNumber()) {
+                numbers.add(current.getNumber());
             }
         }
 
-        for (int i = 0; i < numeros.size(); i++) {
-            for (int j = i + 1; j < numeros.size(); j++) {
-                if (numeros.get(j) < numeros.get(i)) {
-                    int aux = numeros.get(i);
-                    numeros.set(i, numeros.get(j));
-                    numeros.set(j, aux);
+        for (int i = 0; i < numbers.size(); i++) {
+            for (int j = i + 1; j < numbers.size(); j++) {
+                if (numbers.get(j) < numbers.get(i)) {
+                    int aux = numbers.get(i);
+                    numbers.set(i, numbers.get(j));
+                    numbers.set(j, aux);
                 }
             }
         }
-        int[] resultado = new int[numeros.size()];
-        for (int i = 0; i < numeros.size(); i++) {
-            resultado[i] = numeros.get(i);
+        int[] result = new int[numbers.size()];
+        for (int i = 0; i < numbers.size(); i++) {
+            result[i] = numbers.get(i);
         }
-        ok(' ');
-        return resultado;
+        ok = true;
+        return result;
     }
     
     /**
-     * Retorna una representación de los elementos apilados en la torre. Cada fila del arreglo contiene: [0]-> tipo de elemento ("cup" o "lid")
-     * y [1] -> número del elemento.
+     * Retorna una representación de los Elements apilados en la torre. Cada fila del arreglo contiene: [0]-> tipo de Element ("cup" o "lid")
+     * y [1] -> número del Element.
      *
-     * @return String[][] - Matriz con la información de los elementos en orden de apilamiento.
+     * @return String[][] - Matriz con la información de los Elements en orden de apilamiento.
      */
     public String[][] stackingItems() {
-        // Crear matriz con tantas filas como elementos haya en la torre
-        String[][] resultado = new String[stack.size()][2];
+        ok = false;
+        // Crear matriz con tantas filas como Elements haya en la torre
+        String[][] result = new String[stack.size()][2];
         // Recorrer la pila en el orden actual
         for (int i = 0; i < stack.size(); i++) {
-            Elemento actual = stack.get(i);
-            // Determinar el tipo de elemento
-            if (actual instanceof Cup) {
-                resultado[i][0] = "cup";
+            Element current = stack.get(i);
+            // Determinar el tipo de Element
+            if (current instanceof Cup) {
+                result[i][0] = "cup";
             } else {
-                resultado[i][0] = "lid";
+                result[i][0] = "lid";
             }
-            // Guardar el número del elemento como texto
-            resultado[i][1] = String.valueOf(actual.getNumber());
+            // Guardar el número del Element como texto
+            result[i][1] = String.valueOf(current.getNumber());
         }
-        ok(' ');
-        return resultado;
+        ok = true;
+        return result;
     }
     
     /**
-     * Busca el primer par de elementos cuyo intercambio reduzca la altura de la torre no realiza el intercambio.
+     * Busca el primer par de Elements cuyo intercambio reduzca la altura de la torre no realiza el intercambio.
      * 
-     * @return String[][] - Matriz con el tipo y número de los dos elementos a intercambiar, si no existe ningún par que reduzca la altura, 
+     * @return String[][] - Matriz con el tipo y número de los dos Elements a intercambiar, si no existe ningún par que reduzca la altura, 
      * retorna una matriz vacia.
      */
     public String[][] swapToReduce() {
-        int alturaActual = calculateCurrentHeight();
+        ok = false;
+        int currentHeightVariable = calculateCurrentHeight();
         // Probar todos los pares posibles de índices distintos
         for (int i = 0; i < stack.size(); i++) {
             for (int j = i + 1; j < stack.size(); j++) {
                 // Simular el intercambio
-                Elemento temp = stack.get(i);
+                Element temp = stack.get(i);
                 stack.set(i, stack.get(j));
                 stack.set(j, temp);
-                int nuevaAltura = calculateCurrentHeight();
+                int newHeight = calculateCurrentHeight();
                 // Revertir el intercambio
                 temp = stack.get(i);
                 stack.set(i, stack.get(j));
                 stack.set(j, temp);
                 // Si la nueva altura es menor, retornar este par
-                if (nuevaAltura < alturaActual) {
-                    Elemento e1 = stack.get(i);
-                    Elemento e2 = stack.get(j);
-                    String[][] resultado = new String[2][2];
-                    resultado[0][0] = (e1 instanceof Cup) ? "cup" : "lid";
-                    resultado[0][1] = String.valueOf(e1.getNumber());
-                    resultado[1][0] = (e2 instanceof Cup) ? "cup" : "lid";
-                    resultado[1][1] = String.valueOf(e2.getNumber());
-                    ok(' ');
-                    return resultado;
+                if (newHeight < currentHeightVariable) {
+                    Element e1 = stack.get(i);
+                    Element e2 = stack.get(j);
+                    String[][] result = new String[2][2];
+                    result[0][0] = (e1 instanceof Cup) ? "cup" : "lid";
+                    result[0][1] = String.valueOf(e1.getNumber());
+                    result[1][0] = (e2 instanceof Cup) ? "cup" : "lid";
+                    result[1][1] = String.valueOf(e2.getNumber());
+                    return result;
                 }
             }
         }
-        ok(' ');
+        ok = true;
         return new String[0][0];
     }
     
     /**
      * Hace visible la torre en el canvas. Solo se permite si las dimensiones no superan 600x600. Actualiza el estado de la operación.
-     * 
-     * @return void
      */
     public void makeVisible() {
+        ok = false;
         // Obtener instancia del canvas y activar visualización
         canvas = Canvas.getCanvas();
         isVisible = true;
         // Dibujar la torre actual
         redraw();
-        ok(' ');
+        ok = true;
     }
     
     /**
      * Oculta la visualización de la torre.
-     * 
-     * @return void
      */
-    public void makeInvisible()
-    {
+    public void makeInvisible() {
+        ok = false;
         // Si ya está invisible, no hacer nada
         if (!isVisible){
-            ok('N');
             return;
         }
         canvas.setVisible(false);
         isVisible = false;
-        ok(' ');
+        ok = true;
     }
     
     /**
      * Cierra completamente la aplicación. Si la torre está visible, primero oculta el canvas.
-     * 
-     * @return void
      */
-    public void exit() 
-    {
+    public void exit() {
         if (isVisible) {
             canvas.setVisible(false);
         }
-        ok(' ');
-        System.exit(0); 
+        System.exit(0);
     }
     
     /**
@@ -810,10 +784,8 @@ public class Tower
      * @param canvasWidth Altura en pixeles del canvas usado.
      * @param canvasHeight Ancho en pixeles del canvas usado.
      * @param escala Cantidad de pixeles del canvas, que equivalen a una unidad de medida de la torre.
-     * 
-     * @return void
      */
-    private void drawTower(int canvasWidth, int canvasHeight, int escala) {
+    private void drawTower(int canvasWidth, int canvasHeight, int scale) {
         Rectangle floor = new Rectangle(canvasWidth, (int)(canvasHeight / 80));
         floor.setPosition(0, canvasHeight - (int)(canvasHeight / 20));
         floor.makeVisible("black");
@@ -823,7 +795,7 @@ public class Tower
         rule.setPosition((int)(canvasWidth / 20), 0);
         rule.makeVisible("black");
     
-        for(int y = canvasHeight - (int)(canvasHeight / 20); y >= 0; y -= escala){
+        for(int y = canvasHeight - (int)(canvasHeight / 20); y >= 0; y -= scale){
             Rectangle mark = new Rectangle((int)(canvasWidth / 20), (int)(canvasHeight / 320));
             mark.setPosition(0, y);
             mark.makeVisible("black");
@@ -831,64 +803,60 @@ public class Tower
     }
     
     /**
-     * Redibuja completamente la torre en el canvas, centrando cada elemento horizontalmente.
-     * 
-     * @return void
+     * Redibuja completamente la torre en el canvas, centrando cada Element horizontalmente.
      */
     private void redraw() {
         int canvasWidthForRule = canvas.getWidth();
         int canvasHeightForRule = canvas.getHeight();
         int canvasHeight = canvas.getHeight() - (canvas.getHeight() / 20);
         int canvasWidth = canvas.getWidth() - (canvas.getWidth() / 20) - (canvas.getWidth() / 160);
-        int escala = (int) canvasHeight / maxHeight;
+        int scale = (int) canvasHeight / maxHeight;
         
         if (!isVisible) return;
         canvas.ClearAll();
-        drawTower(canvasWidthForRule, canvasHeightForRule, escala);
+        drawTower(canvasWidthForRule, canvasHeightForRule, scale);
         int y = canvasHeight;
         for (int i = 0; i < stack.size(); i++) {
-            Elemento elementoActual = stack.get(i);
-            int number = elementoActual.getNumber();
+            Element ElementActual = stack.get(i);
+            int number = ElementActual.getNumber();
             String color = getColorForNumber(number);
             // Posicionar desde la base hacia arriba
-            int widthEscalado = elementoActual.getWidth() * escala;
-            int heightEscalado = elementoActual.getHeight() * escala;
-            y -= heightEscalado;
-            Rectangle rectangulo = new Rectangle(widthEscalado,heightEscalado);
+            int scaledWidth = ElementActual.getWidth() * scale;
+            int scaledHeight = ElementActual.getHeight() * scale;
+            y -= scaledHeight;
+            Rectangle rectangle = new Rectangle(scaledWidth,scaledHeight);
             // Centrar horizontalmente
-            int posicionX = ((canvasWidth - widthEscalado) / 2) + (canvas.getWidth() / 20) + (canvas.getWidth() / 160);
-            rectangulo.setPosition(posicionX, y);
-            visualElements.put(elementoActual, rectangulo);
-            rectangulo.makeVisible(color);
-            if (elementoActual instanceof Cup) {
-                Rectangle vacio = new Rectangle( widthEscalado - (2 * escala), heightEscalado - escala);
-                vacio.setPosition(posicionX + escala,y);
-                vacio.makeVisible("white");
+            int posicionX = ((canvasWidth - scaledWidth) / 2) + (canvas.getWidth() / 20) + (canvas.getWidth() / 160);
+            rectangle.setPosition(posicionX, y);
+            visualElements.put(ElementActual, rectangle);
+            rectangle.makeVisible(color);
+            if (ElementActual instanceof Cup) {
+                Rectangle blank = new Rectangle( scaledWidth - (2 * scale), scaledHeight - scale);
+                blank.setPosition(posicionX + scale,y);
+                blank.makeVisible("white");
             }
         }
     }
     
     /**
-     * Valida que el numero identificador de un elemento sea mayor o igual a 1.
+     * Valida que el numero identificador de un Element sea mayor o igual a 1.
      * 
-     * @param number Numero a validar segun la subclase de elemento.
+     * @param number Numero a validar segun la subclase de Element.
      * 
      * @return int - Devuelve el mismo numero identificador que recibio.
      */
-    private int validateNumber(int number)
-    {
+    private int validateNumber(int number) {
         if (number < 1) {
-            ok('N');
             throw new IllegalArgumentException("Los numeros identificadores comienzan desde el numero 1.");
         }
         return number;
     }
     
     /**
-     * Encuentra el índice en la pila de un elemento por tipo y número.
+     * Encuentra el índice en la pila de un Element por tipo y número.
      * 
      * @param type "cup" o "lid".
-     * @param number Número del elemento como String.
+     * @param number Número del Element como String.
      * 
      * @return int - Índice en la pila, o -1 si no existe
      */
@@ -900,10 +868,10 @@ public class Tower
             return -1;
         }
         for (int i = 0; i < stack.size(); i++) {
-            Elemento e = stack.get(i);
-            boolean tipoOk = (type.equals("cup") && e instanceof Cup) ||
+            Element e = stack.get(i);
+            boolean typeOk = (type.equals("cup") && e instanceof Cup) ||
                              (type.equals("lid") && e instanceof Lid);
-            if (tipoOk && e.getNumber() == num) {
+            if (typeOk && e.getNumber() == num) {
                 return i;
             }
         }
@@ -920,33 +888,33 @@ public class Tower
     private boolean isCupLidded(int idx) {
         if (!(stack.get(idx) instanceof Cup)) return false;
         if (idx + 1 >= stack.size()) return false;
-        Elemento next = stack.get(idx + 1);
+        Element next = stack.get(idx + 1);
         return next instanceof Lid && next.getNumber() == stack.get(idx).getNumber();
     }
     
     /**
-     * Extrae de la pila el bloque del elemento en la posición indicada,si es una taza tapada, extrae la taza y su tapa como bloque.
+     * Extrae de la pila el bloque del Element en la posición indicada,si es una taza tapada, extrae la taza y su tapa como bloque.
      * 
-     * @param idx Índice del elemento a extraer.
+     * @param idx Índice del Element a extraer.
      * @param lidded true si la taza tiene su tapa encima y se extrae como bloque.
      * 
-     * @return ArrayList<Elemento> - Lista con el bloque extraído (uno o dos elementos).
+     * @return ArrayList<Element> - Lista con el bloque extraído (uno o dos Elements).
      */
-    private ArrayList<Elemento> extractBlock(int idx, boolean lidded) {
-        ArrayList<Elemento> bloque = new ArrayList<Elemento>();
+    private ArrayList<Element> extractBlock(int idx, boolean lidded) {
+        ArrayList<Element> block = new ArrayList<Element>();
         if (lidded) {
-            bloque.add(stack.remove(idx));
-            bloque.add(stack.remove(idx)); // tapa que quedó en idx tras remover la taza
+            block.add(stack.remove(idx));
+            block.add(stack.remove(idx)); // tapa que quedó en idx tras remover la taza
         } else {
-            bloque.add(stack.remove(idx));
+            block.add(stack.remove(idx));
         }
-        return bloque;
+        return block;
     }
     
     /**
-     * Para cada numero identificador de un elemento (Independientemente si es Cup o Lid), le asigna un color.
+     * Para cada numero identificador de un Element (Independientemente si es Cup o Lid), le asigna un color.
      * 
-     * @param number Numero identificador de un elemento.
+     * @param number Numero identificador de un Element.
      * 
      * @return String - Nombre del color en minusculas, se pasa como parametro para el canvas.
      */
