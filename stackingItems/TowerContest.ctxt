@@ -1,0 +1,13 @@
+#BlueJ class context
+comment0.target=TowerContest
+comment0.text=\r\n\ La\ clase\ TowerContest\ resuelve\ el\ problema\ de\ la\ maraton\ Stacking\ Cups\r\n\ y\ simula\ la\ solucion\ usando\ la\ clase\ Tower\r\n\ @param\ n\ Numero\ de\ tazas.\r\n\ @param\ h\ Altura\ deseada.\r\n\ @return\ String\ con\ las\ alturas\ en\ orden,\ o\ "impossible".\r\n\r\n\ @author\ Daniel\ Santiago\ Morales\ Perdomo\r\n\ @author\ Laura\ Juliana\ Parra\ Velandia\r\n\ @version\ (27/03/26)\r\n
+comment1.params=
+comment1.target=TowerContest()
+comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ TowerContest\r\n
+comment2.params=n\ h
+comment2.target=java.lang.String\ solve(int,\ long)
+comment2.text=\r\n\ Resuelve\ el\ problema\ de\ la\ maraton\:\ dado\ n\ tazas\ y\ una\ altura\ h,\r\n\ retorna\ el\ orden\ de\ alturas\ en\ que\ deben\ apilarse\ las\ tazas\ para\ lograr\ h.\r\n\ La\ altura\ minima\ posible\ es\ 2n-1\ todas\ las\ tazas\ dentro\ de\ la\ mas\ grande.\r\n\ La\ altura\ maxima\ posible\ es\ n^2.\r\n\r\n\ @param\ n\ Numero\ de\ tazas.\r\n\ @param\ h\ Altura\r\n\ @return\ String\ con\ las\ alturas\ en\ orden\ separadas\ por\ espacio,\ o\ "impossible".\r\n
+comment3.params=n\ h
+comment3.target=void\ simulate(int,\ int)
+comment3.text=\r\n\ Simula\ visualmente\ la\ solucion\ del\ problema\ usando\ la\ clase\ Tower\r\n\ Si\ no\ existe\ la\ solucion,\ imprime\ "imposible"\r\n\ \r\n\ @param\ n\ Numero\ de\ tazas\r\n\ @param\ h\ Altura\r\n
+numComments=4

@@ -1,0 +1,18 @@
+#BlueJ class context
+comment0.target=TowerContestTest
+comment0.text=\r\n\ Pruebas\ unitarias\ para\ TowerContest\r\n\r\n\ @author\ \ Daniel\ Santiago\ Morales\ Perdomo,\ Laura\ Juliana\ Parra\ Velandia\r\n
+comment1.params=
+comment1.target=TowerContestTest()
+comment1.text=\r\n\ Default\ constructor\ for\ test\ class\ TowerContestTest\r\n
+comment2.params=
+comment2.target=void\ prepare()
+comment2.text=\r\n\r\n
+comment3.params=
+comment3.target=void\ shouldSolveKnownCase()
+comment4.params=
+comment4.target=void\ shouldSolveForOneCup()
+comment5.params=
+comment5.target=void\ shouldSolveMinimumHeight()
+comment6.params=
+comment6.target=void\ shouldSolveMaximumHeight()
+numComments=7
