@@ -965,11 +965,13 @@ public class Tower
      */
     private boolean isCovered(ArrayList<Element> block) {
         if (block.size() < 2) return false;
-        Element first = block.get(0);
-        Element last  = block.get(block.size() - 1);
-        return first instanceof Cup
-            && last instanceof Lid
-            && last.getNumber() == first.getNumber();
+        Element cup = block.get(0);
+        Element last = block.get(block.size() - 1);
+        if (!(cup instanceof Cup) || !(last instanceof Lid)) return false;
+        if (last.getNumber() != cup.getNumber()) return false;
+        int cupIdx = stack.indexOf(cup);
+        int lidIdx = stack.indexOf(last);
+        return lidIdx == cupIdx + 1; 
     }
     
     /**
