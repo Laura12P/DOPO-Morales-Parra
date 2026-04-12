@@ -639,16 +639,31 @@ public class Tower
         boolean moved = true;
         while (moved) {
             moved = false;
-            for (ArrayList<Element> block : buildBlocks()) {
-                Element cup = block.get(0);
-                if (!(cup instanceof Cup) || isCovered(block)) continue;
-                int ci = stack.indexOf(cup), li = -1;
-                for (int j = ci + 1; j < stack.size(); j++)
-                    if (stack.get(j) instanceof Lid && stack.get(j).getNumber() == cup.getNumber()) { li = j; break; }
-                if (li == -1) continue;
-                stack.add(ci + 1, stack.remove(li));
+            for (int i = 0; i < stack.size(); i++) {
+                Element current = stack.get(i);
+                if (!(current instanceof Cup)) continue;
+                int cupNumber = current.getNumber();
+                // Buscar la Lid del mismo número en CUALQUIER posición
+                int lidIdx = -1;
+                for (int j = 0; j < stack.size(); j++) {
+                    if (j == i) continue;
+                    Element e = stack.get(j);
+                    if (e instanceof Lid && e.getNumber() == cupNumber) {
+                        lidIdx = j;
+                        break;
+                    }
+                }
+                if (lidIdx == -1) continue; // No tiene tapa en la torre
+                // Verificar si ya está tapada (Lid está justo encima de la Cup)
+                if (lidIdx == i + 1) continue; // Ya está tapada, no mover
+                // Mover la Lid justo encima de la Cup
+                Element lid = stack.remove(lidIdx);
+                // Recalcular i por si lidIdx < i
+                int insertIdx = (lidIdx < i) ? i : i + 1;
+                stack.add(insertIdx, lid);
                 currentHeight = calculateCurrentHeight();
-                moved = true; break;
+                moved = true;
+                break;
             }
         }
         currentWidth = calculateCurrentWidth();
