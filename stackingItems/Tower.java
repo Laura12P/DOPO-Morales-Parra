@@ -870,13 +870,10 @@ public class Tower
         int canvasHeight = canvas.getHeight() - (canvas.getHeight() / 20);
         int canvasWidth = canvas.getWidth() - (canvas.getWidth() / 20) - (canvas.getWidth() / 160);
         int scale = (int) canvasHeight / maxHeight;
-        
         if (!isVisible) return;
         canvas.ClearAll();
         drawTower(canvasWidthForRule, canvasHeightForRule, scale);
- 
         int[] positions = calculatePositions();
- 
         for (int i = 0; i < stack.size(); i++) {
             Element elementActual = stack.get(i);
             int number = elementActual.getNumber();
@@ -893,6 +890,18 @@ public class Tower
                 Rectangle blank = new Rectangle(scaledWidth - (2 * scale), scaledHeight - scale);
                 blank.setPosition(posicionX + scale, scaledY);
                 blank.makeVisible("white");
+            }
+            // Si es una Lid que está tapando su Cup, dibujar cuadradoo blanco centrado
+            if (elementActual instanceof Lid) {
+                int[] lidPositions = cupAndLidPositions(elementActual.getNumber());
+                if (lidPositions[2] == 1) {
+                    int dotSize = Math.max(scale / 2, 4);
+                    Rectangle dot = new Rectangle(dotSize, dotSize);
+                    int dotX = posicionX + (scaledWidth / 2) - (dotSize / 2);
+                    int dotY = scaledY + (scale / 2) - (dotSize / 2);
+                    dot.setPosition(dotX, dotY);
+                    dot.makeVisible("white");
+                }
             }
         }
     }
