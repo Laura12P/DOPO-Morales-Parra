@@ -58,4 +58,11 @@ public abstract class Element
      * @return String[] - Arreglo de dos pocisiones que contiene los dos datos de un Element, para ser procesado en la simulacion.
      */
     public abstract String[] Tuple();
+    
+    /**
+     * Genera la tupla identificadora del Element, que especifica su subclase y su numero identificador.
+     * 
+     * @return String[] - Arreglo de dos pocisiones que contiene los dos datos generales de un Element.
+     */
+    public abstract String[] identifierTuple();
 }

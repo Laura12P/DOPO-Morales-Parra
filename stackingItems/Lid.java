@@ -26,4 +26,14 @@ public class Lid extends Element
         String[] tuple = {"L",String.valueOf(width)};
         return tuple;
     }
+    
+    /**
+     * Genera la tupla identificadora del Element, que especifica su subclase y su numero identificador.
+     * 
+     * @return String[] - Arreglo de dos pocisiones que contiene los dos datos generales de un Element.
+     */
+    public String[] identifierTuple() {
+        String[] identifierTuple = {"lid",String.valueOf(this.number)};
+        return identifierTuple;
+    }
 }

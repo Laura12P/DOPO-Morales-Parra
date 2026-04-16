@@ -26,4 +26,14 @@ public class Cup extends Element
         String[] tuple = {"C",String.valueOf(width)};
         return tuple;
     }
+    
+    /**
+     * Genera la tupla identificadora del Element, que especifica su subclase y su numero identificador.
+     * 
+     * @return String[] - Arreglo de dos pocisiones que contiene los dos datos generales de un Element.
+     */
+    public String[] identifierTuple() {
+        String[] identifierTuple = {"cup",String.valueOf(this.number)};
+        return identifierTuple;
+    }
 }

@@ -42,7 +42,9 @@ public class TowerContest
             if (contribution <= extra){
                 pulled[i]=true;
                 extra -= contribution;
-                if(extra ==0) break;
+                if(extra ==0) {
+                    break;
+                }
             }
         }
         // Construir orden: primero taza n, luego las sacadas de mayor a menor, luego las no sacadas de mayor a menor
