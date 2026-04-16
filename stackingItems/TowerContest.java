@@ -1,63 +1,68 @@
+import javax.swing.JOptionPane;
 
 /**
  * La clase TowerContest resuelve el problema de la maraton Stacking Cups
- * y simula la solucion usando la clase Tower
- * @param n Numero de tazas.
- * @param h Altura deseada.
- * @return String con las alturas en orden, o "impossible".
+ * y simula la solucion usando la clase Tower.
+ *
+ * Logica de apilamiento:
+ *   - La taza mas grande (n) siempre va primero (es la base exterior).
+ *   - Las tazas "pulled" (sacadas hacia afuera) van encima de la grande,
+ *     de mayor a menor.
+ *   - Las tazas restantes van dentro de la grande, de mayor a menor.
  *
  * @author Daniel Santiago Morales Perdomo
  * @author Laura Juliana Parra Velandia
  * @version (27/03/26)
  */
-public class TowerContest
-{
-    /**
-     * Constructor for objects of class TowerContest
-     */
-    public TowerContest()
-    {
+public class TowerContest {
+
+    public TowerContest() {
     }
 
     /**
-     * Resuelve el problema de la maraton: dado n tazas y una altura h,
      * retorna el orden de alturas en que deben apilarse las tazas para lograr h.
-     * La altura minima posible es 2n-1 todas las tazas dentro de la mas grande.
-     * La altura maxima posible es n^2.
+     * Altura minima posible: todas dentro de las tazas mas grandes  (2n - 1)
+     * Altura maxima posible: Se ponen encima de las tazas, no caben (n^2)
      *
      * @param n Numero de tazas.
-     * @param h Altura
+     * @param h Altura deseada.
      * @return String con las alturas en orden separadas por espacio, o "impossible".
      */
-    public String solve (int n, long h){
-        long minHeight = (2*n)-1;
-        long maxHeigth = (long)n * n;
-        if (h< minHeight || h > maxHeigth){
-            return "imposible";
+    public String solve(int n, long h) {
+        long minHeight = (2 * n) - 1;
+        long maxHeight = (long) n * n;
+
+        if (h < minHeight || h > maxHeight) {
+            return "impossible";
         }
-        long extra = h -  minHeight;
-        boolean [] pulled = new boolean [n+1];
-        for (int i = n -1;i>= 1; i--){
-            long contribution = 2* (i-1);
-            if (contribution <= extra){
-                pulled[i]=true;
+
+        long extra = h - minHeight;
+        // Cada taza sacada aporta un numero par de cm, por lo que extra debe ser par
+        if (extra % 2 != 0) {
+            return "impossible";
+        }
+        // Sacar las tazas de mayor tamaño primero 
+        boolean[] pulled = new boolean[n + 1];
+        for (int i = n - 1; i >= 1 && extra > 0; i--) {
+            long contribution = 2 * (i - 1);
+            if (contribution > 0 && contribution <= extra) {
+                pulled[i] = true;
                 extra -= contribution;
-                if(extra ==0) {
-                    break;
-                }
             }
         }
-        // Construir orden: primero taza n, luego las sacadas de mayor a menor, luego las no sacadas de mayor a menor
+        if (extra != 0) {
+            return "impossible";
+        }
         StringBuilder result = new StringBuilder();
-        // Taza n va primero (base exterior)
+        // 1. Taza n primero (la mas grande, base exterior)
         result.append((2 * n) - 1);
-        // Tazas sacadas de mayor a menor
+        // 2. Tazas "pulled" de MAYOR a MENOR (van encima de la grande, hacia afuera)
         for (int i = n - 1; i >= 1; i--) {
             if (pulled[i]) {
                 result.append(" ").append((2 * i) - 1);
             }
         }
-        // Tazas no sacadas de mayor a menor
+        // 3. Tazas NO "pulled" de MAYOR a MENOR (van dentro de la grande)
         for (int i = n - 1; i >= 1; i--) {
             if (!pulled[i]) {
                 result.append(" ").append((2 * i) - 1);
@@ -65,27 +70,32 @@ public class TowerContest
         }
         return result.toString();
     }
-    
+
     /**
-     * Simula visualmente la solucion del problema usando la clase Tower
-     * Si no existe la solucion, imprime "imposible"
-     * 
-     * @param n Numero de tazas
-     * @param h Altura
+     * Simula visualmente la solucion del problema usando la clase Tower.
+     * Muestra mensajes mediante JOptionPane.
+     * Si no existe solucion, muestra "impossible"-
+     *
+     * @param n Numero de tazas.
+     * @param h Altura deseada.
      */
     public void simulate(int n, int h) {
-        String solution = solve(n, h);
-        if (solution.equals("imposible")) {
-            System.out.println("imposible");
+        String solution = solve(n, (long) h);
+        if (solution.equals("impossible")) {
+            JOptionPane.showMessageDialog(
+                null,
+                "No es posible construir una torre de altura " + h + " con " + n + " tazas.",
+                "Imposible",
+                JOptionPane.WARNING_MESSAGE
+            );
             return;
         }
-        String[] heights = solution.split(" ");
-        int maxWidth = (2 * n) -1;
-        int maxTowerHeight = n*n;
+        int maxWidth = (2 * n) - 1;
+        int maxTowerHeight = n * n;
         Tower tower = new Tower(maxWidth, maxTowerHeight);
-        for (String height : heights) {
-            int cupHeight = Integer.parseInt(height);
-            int cupNumber = (Integer.parseInt(height) + 1) / 2;
+        String[] heights = solution.split(" ");
+        for (String heightStr : heights) {
+            int cupNumber = (Integer.parseInt(heightStr) + 1) / 2;
             tower.pushCup(cupNumber);
         }
         tower.makeVisible();
