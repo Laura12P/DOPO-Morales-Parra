@@ -648,35 +648,37 @@ public class Tower
      */
     public void swap(String[] o1, String[] o2) {
         ok = false;
-        if (o1 == null || o2 == null || o1.length < 2 || o2.length < 2) {
+        if (o1 == null || o2 == null) {
             return;
         }
         int idx1 = findIndex(o1[0], o1[1]);
         int idx2 = findIndex(o2[0], o2[1]);
         if (idx1 == -1 || idx2 == -1 || idx1 == idx2) {
-            return;
+            return; 
         }
-        if (idx1 > idx2) {
-            int tmp = idx1;
-            idx1 = idx2;
-            idx2 = tmp;
-            String[] tmpS = o1;
-            o1 = o2;
-            o2 = tmpS;
+        int minIdx = Math.min(idx1, idx2);
+        int maxIdx = Math.max(idx1, idx2);
+        // Identificamos y extraemos los bloques
+        // Primero el de arriba (max) para no alterar el índice del de abajo (min)
+        boolean liddedMax = isCupLidded(maxIdx);
+        ArrayList<Element> blockMax = extractBlock(maxIdx, liddedMax);
+        boolean liddedMin = isCupLidded(minIdx);
+        ArrayList<Element> blockMin = extractBlock(minIdx, liddedMin);
+        // Inserción del bloque que estaba arriba en la posición inferior
+        // Usamos Math.min para asegurar que el índice no supere el tamaño actual
+        int safeMinIdx = Math.min(minIdx, stack.size());
+        for (int i = 0; i < blockMax.size(); i++) {
+            stack.add(safeMinIdx + i, blockMax.get(i));
         }
-        boolean lidded1 = isCupLidded(idx1);
-        boolean lidded2 = isCupLidded(idx2);
-        ArrayList<Element> block2 = extractBlock(idx2, lidded2);
-        ArrayList<Element> block1 = extractBlock(idx1, lidded1);
-        for (int k = 0; k < block2.size(); k++) {
-            stack.add(idx1 + k, block2.get(k));
-        }
-        int newIdx2 = idx2 - block1.size() + block2.size();
-        for (int k = 0; k < block1.size(); k++) {
-            stack.add(newIdx2 + k, block1.get(k));
+        // Calculamos dónde debe ir el bloque que estaba abajo. El nuevo índice depende de cuántos elementos insertamos antes
+        int newMaxPos = safeMinIdx + blockMax.size() + (maxIdx - (minIdx + (liddedMin ? 2 : 1)));
+        // Nueva validación de seguridad para evitar el IndexOutOfBoundsException
+        int safeMaxIdx = Math.min(newMaxPos, stack.size());
+        for (int i = 0; i < blockMin.size(); i++) {
+            stack.add(safeMaxIdx + i, blockMin.get(i));
         }
         currentHeight = calculateCurrentHeight();
-        currentWidth  = calculateCurrentWidth();
+        currentWidth = calculateCurrentWidth();
         ok = true;
         if (isVisible) {
             redraw();
@@ -808,11 +810,12 @@ public class Tower
      */
     public String[][] swapToReduce() {
         ok = false;
-        int currentHeightValue = calculateCurrentHeight();
-        for (int i = 0; i < stack.size(); i++) {
-            for (int j = i + 1; j < stack.size(); j++) {
-                Element e1 = stack.get(i);
-                Element e2 = stack.get(j);
+        int originalHeight = calculateCurrentHeight();
+        ArrayList<Element> backup = new ArrayList<>(stack);
+        for (int i = 0; i < backup.size(); i++) {
+            for (int j = i + 1; j < backup.size(); j++) {
+                Element e1 = backup.get(i);
+                Element e2 = backup.get(j);
                 String type1;
                 if (e1 instanceof Cup) {
                     type1 = "cup";
@@ -827,25 +830,20 @@ public class Tower
                 }
                 String[] o1 = {type1, String.valueOf(e1.getNumber())};
                 String[] o2 = {type2, String.valueOf(e2.getNumber())};
-                ArrayList<Element> originalStack = stack;
-                ArrayList<Element> copyStack = new ArrayList<Element>(stack);
-                stack = copyStack;
                 swap(o1, o2);
-                int newHeight = calculateCurrentHeight();
-                stack = originalStack;
-                if (newHeight < currentHeightValue) {
+                if (ok && calculateCurrentHeight() < originalHeight) {
+                    String[][] result = {o1, o2};
+                    stack = new ArrayList<>(backup);
+                    calculateCurrentHeight();
                     ok = true;
-                    String[][] result = new String[2][2];
-                    result[0][0] = type1;
-                    result[0][1] = String.valueOf(e1.getNumber());
-                    result[1][0] = type2;
-                    result[1][1] = String.valueOf(e2.getNumber());
                     return result;
                 }
+                stack = new ArrayList<>(backup);
             }
         }
+        stack = backup;
         ok = true;
-        return new String[0][0];
+        return new String[0][0]; 
     }
     
     /**
