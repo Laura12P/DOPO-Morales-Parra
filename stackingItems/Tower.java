@@ -808,24 +808,37 @@ public class Tower
      */
     public String[][] swapToReduce() {
         ok = false;
-        int currentHeightVariable = calculateCurrentHeight();
+        int currentHeightValue = calculateCurrentHeight();
         for (int i = 0; i < stack.size(); i++) {
             for (int j = i + 1; j < stack.size(); j++) {
-                Element temp = stack.get(i);
-                stack.set(i, stack.get(j));
-                stack.set(j, temp);
+                Element e1 = stack.get(i);
+                Element e2 = stack.get(j);
+                String type1;
+                if (e1 instanceof Cup) {
+                    type1 = "cup";
+                } else {
+                    type1 = "lid";
+                }
+                String type2;
+                if (e2 instanceof Cup) {
+                    type2 = "cup";
+                } else {
+                    type2 = "lid";
+                }
+                String[] o1 = {type1, String.valueOf(e1.getNumber())};
+                String[] o2 = {type2, String.valueOf(e2.getNumber())};
+                ArrayList<Element> originalStack = stack;
+                ArrayList<Element> copyStack = new ArrayList<Element>(stack);
+                stack = copyStack;
+                swap(o1, o2);
                 int newHeight = calculateCurrentHeight();
-                temp = stack.get(i);
-                stack.set(i, stack.get(j));
-                stack.set(j, temp);
-                if (newHeight < currentHeightVariable) {
+                stack = originalStack;
+                if (newHeight < currentHeightValue) {
                     ok = true;
-                    Element e1 = stack.get(i);
-                    Element e2 = stack.get(j);
                     String[][] result = new String[2][2];
-                    result[0][0] = (e1 instanceof Cup) ? "cup" : "lid";
+                    result[0][0] = type1;
                     result[0][1] = String.valueOf(e1.getNumber());
-                    result[1][0] = (e2 instanceof Cup) ? "cup" : "lid";
+                    result[1][0] = type2;
                     result[1][1] = String.valueOf(e2.getNumber());
                     return result;
                 }
