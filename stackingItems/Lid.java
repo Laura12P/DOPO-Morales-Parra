@@ -1,4 +1,4 @@
-
+import java.util.ArrayList;
 /**
  * La clase tapa (Lid) es una subclase de Element, su tamaño se calcula en función del número identificador, su altura es siempre 1.
  * 
@@ -33,5 +33,35 @@ public class Lid extends Element {
     public String[] identifierTuple() {
         String[] identifierTuple = {"lid",String.valueOf(this.number)};
         return identifierTuple;
+    }
+    
+    /**
+     * Indica si la tapa puede entrar a la torre. Una tapa normal siempre puede entrar.
+     * 
+     * @param stack El stack actual de la torre.
+     * @param number Numero identificador de la tapa.
+     * @return boolean - true siempre para una tapa normal.
+     */
+    public boolean canEnter(ArrayList<Element> stack, int number) {
+        return true;
+    }
+    
+    /**
+     * Indica si la tapa puede salir de la torre. Una tapa normal siempre puede salir.
+     * 
+     * @param cupAndLidPositions Arreglo con las posiciones de la taza y tapa de igual numero.
+     * @return boolean - true siempre para una tapa normal.
+     */
+    public boolean canExit(int[] cupAndLidPositions) {
+        return true;
+    }
+    
+    /**
+     * Agrega la tapa al stack. Una tapa normal se agrega arriba.
+     * 
+     * @param stack El stack actual de la torre.
+     */
+    public void addToStack(ArrayList<Element> stack) {
+        stack.add(this);
     }
 }
