@@ -1,18 +1,36 @@
 #BlueJ class context
 comment0.target=TowerContestTest
-comment0.text=\r\n\ Pruebas\ unitarias\ para\ TowerContest\r\n\r\n\ @author\ \ Daniel\ Santiago\ Morales\ Perdomo,\ Laura\ Juliana\ Parra\ Velandia\r\n
+comment0.text=\r\n\ Pruebas\ unitarias\ para\ TowerContest.solve(n,\ h).\r\n\r\n\ @author\ Daniel\ Santiago\ Morales\ Perdomo\r\n\ @author\ Laura\ Juliana\ Parra\ Velandia\r\n\ @version\ (27/03/26)\r\n
 comment1.params=
-comment1.target=TowerContestTest()
-comment1.text=\r\n\ Default\ constructor\ for\ test\ class\ TowerContestTest\r\n
+comment1.target=void\ setUp()
+comment10.params=
+comment10.target=void\ testHeightValidWithPulledN5()
+comment10.text=\r\n\ Test\ 9\ -\ n\=5,\ altura\ valida\ con\ tazas\ "pulled".\r\n\ h\=11\:\ extra\=2.\ La\ taza\ cup2\ (contribucion\=2)\ sale\ afuera.\r\n\ Resultado\ esperado\:\ "9\ 3\ 7\ 5\ 1".\r\n
+comment11.params=
+comment11.target=void\ testHCeroAlwaysImpossible()
+comment11.text=\r\n\ Test\ 10\ -\ h\=0\:\ siempre\ imposible\ para\ cualquier\ n.\r\n\ La\ altura\ minima\ posible\ es\ siempre\ >\=\ 1,\ por\ lo\ que\ h\=0\ es\ invalido.\r\n
 comment2.params=
-comment2.target=void\ prepare()
-comment2.text=\r\n\r\n
+comment2.target=void\ testSampleCase1()
+comment2.text=\r\n\ Test\ 1\ -\ Caso\ de\ muestra\ oficial\ 1\ del\ enunciado.\r\n\ n\=4\ tazas,\ h\=9\:\ resultado\ esperado\ "7\ 3\ 5\ 1".\r\n\ La\ taza\ grande\ va\ primero,\ cup2\ sale\ afuera,\ cup3\ y\ cup1\ quedan\ adentro.\r\n
 comment3.params=
-comment3.target=void\ shouldSolveKnownCase()
+comment3.target=void\ testHGreaterThanMaximum()
+comment3.text=\r\n\ Test\ 2\ -\ h\ muy\ superior\ al\ maximo\ alcanzable.\r\n\ n\=4\ tazas,\ h\=100\:\ imposible\ porque\ max(n\=4)\ \=\ 13.\r\n
 comment4.params=
-comment4.target=void\ shouldSolveForOneCup()
+comment4.target=void\ TestaCupHeightValid()
+comment4.text=\r\n\ Test\ 3\ -\ n\=1,\ unica\ taza,\ unica\ altura\ posible.\r\n\ Con\ una\ sola\ taza\ de\ altura\ 1,\ la\ unica\ salida\ valida\ es\ "1".\r\n
 comment5.params=
-comment5.target=void\ shouldSolveMinimumHeight()
+comment5.target=void\ testOneTazaHeightImpossible()
+comment5.text=\r\n\ Test\ 4\ -\ n\=1,\ altura\ imposible.\r\n\ Con\ una\ sola\ taza\ la\ altura\ siempre\ es\ 1;\ cualquier\ otro\ valor\ es\ imposible.\r\n
 comment6.params=
-comment6.target=void\ shouldSolveMaximumHeight()
-numComments=7
+comment6.target=void\ testTwoCupsUniqueHeight()
+comment6.text=\r\n\ Test\ 5\ -\ n\=2,\ unica\ altura\ posible.\r\n\ Con\ 2\ tazas\:\ min\ \=\ max\ \=\ 3\ (cup2\ siempre\ contiene\ a\ cup1).\r\n\ Solo\ h\=3\ es\ valido;\ resultado\:\ "3\ 1".\r\n
+comment7.params=
+comment7.target=void\ testMinimumHeightN3()
+comment7.text=\r\n\ Test\ 6\ -\ n\=3,\ altura\ minima\ (todas\ las\ tazas\ anidadas).\r\n\ h\=5\ es\ el\ minimo\ para\ n\=3;\ ninguna\ taza\ se\ saca\ afuera.\r\n\ Resultado\ esperado\:\ "5\ 3\ 1".\r\n
+comment8.params=
+comment8.target=void\ testExtraImparImposible()
+comment8.text=\r\n\ Test\ 7\ -\ Extra\ impar\:\ siempre\ imposible.\r\n\ n\=3,\ h\=6\:\ extra\ \=\ 6-5\ \=\ 1\ (impar),\ por\ lo\ que\ no\ existe\ solucion.\r\n
+comment9.params=
+comment9.target=void\ testMinimumHeightN4()
+comment9.text=\r\n\ Test\ 8\ -\ n\=4,\ altura\ minima\ (todas\ anidadas).\r\n\ h\=7\ es\ el\ minimo\ para\ n\=4;\ ninguna\ taza\ se\ saca\ afuera.\r\n\ Resultado\ esperado\:\ "7\ 5\ 3\ 1".\r\n
+numComments=12

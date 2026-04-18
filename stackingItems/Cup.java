@@ -5,15 +5,13 @@
  * @author Laura Juliana Parra Velandia y Daniel Santiago Morales Perdomo
  * @version 1.3
  */
-public class Cup extends Element
-{
+public class Cup extends Element {
     /**
      * Crea una taza con altura y ancho calculado a partir de su numero identificador.
      * 
      * @param number Numero entero positivo, que es un identificador y es usado para calcular las dimensiones de la taza.
      */
-    public Cup(int number)
-    {
+    public Cup(int number) {
         super(number, (2 * number) - 1, (2 * number) - 1);
     }
     

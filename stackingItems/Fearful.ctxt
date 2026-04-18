@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.target=Fearful
+comment0.text=\r\n\ La\ clase\ Fearful\ es\ una\ subclase\ de\ Lid,\ si\ su\ numero\ de\ taza\ no\ esta\ en\ la\ torre,\ no\ se\ le\ permitira\ ingresar\ a\ la\ misma,\ ademas\ si\ llega\ a\ tapar\ su\ taza\ de\r\n\ igual\ numero,\ no\ podra\ ser\ eliminada,\ la\ unica\ forma\ de\ borrarla\ mientras\ tapa\ a\ su\ taza\ es\ eliminando\ a\ su\ taza.\r\n\ \r\n\ @author\ Laura\ Juliana\ Parra\ Velandia\ y\ Daniel\ Santiago\ Morales\ Perdomo\r\n\ @version\ 1.3\r\n
+comment1.params=number
+comment1.target=Fearful(int)
+comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ Fearful\r\n
+comment2.params=y
+comment2.target=int\ sampleMethod(int)
+comment2.text=\r\n\ An\ example\ of\ a\ method\ -\ replace\ this\ comment\ with\ your\ own\r\n\ \r\n\ @param\ \ y\ \ \ a\ sample\ parameter\ for\ a\ method\r\n\ @return\ \ \ \ \ the\ sum\ of\ x\ and\ y\ \r\n
+numComments=3

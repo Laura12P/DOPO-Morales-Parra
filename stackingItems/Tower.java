@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Collections;
 import java.lang.Math;
 import java.util.Arrays;
 import javax.swing.JOptionPane;
@@ -10,8 +11,7 @@ import javax.swing.JOptionPane;
  * @author Laura Juliana Parra Velandia y Daniel Santiago Morales Perdomo
  * @version 1.3
  */
-public class Tower
-{
+public class Tower {
     public final static String INVALID_NUMBERS = "Los valores de tipo int deben ser numeros enteros positivos.";
     private final static String INVALID_IDENTIFICATION_NUMBER = "Los numeros identificadores comienzan desde el numero 1.";
     private final static String DIMENSION_EXCEEDS_CAPACITY = "Al insertar el nuevo Element, se supera el ancho o altura maxima de la torre.";
@@ -343,9 +343,22 @@ public class Tower
                 return result;
             }
         }
+        boolean correctCup = false;
+        boolean correctLid = false;
+        String expected = String.valueOf((2 * number) - 1);
         if (simulation.size() == 2) {
-            result[2] = 1;
+            for (String[] elem : simulation) {
+                if (elem[0].equals("C") && elem[1].equals(expected)) {
+                    correctCup = true;
+                }
+                if (elem[0].equals("L") && elem[1].equals(expected)) {
+                    correctLid = true;
+                }
+            }
         }
+        if (correctCup && correctLid) {
+            result[2] = 1;
+        } 
         return result;
     }
     
@@ -686,63 +699,35 @@ public class Tower
     }
     
     /**
-     * Tapa todas las tazas que tienen su tapa disponible en la torre, colocando la tapa inmediatamente encima de su taza correspondiente.
-     * Si la tapa ya está sobre la taza, no hace nada.
+     * Tapa todas las tazas que tienen su tapa disponible en la torre, colocando la tapa segun su subtipo en el lugar correspondiente respecto a su taza, si la 
+     * taza ya estaba tapada no hace nada.
      */
     public void cover() {
         ok = false;
-        coverSilent();
+        ArrayList<Integer> alreadyVisited = new ArrayList<Integer>();
+        for (int i = 0; i < stack.size(); i++) {
+            Element current = stack.get(i);
+            if (current.identifierTuple()[0].equals("lid")  ||  alreadyVisited.contains(current.getNumber())) {
+                continue;
+            }
+            int[] pos = cupAndLidPositions(current.getNumber());
+            if (pos[1] == -1 || pos[2] == 1) {
+                continue;
+            }
+            stack.add(pos[0] + 1,stack.get(pos[1]));
+            if (pos[1] > pos[0]) {
+                stack.remove(pos[1] + 1);
+            } else {
+                stack.remove(pos[1]);
+            }
+            alreadyVisited.add(current.getNumber());
+        }
+        currentHeight = calculateCurrentHeight();
+        currentWidth = calculateCurrentWidth();
         ok = true;
         if (isVisible) {
             redraw();
         }
-    }
-    
-    /**
-     * Logica interna de cover sin afectar el ok ni redraw
-     * Usa buildBlocks() para detectar tazas con tapas sueltas y las mueve encima
-     * Se repite hasta que no haya mas movimientos posibles
-     */
-    private void coverSilent() {
-        boolean moved = true;
-        while (moved) {
-            moved = false;
-            for (int i = 0; i < stack.size(); i++) {
-                Element current = stack.get(i);
-                if (!(current instanceof Cup)) {
-                    continue;
-                }
-                int cupNumber = current.getNumber();
-                // Buscar la Lid del mismo número en CUALQUIER posición
-                int lidIdx = -1;
-                for (int j = 0; j < stack.size(); j++) {
-                    if (j == i) {
-                        continue;
-                    }
-                    Element e = stack.get(j);
-                    if (e instanceof Lid && e.getNumber() == cupNumber) {
-                        lidIdx = j;
-                        break;
-                    }
-                }
-                if (lidIdx == -1) {
-                    continue; // No tiene tapa en la torre
-                }
-                // Verificar si ya está tapada (Lid está justo encima de la Cup)
-                if (lidIdx == i + 1) {
-                    continue; // Ya está tapada, no mover
-                }
-                // Mover la Lid justo encima de la Cup
-                Element lid = stack.remove(lidIdx);
-                // Recalcular i por si lidIdx < i
-                int insertIdx = (lidIdx < i) ? i : i + 1;
-                stack.add(insertIdx, lid);
-                currentHeight = calculateCurrentHeight();
-                moved = true;
-                break;
-            }
-        }
-        currentWidth = calculateCurrentWidth();
     }
     
     /**
@@ -762,21 +747,17 @@ public class Tower
     public int[] liddedCups() {
         ok = false;
         ArrayList<Integer> numbers = new ArrayList<Integer>();
-        ArrayList<ArrayList<Element>> blocks = buildBlocks();
-        for (ArrayList<Element> block : blocks) {
-            if (isCovered(block)) {
-                numbers.add(block.get(0).getNumber());
+        for (Element current : stack) {
+            int currentNumber = current.getNumber();
+            if (numbers.contains(currentNumber)) {
+                continue;
+            }
+            int[] pos = cupAndLidPositions(currentNumber);
+            if (pos[2] == 1) {
+                numbers.add(currentNumber);
             }
         }
-        for (int i = 0; i < numbers.size(); i++) {
-            for (int j = i + 1; j < numbers.size(); j++) {
-                if (numbers.get(j) < numbers.get(i)) {
-                    int aux = numbers.get(i);
-                    numbers.set(i, numbers.get(j));
-                    numbers.set(j, aux);
-                }
-            }
-        }
+        Collections.sort(numbers);
         int[] result = new int[numbers.size()];
         for (int i = 0; i < numbers.size(); i++) {
             result[i] = numbers.get(i);

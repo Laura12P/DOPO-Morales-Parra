@@ -5,8 +5,7 @@
  * @author Laura Juliana Parra Velandia y Daniel Santiago Morales Perdomo
  * @version 1.3
  */
-public abstract class Element
-{
+public abstract class Element {
     protected int number;
     protected int width;
     protected int height;

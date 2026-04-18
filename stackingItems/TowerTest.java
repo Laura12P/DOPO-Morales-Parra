@@ -799,7 +799,7 @@ public class TowerTest {
     
     @Test
     public void afterRemoveLidShouldBeEqualHeightDoubleLiddedFilledCupCase() {//Probamos eliminacion de una tapa que destapa su taza
-        doubleLidded.removeCup(2);
+        doubleLidded.removeLid(2);
         assertEquals(13,doubleLidded.height());
         assertTrue(Arrays.equals(new int[]{4},doubleLidded.liddedCups()));
     }
@@ -1230,7 +1230,7 @@ public class TowerTest {
     public void afterCoverShouldBeCorrectHeightSpecialCover() {
         specialCover.cover();
         assertTrue(Arrays.deepEquals(specialCover.stackingItems(),
-        new String[][]{{"cup","5"},{"cup","3"},{"cup","2"},{"cup","1"},{"lid","2"},{"lid","3"},{"lid","5"}}));
+        new String[][]{{"cup","5"},{"lid","5"},{"cup","3"},{"cup","2"},{"cup","1"},{"lid","2"},{"lid","3"}}));
         
         assertTrue(specialCover.ok());
     }
