@@ -268,7 +268,7 @@ public class Tower {
             return;
         }
         Cup newCup;
-        if (type.equals("Opener")){
+        if (type.equals("opener")){
             newCup = new Opener(i);
         }else if (type.equals("hierarchical")){
             newCup = new Hierarchical(i);
