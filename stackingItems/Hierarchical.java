@@ -50,4 +50,11 @@ public class Hierarchical extends Cup {
             stack.add(e);
         }
     }
+    
+    @Override
+    public void drawPattern(int posicionX, int scaledY, int scaledWidth, int scaledHeight, int scale) {
+        Rectangle stripe = new Rectangle(scaledWidth, scale / 2);
+        stripe.setPosition(posicionX, scaledY + scaledHeight - (scale / 2));
+        stripe.makeVisible("blue");
+    }
 }
