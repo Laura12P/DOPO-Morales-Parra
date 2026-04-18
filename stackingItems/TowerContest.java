@@ -96,7 +96,7 @@ public class TowerContest {
         String[] heights = solution.split(" ");
         for (String heightStr : heights) {
             int cupNumber = (Integer.parseInt(heightStr) + 1) / 2;
-            tower.pushCup(cupNumber);
+            tower.pushCup("normal", cupNumber);
         }
         tower.makeVisible();
     }
