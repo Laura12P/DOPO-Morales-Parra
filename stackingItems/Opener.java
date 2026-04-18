@@ -20,13 +20,21 @@ public class Opener extends Cup {
      * @param stack El stack actual de la torre
      */
     @Override
-    public void onPush(ArrayList<Element> stack){
+    public void onPush(ArrayList<Element> stack) {
         int myWidth = this.getWidth();
-        for (int i = stack.size() - 2; i >= 0; i--) {
+        int myIndex = stack.indexOf(this);
+        for (int i = myIndex - 1; i >= 0; i--) {
             Element e = stack.get(i);
             if (e instanceof Lid && e.getWidth() < myWidth) {
                 stack.remove(i);
             }
         }
+    }
+    
+    @Override
+    public void drawPattern(int posicionX, int scaledY, int scaledWidth, int scaledHeight, int scale) {
+        Rectangle stripe = new Rectangle(scaledWidth, scale / 2);
+        stripe.setPosition(posicionX, scaledY + scaledHeight - (scale / 2));
+        stripe.makeVisible("red");
     }
 }
