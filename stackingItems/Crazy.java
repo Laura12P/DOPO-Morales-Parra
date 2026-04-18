@@ -1,4 +1,4 @@
-
+import java.util.ArrayList;
 /**
  * La clase Crazy es una subclase de Lid, esta en vez de tapar a su correspondiente taza se pone en la base de esta, cada vez que traten de taparla ya sea con
  * cover o swap o los dos tipos de order.
@@ -16,12 +16,12 @@ public class Crazy extends Lid {
     }
 
     /**
-     * An example of a method - replace this comment with your own
+     * En lugar de apilarse arriba, se ubica en la base de la torre (posicion 0).
      * 
-     * @param  y   a sample parameter for a method
-     * @return     the sum of x and y 
+     * @param stack El stack actual de la torre.
      */
-    public int sampleMethod(int y) {
-        return 0;
+    @Override
+    public void addToStack(ArrayList<Element> stack) {
+        stack.add(0, this);
     }
 }
