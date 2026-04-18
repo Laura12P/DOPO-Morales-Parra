@@ -275,7 +275,7 @@ public class Tower {
         } else {
             newCup = new Cup (i);
         }
-        stack.add(new Cup(i));
+        stack.add(newCup);
         newCup.onPush(stack);
         currentHeight = calculateCurrentHeight();
         currentWidth = calculateCurrentWidth();
