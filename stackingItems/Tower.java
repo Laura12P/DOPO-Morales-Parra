@@ -23,6 +23,8 @@ public class Tower {
     private final static String LID_NOT_FOUND = "La tapa que se desea eliminar no existe.";
     private final static String INVALID_INPUT = "El input ingresado es invalido.";
     private final static String EQUAL_INPUT = "No se realizo swap, porque se intenta intercambiar consigo mismo.";
+    private final static String FEARFUL_LID_COVERING = "La tapa fearful esta tapando su taza.";
+    private final static String LID_CANNOT_ENTER = "La tapa no puede entrar a la torre.";
     private int maxWidth;
     private int maxHeight;
     private int currentHeight;
@@ -229,9 +231,10 @@ public class Tower {
     /**
      * Apila una taza con numero identificador i a la torre, no permite agregar tazas repetidas, ni que superen las dimensiones maximas de la torre.
      * 
+     * @param type El tipo de taza: Normal, Opener y Hierarchical
      * @param i Numero entero positivo, que es un identificador y es usado para calcular las dimensiones de la taza.
      */
-    public void pushCup(int i) {
+    public void pushCup(String type, int i) {
         ok = false;
         try {
             validateNumber(i);
@@ -263,11 +266,19 @@ public class Tower {
                 JOptionPane.showMessageDialog(null,DIMENSION_EXCEEDS_CAPACITY);
             }
             return;
-        } else {
-            stack.add(new Cup(i));
-            currentHeight = possibleHeight;
-            currentWidth = calculateCurrentWidth();
         }
+        Cup newCup;
+        if (type.equals("Opener")){
+            newCup = new Opener(i);
+        }else if (type.equals("hierarchical")){
+            newCup = new Hierarchical(i);
+        } else {
+            newCup = new Cup (i);
+        }
+        stack.add(new Cup(i));
+        newCup.onPush(stack);
+        currentHeight = calculateCurrentHeight();
+        currentWidth = calculateCurrentWidth();
         ok = true;
         if (isVisible) {
             redraw();
@@ -276,6 +287,7 @@ public class Tower {
     
     /**
      * Elimina el Element superior o recientemente apilado, solo si es una taza.
+     * No permite eliminar una taza Hierarchical que haya llegado al fondo de la torre.
      */
     public void popCup() {
         ok = false;
@@ -289,6 +301,14 @@ public class Tower {
         if (!(top instanceof Cup)) {
             if (isVisible) {
                 JOptionPane.showMessageDialog(null,TOP_NOT_CUP);
+            }
+            return;
+        }
+        // Usa canBeRemoved para verificar si se puede quitar
+        Cup cup = (Cup) top;
+        if (!cup.canBeRemoved(stack.size() - 1)) {
+            if (isVisible) {
+                JOptionPane.showMessageDialog(null, "Una taza hierarchical que llego al fondo no se puede quitar.");
             }
             return;
         }
@@ -364,7 +384,8 @@ public class Tower {
     
     /**
      * Elimina la taza con numero identificador i; Si la taza esta cubierta por su tapa, también se elimina.
-     *
+     * No permite eliminar una taza Hierarchical que hayya llegado al fondo de la torre
+     * 
      * @param i Numero entero positivo, que es el identificador de la taza que se desea eliminar.
      */
     public void removeCup(int i) {
@@ -379,6 +400,14 @@ public class Tower {
         if (positions[0] == -1) {
             if (isVisible) {
                 JOptionPane.showMessageDialog(null,CUP_NOT_FOUND);
+            }
+            return;
+        }
+        // Usa canBeRemoved para verificar si se puede quitar
+        Cup cup = (Cup) stack.get(positions[0]);
+        if (!cup.canBeRemoved(positions[0])) {
+            if (isVisible) {
+                JOptionPane.showMessageDialog(null, "Una taza hierarchical que llego al fondo no se puede quitar.");
             }
             return;
         }
@@ -399,9 +428,10 @@ public class Tower {
     /**
      * Apila una tapa con numero identificador i a la torre, no permite agregar tapas repetidas, ni que superen las dimensiones maximas de la torre.
      * 
+     * @param type Tipo de tapa: Normal, Fearful o Crazy
      * @param i Numero entero positivo, que es un identificador y es usado para calcular el ancho de la tapa.
      */
-    public void pushLid(int i) {
+    public void pushLid(String type, int i) {
         ok = false;
         try {
             validateNumber(i);
@@ -433,11 +463,26 @@ public class Tower {
                 JOptionPane.showMessageDialog(null,DIMENSION_EXCEEDS_CAPACITY);
             }
             return;
-        } else {
-            stack.add(new Lid(i));
-            currentHeight = possibleHeight;
-            currentWidth = calculateCurrentWidth();
         }
+        Lid newLid;
+        if (type.equals("fearful")) {
+            newLid = new Fearful(i);
+        } else if (type.equals("crazy")) {
+            newLid = new Crazy(i);
+        } else {
+            newLid = new Lid(i);
+        }
+        // Verifica si puede entrar
+        if (!newLid.canEnter(stack, i)) {
+            if (isVisible) {
+                JOptionPane.showMessageDialog(null, LID_CANNOT_ENTER);
+            }
+            return;
+        }
+        // Cada tipo sabe donde agregarse
+        newLid.addToStack(stack);
+        currentHeight = calculateCurrentHeight();
+        currentWidth = calculateCurrentWidth();
         ok = true;
         if (isVisible) {
             redraw();
@@ -462,6 +507,15 @@ public class Tower {
             }
             return;
         }
+        // Usa canExit para verificar si se puede quitar
+        Lid lid = (Lid) top;
+        int[] positions = cupAndLidPositions(lid.getNumber());
+        if (!lid.canExit(positions)) {
+            if (isVisible) {
+                JOptionPane.showMessageDialog(null,FEARFUL_LID_COVERING);
+            }
+            return;
+        }
         stack.remove(stack.size() - 1);
         currentHeight = calculateCurrentHeight();
         currentWidth = calculateCurrentWidth();
@@ -473,7 +527,7 @@ public class Tower {
     
     /**
      * Elimina la tapa con numero identificador i.
-     *
+     * No permite eliminar una tapa Fearful si esta tapada.
      * @param i Numero entero positivo, que es el identificador de la tapa que se desea eliminar.
      */
     public void removeLid(int i) {
@@ -489,6 +543,14 @@ public class Tower {
         if (index == -1) {
             if (isVisible) {
                 JOptionPane.showMessageDialog(null,LID_NOT_FOUND);
+            }
+            return;
+        }
+        Lid lid = (Lid) stack.get(index);
+        int[] positions = cupAndLidPositions(i);
+        if (!lid.canExit(positions)) {
+            if (isVisible) {
+                JOptionPane.showMessageDialog(null, "Una tapa fearful no puede salir si esta tapando a su taza.");
             }
             return;
         }
