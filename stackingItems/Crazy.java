@@ -1,27 +1,44 @@
 import java.util.ArrayList;
 /**
- * La clase Crazy es una subclase de Lid, esta en vez de tapar a su correspondiente taza se pone en la base de esta, cada vez que traten de taparla ya sea con
- * cover o swap o los dos tipos de order.
- * 
+ * La clase taza (cup) es una subclase de Element, su tamaño se calcula en función del número identificador.
+ *
  * @author Laura Juliana Parra Velandia y Daniel Santiago Morales Perdomo
  * @version 1.3
  */
-public class Crazy extends Lid {
-
+public class Cup extends Element {
     /**
-     * Constructor for objects of class Crazy
-     */
-    public Crazy(int number) {
-        super(number);
-    }
-
-    /**
-     * En lugar de apilarse arriba, se ubica en la base de la torre (posicion 0).
+     * Crea una taza con altura y ancho calculado a partir de su numero identificador.
      * 
-     * @param stack El stack actual de la torre.
+     * @param number Numero entero positivo, que es un identificador y es usado para calcular las dimensiones de la taza.
      */
-    @Override
-    public void addToStack(ArrayList<Element> stack) {
-        stack.add(0, this);
+    public Cup(int number) {
+        super(number, (2 * number) - 1, (2 * number) - 1);
+    }
+    
+    /**
+     * Genera la tupla de una Cup, que especifica su subclase, y su ancho.
+     * 
+     * @return String[] - Arreglo de dos pocisiones que contiene los dos datos de la Cup, para ser procesada en la simulacion.
+     */
+    public String[] Tuple() {
+        String[] tuple = {"C",String.valueOf(width)};
+        return tuple;
+    }
+    
+    /**
+     * Genera la tupla identificadora del Element, que especifica su subclase y su numero identificador.
+     * 
+     * @return String[] - Arreglo de dos pocisiones que contiene los dos datos generales de un Element.
+     */
+    public String[] identifierTuple() {
+        String[] identifierTuple = {"cup",String.valueOf(this.number)};
+        return identifierTuple;
+    }
+    
+    public boolean canBeRemoved (int positionInStack){
+        return true;
+    }
+    
+    public void onPush(ArrayList<Element> stack) {
     }
 }
