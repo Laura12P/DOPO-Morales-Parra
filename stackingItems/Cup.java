@@ -1,4 +1,4 @@
-
+import java.util.ArrayList;
 /**
  * La clase taza (cup) es una subclase de Element, su tamaño se calcula en función del número identificador.
  *
@@ -33,5 +33,16 @@ public class Cup extends Element {
     public String[] identifierTuple() {
         String[] identifierTuple = {"cup",String.valueOf(this.number)};
         return identifierTuple;
+    }
+    
+    public boolean canBeRemoved (int positionInStack){
+        return true;
+    }
+    
+    public void onPush(ArrayList<Element> stack) {
+    }
+    
+    public void drawPattern(int posicionX, int scaledY, int scaledWidth, int scaledHeight, int scale) {
+    
     }
 }
