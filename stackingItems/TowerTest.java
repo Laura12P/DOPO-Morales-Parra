@@ -625,52 +625,52 @@ public class TowerTest {
     @Test
     public void shouldBeCorrectHeightLidCupInside() {
         Tower t = new Tower(5,5);
-        t.pushCup(3);
+        t.pushCup("normal",3);
         assertEquals(5,t.height());
         
-        t.pushLid(2);
+        t.pushLid("normal",2);
         assertEquals(5,t.height());
     
-        t.pushCup(1);
+        t.pushCup("normal",1);
         assertEquals(5,t.height());
     }
     
     @Test
     public void shouldBeCorrectHeightSmallLidOverInside() {
         Tower t = new Tower(5,5);
-        t.pushCup(3);
+        t.pushCup("normal",3);
         assertEquals(5,t.height());
         
-        t.pushLid(2);
+        t.pushLid("normal",2);
         assertEquals(5,t.height());
     
-        t.pushLid(1);
+        t.pushLid("normal",1);
         assertEquals(5,t.height());
     }
     
     @Test
     public void shouldBeCorrectHeightBigLidOverInside() {
         Tower t = new Tower(5,5);
-        t.pushCup(3);
+        t.pushCup("normal",3);
         assertEquals(5,t.height());
         
-        t.pushLid(1);
+        t.pushLid("normal",1);
         assertEquals(5,t.height());
     
-        t.pushLid(2);
+        t.pushLid("normal",2);
         assertEquals(5,t.height());
     }
     
     @Test
     public void shouldBeCorrectHeightPerfectlyLiddedInside() {
         Tower t = new Tower(5,5);
-        t.pushCup(3);
+        t.pushCup("normal",3);
         assertEquals(5,t.height());
         
-        t.pushCup(2);
+        t.pushCup("normal",2);
         assertEquals(5,t.height());
     
-        t.pushLid(2);
+        t.pushLid("normal",2);
         assertEquals(5,t.height());
     }
     
@@ -681,7 +681,7 @@ public class TowerTest {
         t.popCup();
         assertFalse(t.ok());
         
-        t.pushLid(1);
+        t.pushLid("normal",1);
         t.popCup();
         assertFalse(t.ok());
     }
@@ -692,7 +692,7 @@ public class TowerTest {
         Tower t = new Tower(5,5);
         t.popLid();
         assertFalse(t.ok());
-        t.pushCup(1);
+        t.pushCup("normal",1);
         t.popLid();
         assertFalse(t.ok());
     }
@@ -708,10 +708,10 @@ public class TowerTest {
     @Test
     public void afterPopCupShouldBeCorrectHeightExtraCase() {
         Tower t = new Tower(5,6);
-        t.pushCup(3);
-        t.pushCup(2);
-        t.pushLid(2);
-        t.pushCup(1);
+        t.pushCup("normal",3);
+        t.pushCup("normal",2);
+        t.pushLid("normal",2);
+        t.pushCup("normal",1);
         
         t.popCup();
         assertEquals(5,t.height());
@@ -723,7 +723,7 @@ public class TowerTest {
         Tower t = new Tower(5,5);
         t.removeCup(1);
         assertFalse(t.ok());
-        t.pushCup(1);
+        t.pushCup("normal",1);
         t.removeCup(2);
         assertFalse(t.ok());
     }
@@ -734,7 +734,7 @@ public class TowerTest {
         Tower t = new Tower(5,5);
         t.removeLid(1);
         assertFalse(t.ok());
-        t.pushLid(1);
+        t.pushLid("normal",1);
         t.removeLid(2);
         assertFalse(t.ok());
     }
@@ -1032,8 +1032,8 @@ public class TowerTest {
     @Test
     public void swapShouldExchange() {
         Tower t = new Tower(7, 50);
-        t.pushCup(1);
-        t.pushCup(2);
+        t.pushCup("normal",1);
+        t.pushCup("normal",2);
         t.swap(new String[]{"cup", "1"}, new String[]{"cup", "2"});
         assertTrue(t.ok());
         assertTrue(Arrays.deepEquals(new String[][]{{"cup","2"},{"cup","1"}},t.stackingItems()));
@@ -1042,7 +1042,7 @@ public class TowerTest {
     @Test
     public void swapFails() {
         Tower t = new Tower(7, 50);
-        t.pushCup(1);
+        t.pushCup("normal",1);
         t.swap(new String[]{"cup", "1"}, new String[]{"cup", "99"});
         assertFalse(t.ok());
     }
@@ -1181,12 +1181,12 @@ public class TowerTest {
     @Test
     public void shouldCoverAllCups() {
         Tower t = new Tower(7, 13);
-        t.pushCup(3);
-        t.pushCup(4);
-        t.pushCup(2);
-        t.pushCup(1);
-        t.pushLid(2);
-        t.pushLid(4);
+        t.pushCup("normal",3);
+        t.pushCup("normal",4);
+        t.pushCup("normal",2);
+        t.pushCup("normal",1);
+        t.pushLid("normal",2);
+        t.pushLid("normal",4);
         t.cover();
         assertTrue(t.ok());
     }
@@ -1248,9 +1248,9 @@ public class TowerTest {
     @Test
     public void liddedCupsOnlyLids() {
         Tower onlyLids = new Tower (7,3);
-        onlyLids.pushLid(4);
-        onlyLids.pushLid(3);
-        onlyLids.pushLid(1);
+        onlyLids.pushLid("normal",4);
+        onlyLids.pushLid("normal",3);
+        onlyLids.pushLid("normal",1);
         
         assertTrue(Arrays.equals(new int[]{},onlyLids.liddedCups()));
     }
@@ -1366,9 +1366,9 @@ public class TowerTest {
     @Test
     public void accordingMV_ShouldReturnTwoObjectsInSwapToReduce() {
         Tower t = new Tower(5, 30);
-        t.pushCup(1);
-        t.pushCup(3);
-        t.pushCup(2);
+        t.pushCup("normal",1);
+        t.pushCup("normal",3);
+        t.pushCup("normal",2);
  
         String[][] swap = t.swapToReduce();
         assertTrue(t.ok());
@@ -1390,8 +1390,8 @@ public class TowerTest {
     @Test
     public void accordingOR_testCover_noparejas_noHayCambios()
     {
-        tower.pushCup(4);
-        tower.pushLid(2);   
+        tower.pushCup("normal",4);
+        tower.pushLid("normal",2);   
         int h = tower.height();
         tower.cover();
         assertTrue(tower.ok());
@@ -1405,9 +1405,9 @@ public class TowerTest {
     @Test
     public void accordingOR_testSwapToReduce_returnsSwap()
     {
-        tower.pushCup(3);
-        tower.pushCup(5);
-        tower.pushLid(3);   
+        tower.pushCup("normal",3);
+        tower.pushCup("normal",5);
+        tower.pushLid("normal",3);   
         String[][] suggestion = tower.swapToReduce();
         assertNotNull(suggestion);
         assertEquals(2, suggestion.length);
