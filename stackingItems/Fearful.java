@@ -41,4 +41,11 @@ public class Fearful extends Lid {
     public boolean canExit(int[] cupAndLidPositions) {
         return cupAndLidPositions[2] != 1;
     }
+    
+    @Override
+    public void drawPattern(int posicionX, int scaledY, int scaledWidth, int scale) {
+        Rectangle stripe = new Rectangle(scaledWidth, Math.max(scale / 4, 2));
+        stripe.setPosition(posicionX, scaledY + (scale / 2));
+        stripe.makeVisible("#8B4513");
+    }
 }
