@@ -1,3 +1,6 @@
+package Tower;
+
+import Shapes.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Collections;
@@ -520,9 +523,29 @@ public class Tower {
     }
     
     /**
+     * Verifica que debajo de una tapa de tipo Jealous no se encuentre una taza tapada, si sí esta, se elimina todo el conjunto de la taza tapada.
+     * 
+     * @param position Numero entero que indica la posicion de la tapa de tipo Jealous dentro del stack.
+     */
+    public void verifyJealous(int position) {
+        if (position == 0) {
+            return;
+        }
+        while (cupAndLidPositions(stack.get(position-1).getNumber())[2] == 1 ) {
+            int numberOfLiddedCup = stack.get(position-1).getNumber();
+            int[] positionOfLiddedCup = cupAndLidPositions(numberOfLiddedCup);
+            removeCup(numberOfLiddedCup);
+            position = positionOfLiddedCup[0];
+            if (position == 0) {
+                break;
+            }
+        }
+    }
+    
+    /**
      * Apila una tapa con numero identificador i a la torre, no permite agregar tapas repetidas, ni que superen las dimensiones maximas de la torre.
      * 
-     * @param type Tipo de tapa: Normal, Fearful o Crazy
+     * @param type Tipo de tapa: Normal, Fearful, Jealous o Crazy
      * @param i Numero entero positivo, que es un identificador y es usado para calcular el ancho de la tapa.
      */
     public void pushLid(String type, int i) {
@@ -563,6 +586,8 @@ public class Tower {
             newLid = new Fearful(i);
         } else if (type.equals("crazy")) {
             newLid = new Crazy(i);
+        } else if (type.equals("jealous")) {
+            newLid = new Jealous(i);
         } else {
             newLid = new Lid(i);
         }
@@ -575,6 +600,9 @@ public class Tower {
         }
         // Cada tipo sabe donde agregarse
         newLid.addToStack(stack);
+        if (type.equals("jealous")) {
+            verifyJealous(stack.size() - 1);
+        }
         currentHeight = calculateCurrentHeight();
         currentWidth = calculateCurrentWidth();
         ok = true;

@@ -1,4 +1,7 @@
+package Tower;
+
 import java.util.ArrayList;
+
 /**
  * La clase taza (cup) es una subclase de Element, su tamaño se calcula en función del número identificador.
  *

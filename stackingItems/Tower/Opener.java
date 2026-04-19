@@ -1,3 +1,6 @@
+package Tower;
+
+import Shapes.*;
 import java.util.ArrayList;
 /**
  * La clase Opener es una subclase de Cup, si esta encima de una tapa, la borrara hasta llegar a posicionarse sobre otra taza o el fondo de la torre.

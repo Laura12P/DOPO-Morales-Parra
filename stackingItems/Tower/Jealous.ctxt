@@ -1,0 +1,9 @@
+#BlueJ class context
+comment0.target=Jealous
+comment0.text=\r\n\ La\ clase\ Jealous\ es\ una\ subclase\ de\ Lid,\ si\ esta\ encima\ de\ una\ tapa\ que\ esta\ tapando\ a\ una\ taza,\ entonces\ elimina\ a\ todo\ el\ conjunto\ de\ la\ taza\ tapada.\r\n\ \r\n\ @author\ Laura\ Juliana\ Parra\ Velandia\ y\ Daniel\ Santiago\ Morales\ Perdomo\r\n\ @version\ 1.3\r\n
+comment1.params=number
+comment1.target=Jealous(int)
+comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ Fearful\r\n
+comment2.params=posicionX\ scaledY\ scaledWidth\ scale
+comment2.target=void\ drawPattern(int,\ int,\ int,\ int)
+numComments=3

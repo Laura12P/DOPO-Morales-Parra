@@ -1,3 +1,6 @@
+package Tower;
+
+import Shapes.*;
 import java.util.ArrayList;
 /**
  * La clase Fearful es una subclase de Lid, si su numero de taza no esta en la torre, no se le permitira ingresar a la misma, ademas si llega a tapar su taza de

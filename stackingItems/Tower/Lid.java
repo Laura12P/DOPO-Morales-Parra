@@ -1,3 +1,6 @@
+package Tower;
+
+
 import java.util.ArrayList;
 /**
  * La clase tapa (Lid) es una subclase de Element, su tamaño se calcula en función del número identificador, su altura es siempre 1.

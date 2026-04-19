@@ -1,3 +1,6 @@
+package Tower;
+
+import Shapes.*;
 import java.util.ArrayList;
 /**
  * La clase Crazy es una subclase de Lid, esta en vez de tapar a su correspondiente taza se pone en la base de esta, cada vez que traten de taparla ya sea con

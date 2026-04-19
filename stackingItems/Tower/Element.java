@@ -1,3 +1,4 @@
+package Tower;
 
 /**
  * Representa un elemento base del sistema. Contiene el número identificador y sus dimensiones (ancho y alto), es la superclase de lid y cup.

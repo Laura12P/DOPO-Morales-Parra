@@ -1,3 +1,6 @@
+package Tower;
+
+import Shapes.*;
 import java.util.ArrayList;
 /**
  * La clase Hierarchical es una subclase de Cup, si el elemento debajo de esta taza, es de menor tamaño que ella, la pone encima suyo, si llega a tocar el fondo
