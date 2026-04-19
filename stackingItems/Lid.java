@@ -64,4 +64,8 @@ public class Lid extends Element {
     public void addToStack(ArrayList<Element> stack) {
         stack.add(this);
     }
+    
+    public void drawPattern(int posicionX, int scaledY, int scaledWidth, int scale) {
+    
+    }
 }
