@@ -1022,8 +1022,13 @@ public class Tower {
                 blank.setPosition(posicionX + scale, scaledY);
                 blank.makeVisible("white");
             }
+            
             if (elementActual instanceof Cup) {
-                    ((Cup) elementActual).drawPattern(posicionX, scaledY, scaledWidth, scaledHeight, scale);
+                ((Cup) elementActual).drawPattern(posicionX, scaledY, scaledWidth, scaledHeight, scale);
+            }
+            
+            if (elementActual instanceof Lid) {
+                ((Lid) elementActual).drawPattern(posicionX, scaledY, scaledWidth, scale);
             }
             // Si es una Lid que está tapando su Cup, dibujar cuadradoo blanco centrado
             if (elementActual instanceof Lid) {
