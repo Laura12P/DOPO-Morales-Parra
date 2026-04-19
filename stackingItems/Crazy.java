@@ -1,44 +1,34 @@
 import java.util.ArrayList;
 /**
- * La clase taza (cup) es una subclase de Element, su tamaño se calcula en función del número identificador.
- *
+ * La clase Crazy es una subclase de Lid, esta en vez de tapar a su correspondiente taza se pone en la base de esta, cada vez que traten de taparla ya sea con
+ * cover o swap o los dos tipos de order.
+ * 
  * @author Laura Juliana Parra Velandia y Daniel Santiago Morales Perdomo
  * @version 1.3
  */
-public class Cup extends Element {
+public class Crazy extends Lid {
+
     /**
-     * Crea una taza con altura y ancho calculado a partir de su numero identificador.
-     * 
-     * @param number Numero entero positivo, que es un identificador y es usado para calcular las dimensiones de la taza.
+     * Constructor for objects of class Crazy
      */
-    public Cup(int number) {
-        super(number, (2 * number) - 1, (2 * number) - 1);
+    public Crazy(int number) {
+        super(number);
     }
-    
+
     /**
-     * Genera la tupla de una Cup, que especifica su subclase, y su ancho.
+     * En lugar de apilarse arriba, se ubica en la base de la torre (posicion 0).
      * 
-     * @return String[] - Arreglo de dos pocisiones que contiene los dos datos de la Cup, para ser procesada en la simulacion.
+     * @param stack El stack actual de la torre.
      */
-    public String[] Tuple() {
-        String[] tuple = {"C",String.valueOf(width)};
-        return tuple;
+    @Override
+    public void addToStack(ArrayList<Element> stack) {
+        stack.add(0, this);
     }
     
-    /**
-     * Genera la tupla identificadora del Element, que especifica su subclase y su numero identificador.
-     * 
-     * @return String[] - Arreglo de dos pocisiones que contiene los dos datos generales de un Element.
-     */
-    public String[] identifierTuple() {
-        String[] identifierTuple = {"cup",String.valueOf(this.number)};
-        return identifierTuple;
-    }
-    
-    public boolean canBeRemoved (int positionInStack){
-        return true;
-    }
-    
-    public void onPush(ArrayList<Element> stack) {
+    @Override
+    public void drawPattern(int posicionX, int scaledY, int scaledWidth, int scale) {
+        Rectangle stripe = new Rectangle(scaledWidth, Math.max(scale / 4, 2));
+        stripe.setPosition(posicionX, scaledY + (scale / 2));
+        stripe.makeVisible("yellow");
     }
 }
