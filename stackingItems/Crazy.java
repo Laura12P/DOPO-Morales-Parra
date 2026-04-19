@@ -7,7 +7,6 @@ import java.util.ArrayList;
  * @version 1.3
  */
 public class Crazy extends Lid {
-
     /**
      * Constructor for objects of class Crazy
      */

@@ -25,7 +25,7 @@ public class Opener extends Cup {
         int myIndex = stack.indexOf(this);
         for (int i = myIndex - 1; i >= 0; i--) {
             Element e = stack.get(i);
-            if (e instanceof Lid && e.getWidth() < myWidth) {
+            if (e instanceof Lid) {
                 stack.remove(i);
             }
         }

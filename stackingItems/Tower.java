@@ -231,6 +231,53 @@ public class Tower {
     /**
      * Apila una taza con numero identificador i a la torre, no permite agregar tazas repetidas, ni que superen las dimensiones maximas de la torre.
      * 
+     * @param i Numero entero positivo, que es un identificador y es usado para calcular las dimensiones de la taza.
+     */
+    public void pushCup(int i) {
+        ok = false;
+        try {
+            validateNumber(i);
+        } catch (Exception e) {
+            if (isVisible) {
+                JOptionPane.showMessageDialog(null,e.getMessage());
+            }
+            return;
+        }
+        int dimension = (2 * i) - 1;
+        if (dimension > maxHeight || dimension > maxWidth) {
+            if (isVisible) {
+                JOptionPane.showMessageDialog(null,DIMENSION_EXCEEDS_CAPACITY);
+            }
+            return;
+        }
+        for (Element e : stack) {
+            if (e instanceof Cup && ((Cup) e).getNumber() == i) {
+                if (isVisible) {
+                    JOptionPane.showMessageDialog(null,ALREADY_EXISTS);
+                }
+                return;
+            }
+        }
+        String[] newElement = {"C",String.valueOf(dimension)};
+        int possibleHeight = calculateHeightWithNewElement(newElement);
+        if (possibleHeight > maxHeight) {
+            if (isVisible) {
+                JOptionPane.showMessageDialog(null,DIMENSION_EXCEEDS_CAPACITY);
+            }
+            return;
+        }
+        stack.add(new Cup(i));
+        currentHeight = calculateCurrentHeight();
+        currentWidth = calculateCurrentWidth();
+        ok = true;
+        if (isVisible) {
+            redraw();
+        }
+    }
+    
+    /**
+     * Apila una taza con numero identificador i a la torre, no permite agregar tazas repetidas, ni que superen las dimensiones maximas de la torre.
+     * 
      * @param type El tipo de taza: Normal, Opener y Hierarchical
      * @param i Numero entero positivo, que es un identificador y es usado para calcular las dimensiones de la taza.
      */
@@ -417,6 +464,53 @@ public class Tower {
             }
         }
         stack.remove(positions[0]);
+        currentHeight = calculateCurrentHeight();
+        currentWidth = calculateCurrentWidth();
+        ok = true;
+        if (isVisible) {
+            redraw();
+        }
+    }
+    
+    /**
+     * Apila una tapa con numero identificador i a la torre, no permite agregar tapas repetidas, ni que superen las dimensiones maximas de la torre.
+     *
+     * @param i Numero entero positivo, que es un identificador y es usado para calcular el ancho de la tapa.
+     */
+    public void pushLid(int i) {
+        ok = false;
+        try {
+            validateNumber(i);
+        } catch (Exception e) {
+            if (isVisible) {
+                JOptionPane.showMessageDialog(null,e.getMessage());
+            }
+            return;
+        }
+        int dimension = (2 * i) - 1;
+        if (1 > maxHeight || dimension > maxWidth) {
+            if (isVisible) {
+                JOptionPane.showMessageDialog(null,DIMENSION_EXCEEDS_CAPACITY);
+            }
+            return;
+        }
+        for (Element e : stack) {
+            if (e instanceof Lid && ((Lid) e).getNumber() == i) {
+                if (isVisible) {
+                    JOptionPane.showMessageDialog(null,ALREADY_EXISTS);
+                }
+                return;
+            }
+        }
+        String[] newElement = {"L",String.valueOf(dimension)};
+        int possibleHeight = calculateHeightWithNewElement(newElement);
+        if (possibleHeight > maxHeight) {
+            if (isVisible) {
+                JOptionPane.showMessageDialog(null,DIMENSION_EXCEEDS_CAPACITY);
+            }
+            return;
+        }
+        stack.add(new Lid(i));
         currentHeight = calculateCurrentHeight();
         currentWidth = calculateCurrentWidth();
         ok = true;

@@ -66,117 +66,117 @@ public class TowerTest {
     public void prepare() {
         //Torre con 4 tazas y 2 tapas, donde dos de las tazas estan tapas, ambas con otros elementos dentro, util para probar tazas con objetos dentro
         doubleLidded = new Tower(7,18);
-        doubleLidded.pushCup("normal", 3);
-        doubleLidded.pushCup("normal", 4);
-        doubleLidded.pushCup("normal", 2);
-        doubleLidded.pushCup("normal", 1);
-        doubleLidded.pushLid("normal", 2);
-        doubleLidded.pushLid("normal", 4);
+        doubleLidded.pushCup(3);
+        doubleLidded.pushCup(4);
+        doubleLidded.pushCup(2);
+        doubleLidded.pushCup(1);
+        doubleLidded.pushLid(2);
+        doubleLidded.pushLid(4);
         
         //doubleLidded despues de aplicar el orderTower()
         doubleLiddedOrdered = new Tower(7,18);
-        doubleLiddedOrdered.pushCup("normal", 4);
-        doubleLiddedOrdered.pushLid("normal", 4);
-        doubleLiddedOrdered.pushCup("normal", 3);
-        doubleLiddedOrdered.pushCup("normal", 2);
-        doubleLiddedOrdered.pushLid("normal", 2);
-        doubleLiddedOrdered.pushCup("normal", 1);
+        doubleLiddedOrdered.pushCup(4);
+        doubleLiddedOrdered.pushLid(4);
+        doubleLiddedOrdered.pushCup(3);
+        doubleLiddedOrdered.pushCup(2);
+        doubleLiddedOrdered.pushLid(2);
+        doubleLiddedOrdered.pushCup(1);
         
         //doubleLidded despues de aplicar el reverseTower()
         doubleLiddedReverse = new Tower(7,18);
-        doubleLiddedReverse.pushCup("normal", 1);
-        doubleLiddedReverse.pushCup("normal", 2);
-        doubleLiddedReverse.pushLid("normal", 2);
-        doubleLiddedReverse.pushCup("normal", 3);
-        doubleLiddedReverse.pushCup("normal", 4);
-        doubleLiddedReverse.pushLid("normal", 4);        
+        doubleLiddedReverse.pushCup(1);
+        doubleLiddedReverse.pushCup(2);
+        doubleLiddedReverse.pushLid(2);
+        doubleLiddedReverse.pushCup(3);
+        doubleLiddedReverse.pushCup(4);
+        doubleLiddedReverse.pushLid(4);        
         
         //Torre con solo 5 tazas, util para probar funcionamiento de codigo ante solo tazas
         onlyCups = new Tower(9,25);
-        onlyCups.pushCup("normal", 5);
-        onlyCups.pushCup("normal", 4);
-        onlyCups.pushCup("normal", 2);
-        onlyCups.pushCup("normal", 3);
-        onlyCups.pushCup("normal", 1);
+        onlyCups.pushCup(5);
+        onlyCups.pushCup(4);
+        onlyCups.pushCup(2);
+        onlyCups.pushCup(3);
+        onlyCups.pushCup(1);
         
         //onlyCups despues de aplicar el orderTower()
         onlyCupsOrdered = new Tower(9,25);
-        onlyCupsOrdered.pushCup("normal", 5);
-        onlyCupsOrdered.pushCup("normal", 4);
-        onlyCupsOrdered.pushCup("normal", 3);
-        onlyCupsOrdered.pushCup("normal", 2);
-        onlyCupsOrdered.pushCup("normal", 1);
+        onlyCupsOrdered.pushCup(5);
+        onlyCupsOrdered.pushCup(4);
+        onlyCupsOrdered.pushCup(3);
+        onlyCupsOrdered.pushCup(2);
+        onlyCupsOrdered.pushCup(1);
         
         //onlyCups despues de aplicar el reverseTower()
         onlyCupsReverse = new Tower(9,25);
-        onlyCupsReverse.pushCup("normal", 1);
-        onlyCupsReverse.pushCup("normal", 2);
-        onlyCupsReverse.pushCup("normal", 3);
-        onlyCupsReverse.pushCup("normal", 4);
-        onlyCupsReverse.pushCup("normal", 5);
+        onlyCupsReverse.pushCup(1);
+        onlyCupsReverse.pushCup(2);
+        onlyCupsReverse.pushCup(3);
+        onlyCupsReverse.pushCup(4);
+        onlyCupsReverse.pushCup(5);
         
         //Torre con 3 tazas y 1 tapa, donde los elementos dentro de la taza mas grande alcanzan la altura exacta del interior, util para probar cambios internos
         //en la taza y que se mantenga tapada
         perfectlyLidded = new Tower(7,14);
-        perfectlyLidded.pushCup("normal", 4);
-        perfectlyLidded.pushCup("normal", 1);
-        perfectlyLidded.pushCup("normal", 3);
-        perfectlyLidded.pushLid("normal", 4);
+        perfectlyLidded.pushCup(4);
+        perfectlyLidded.pushCup(1);
+        perfectlyLidded.pushCup(3);
+        perfectlyLidded.pushLid(4);
         
         //perfectlyLidded despues de aplicar el orderTower()
         perfectlyLiddedOrdered = new Tower(7,14);
-        perfectlyLiddedOrdered.pushCup("normal", 4);
-        perfectlyLiddedOrdered.pushLid("normal", 4);
-        perfectlyLiddedOrdered.pushCup("normal", 3);
-        perfectlyLiddedOrdered.pushCup("normal", 1);
+        perfectlyLiddedOrdered.pushCup(4);
+        perfectlyLiddedOrdered.pushLid(4);
+        perfectlyLiddedOrdered.pushCup(3);
+        perfectlyLiddedOrdered.pushCup(1);
         
         //perfectlyLidded despues de aplicar el reverseTower()
         perfectlyLiddedReverse = new Tower(7,14);
-        perfectlyLiddedReverse.pushCup("normal", 1);
-        perfectlyLiddedReverse.pushCup("normal", 3);
-        perfectlyLiddedReverse.pushCup("normal", 4);
-        perfectlyLiddedReverse.pushLid("normal", 4);
+        perfectlyLiddedReverse.pushCup(1);
+        perfectlyLiddedReverse.pushCup(3);
+        perfectlyLiddedReverse.pushCup(4);
+        perfectlyLiddedReverse.pushLid(4);
         
         //Torre con 5 tazas y 2 tapas, donde varias tazas tienen distintos elementos dentro en distinto orden, util para probar metodos en general
         bigCase = new Tower(9,27);
-        bigCase.pushCup("normal", 5);
-        bigCase.pushCup("normal", 4);
-        bigCase.pushCup("normal", 2);
-        bigCase.pushCup("normal", 3);
-        bigCase.pushCup("normal", 1);
-        bigCase.pushLid("normal", 2);
-        bigCase.pushLid("normal", 1);
+        bigCase.pushCup(5);
+        bigCase.pushCup(4);
+        bigCase.pushCup(2);
+        bigCase.pushCup(3);
+        bigCase.pushCup(1);
+        bigCase.pushLid(2);
+        bigCase.pushLid(1);
         
         //bigCase despues de aplicar orderTower()
         bigCaseOrdered = new Tower(9,27);
-        bigCaseOrdered.pushCup("normal", 5);
-        bigCaseOrdered.pushCup("normal", 4);
-        bigCaseOrdered.pushCup("normal", 3);
-        bigCaseOrdered.pushCup("normal", 2);
-        bigCaseOrdered.pushLid("normal", 2);
-        bigCaseOrdered.pushCup("normal", 1);
-        bigCaseOrdered.pushLid("normal", 1);
+        bigCaseOrdered.pushCup(5);
+        bigCaseOrdered.pushCup(4);
+        bigCaseOrdered.pushCup(3);
+        bigCaseOrdered.pushCup(2);
+        bigCaseOrdered.pushLid(2);
+        bigCaseOrdered.pushCup(1);
+        bigCaseOrdered.pushLid(1);
         
         //bigCase despues de aplicar reverseTower()
         bigCaseReverse = new Tower(9,27);
-        bigCaseReverse.pushCup("normal", 1);
-        bigCaseReverse.pushLid("normal", 1);
-        bigCaseReverse.pushCup("normal", 2);
-        bigCaseReverse.pushLid("normal", 2);
-        bigCaseReverse.pushCup("normal", 3);
-        bigCaseReverse.pushCup("normal", 4);
-        bigCaseReverse.pushCup("normal", 5);
+        bigCaseReverse.pushCup(1);
+        bigCaseReverse.pushLid(1);
+        bigCaseReverse.pushCup(2);
+        bigCaseReverse.pushLid(2);
+        bigCaseReverse.pushCup(3);
+        bigCaseReverse.pushCup(4);
+        bigCaseReverse.pushCup(5);
         
         //Probamos el comportamiento de la taza y tapa con numero identificador 1, colocados correctamente, primer caso mas base, taza y tapa 1 tapadas, esta 
         //para probar mas que todo los metodos que ofrecen informacion, como height, liddedCups, stacking Items, etc..
         cupLidOne = new Tower(1,2);
-        cupLidOne.pushCup("normal", 1);
-        cupLidOne.pushLid("normal", 1);
+        cupLidOne.pushCup(1);
+        cupLidOne.pushLid(1);
         
         //cupLidOne despues de aplicar orderTower()
         cupLidOneOrdered = new Tower(1,2);
-        cupLidOneOrdered.pushCup("normal", 1);
-        cupLidOneOrdered.pushLid("normal", 1);
+        cupLidOneOrdered.pushCup(1);
+        cupLidOneOrdered.pushLid(1);
         
         //cupLidOne despues de aplicar reverseTower()
         cupLidOneReverse = cupLidOneOrdered;
@@ -184,8 +184,8 @@ public class TowerTest {
         //Probamos el comportamiento de la taza y tapa con numero identificador 1, colocados de forma inversa, caso base anterior pero invertido, esta para probar
         //mas que todo los metodos que ofrecen informacion, como height, liddedCups, stacking Items, etc..
         lidCupOne = new Tower(1,2);
-        lidCupOne.pushLid("normal", 1);
-        lidCupOne.pushCup("normal", 1);
+        lidCupOne.pushLid(1);
+        lidCupOne.pushCup(1);
         
         //LidCupOne despues de aplicar orderTower()
         lidCupOneOrdered = cupLidOneOrdered;
@@ -197,44 +197,44 @@ public class TowerTest {
         //del proyecto se tuvieron problemas con codigos que asumian que la altura de una tapa era su mismo ancho, como si fuera una taza, por esta misma razon 
         //en otras torres de prueba se tiene algo similar, una taza sobre una tapa
         cupOverLid = new Tower(5,4);
-        cupOverLid.pushLid("normal", 3);
-        cupOverLid.pushCup("normal", 2);
+        cupOverLid.pushLid(3);
+        cupOverLid.pushCup(2);
         
         //cupOverLid despues de aplicar orderTower()
         cupOverLidOrdered = new Tower(5,4);
-        cupOverLidOrdered.pushLid("normal", 3);
-        cupOverLidOrdered.pushCup("normal", 2);
+        cupOverLidOrdered.pushLid(3);
+        cupOverLidOrdered.pushCup(2);
         
         //cupOverLid despues de aplicar reverseTower()
         cupOverLidReverse = new Tower(5,4);
-        cupOverLidReverse.pushCup("normal", 2);
-        cupOverLidReverse.pushLid("normal", 3);
+        cupOverLidReverse.pushCup(2);
+        cupOverLidReverse.pushLid(3);
         
         //Probamos el comportamiento de dos tapas y una taza, donde una tapa siempre esta en medio de una taza y una tapa, de manera similar al caso base anterior
         //se hizo como caso extra y un poco mas complejo para probar que los codigos no asuman que la altura de una tapa es su mismo ancho, los siguientes casos
         //de prueba, buscan algo similar, tapa sobre tapa, o asi, para probar lo mismo pero en diferente orden
         cupLidLid = new Tower(3,3);
-        cupLidLid.pushCup("normal", 1);
-        cupLidLid.pushLid("normal", 2);
-        cupLidLid.pushLid("normal", 1);
+        cupLidLid.pushCup(1);
+        cupLidLid.pushLid(2);
+        cupLidLid.pushLid(1);
         
         //cupLidLid despues de aplicar orderTower()
         cupLidLidOrdered = new Tower(3,3);
-        cupLidLidOrdered.pushLid("normal", 2);
-        cupLidLidOrdered.pushCup("normal", 1);
-        cupLidLidOrdered.pushLid("normal", 1);
+        cupLidLidOrdered.pushLid(2);
+        cupLidLidOrdered.pushCup(1);
+        cupLidLidOrdered.pushLid(1);
         
         //cupLidLid despues de aplicar reverseTower()
         cupLidLidReverse = new Tower(3,3);
-        cupLidLidReverse.pushCup("normal", 1);
-        cupLidLidReverse.pushLid("normal", 1);
-        cupLidLidReverse.pushLid("normal", 2);
+        cupLidLidReverse.pushCup(1);
+        cupLidLidReverse.pushLid(1);
+        cupLidLidReverse.pushLid(2);
         
         //Probamos el comportamiento de dos tapas y una taza, donde una tapa siempre esta en medio de una tapa y una taza, revisar comentario de cupLidLid
         lidLidCup = new Tower(3,3);
-        lidLidCup.pushLid("normal", 1);
-        lidLidCup.pushLid("normal", 2);
-        lidLidCup.pushCup("normal", 1);
+        lidLidCup.pushLid(1);
+        lidLidCup.pushLid(2);
+        lidLidCup.pushCup(1);
         
         //lidLidCup despues de aplicar orderTower()
         lidLidCupOrdered = cupLidLidOrdered;
@@ -246,27 +246,27 @@ public class TowerTest {
         //pero esta vez dentro de otros objetos, y de hecho las siguientes pruebas con Inside, es para probar mas que todo los metodos que se encargan del atributo
         //height, donde cualquier cambio al interior de una taza, si el cambio no supera la altura de la taza, la altura debe ser igual a la altura de la taza
         cupLidInside = new Tower(5,7);
-        cupLidInside.pushCup("normal", 3);
-        cupLidInside.pushCup("normal", 1);
-        cupLidInside.pushLid("normal", 2);
+        cupLidInside.pushCup(3);
+        cupLidInside.pushCup(1);
+        cupLidInside.pushLid(2);
         
         //cupLidInside despues de aplicar orderTower()
         cupLidInsideOrdered = new Tower(5,7);
-        cupLidInsideOrdered.pushCup("normal", 3);
-        cupLidInsideOrdered.pushLid("normal", 2);
-        cupLidInsideOrdered.pushCup("normal", 1);
+        cupLidInsideOrdered.pushCup(3);
+        cupLidInsideOrdered.pushLid(2);
+        cupLidInsideOrdered.pushCup(1);
         
         //cupLidInside despues de aplicar reverseTower()
         cupLidInsideReverse = new Tower(5,7);
-        cupLidInsideReverse.pushCup("normal", 1);
-        cupLidInsideReverse.pushLid("normal", 2);
-        cupLidInsideReverse.pushCup("normal", 3);
+        cupLidInsideReverse.pushCup(1);
+        cupLidInsideReverse.pushLid(2);
+        cupLidInsideReverse.pushCup(3);
         
         //Probamos el comportamiento de una taza que contiene una tapa con una taza mas pequeña encima, revisar comentario cupLidInside
         lidCupInside = new Tower(5,7);
-        lidCupInside.pushCup("normal", 3);
-        lidCupInside.pushLid("normal", 2);
-        lidCupInside.pushCup("normal", 1);
+        lidCupInside.pushCup(3);
+        lidCupInside.pushLid(2);
+        lidCupInside.pushCup(1);
         
         //lidCupInside despues de aplicar orderTower()
         lidCupInsideOrdered = cupLidInsideOrdered;
@@ -276,27 +276,27 @@ public class TowerTest {
         
         //Probamos el comportamiento de una taza que contiene a dos tapas, la tapa mas pequeña encima de la tapa mas grande, revisar comentario cupLidInside
         smallerLidOverInside = new Tower(5,7);
-        smallerLidOverInside.pushCup("normal", 3);
-        smallerLidOverInside.pushLid("normal", 2);
-        smallerLidOverInside.pushLid("normal", 1);
+        smallerLidOverInside.pushCup(3);
+        smallerLidOverInside.pushLid(2);
+        smallerLidOverInside.pushLid(1);
         
         //smallerLidOverInside despues de aplicar orderTower()
         smallerLidOverInsideOrdered = new Tower(5,7);
-        smallerLidOverInsideOrdered.pushCup("normal", 3);
-        smallerLidOverInsideOrdered.pushLid("normal", 2);
-        smallerLidOverInsideOrdered.pushLid("normal", 1);
+        smallerLidOverInsideOrdered.pushCup(3);
+        smallerLidOverInsideOrdered.pushLid(2);
+        smallerLidOverInsideOrdered.pushLid(1);
         
         //smallerLidOverInside despues de aplicar reverseTower()
         smallerLidOverInsideReverse = new Tower(5,7);
-        smallerLidOverInsideReverse.pushLid("normal", 1);
-        smallerLidOverInsideReverse.pushLid("normal", 2);
-        smallerLidOverInsideReverse.pushCup("normal", 3);
+        smallerLidOverInsideReverse.pushLid(1);
+        smallerLidOverInsideReverse.pushLid(2);
+        smallerLidOverInsideReverse.pushCup(3);
         
         //Probamos el comportamiento de una taza que contiene a dos tapas, la tapa mas grande encima de la tapa mas pequeña, revisar comentario cupLidInside
         biggerLidOverInside = new Tower(5,7);
-        biggerLidOverInside.pushCup("normal", 3);
-        biggerLidOverInside.pushLid("normal", 1);
-        biggerLidOverInside.pushLid("normal", 2);
+        biggerLidOverInside.pushCup(3);
+        biggerLidOverInside.pushLid(1);
+        biggerLidOverInside.pushLid(2);
         
         //biggerLidOverInside despues de aplicar el orderTower()
         biggerLidOverInsideOrdered = smallerLidOverInsideOrdered;
@@ -307,88 +307,88 @@ public class TowerTest {
         //Probamos el comportamiento de una taza que contiene a una taza con su respectiva tapa, y que ocupan la altura exacta del interior, revisar comentario 
         //cupLidInside
         perfectlyLiddedInside = new Tower(5,9);
-        perfectlyLiddedInside.pushCup("normal", 3);
-        perfectlyLiddedInside.pushCup("normal", 2);
-        perfectlyLiddedInside.pushLid("normal", 2);
+        perfectlyLiddedInside.pushCup(3);
+        perfectlyLiddedInside.pushCup(2);
+        perfectlyLiddedInside.pushLid(2);
         
         //perfectlyLiddedInside despues de aplicar orderTower()
         perfectlyLiddedInsideOrdered = new Tower(5,9);
-        perfectlyLiddedInsideOrdered.pushCup("normal", 3);
-        perfectlyLiddedInsideOrdered.pushCup("normal", 2);
-        perfectlyLiddedInsideOrdered.pushLid("normal", 2);
+        perfectlyLiddedInsideOrdered.pushCup(3);
+        perfectlyLiddedInsideOrdered.pushCup(2);
+        perfectlyLiddedInsideOrdered.pushLid(2);
         
         //perfectlyLiddedInside despues de aplicar reverseTower()
         perfectlyLiddedInsideReverse = new Tower(5,9);
-        perfectlyLiddedInsideReverse.pushCup("normal", 2);
-        perfectlyLiddedInsideReverse.pushLid("normal", 2);
-        perfectlyLiddedInsideReverse.pushCup("normal", 3);
+        perfectlyLiddedInsideReverse.pushCup(2);
+        perfectlyLiddedInsideReverse.pushLid(2);
+        perfectlyLiddedInsideReverse.pushCup(3);
         
         //Torre con varias tazas tanto tapadas como no tapadas, las tapadas tienen cosas por dentro, es especial para swap, ya que busca probar ese metodo para
         //tazas tapadas y sus objetos internos.
         specialSwap = new Tower(11,31);
-        specialSwap.pushCup("normal", 6);
-        specialSwap.pushCup("normal", 4);
-        specialSwap.pushCup("normal", 2);
-        specialSwap.pushCup("normal", 3);
-        specialSwap.pushCup("normal", 1);
-        specialSwap.pushLid("normal", 2);
-        specialSwap.pushLid("normal", 1);
-        specialSwap.pushLid("normal", 3);
-        specialSwap.pushLid("normal", 6);
+        specialSwap.pushCup(6);
+        specialSwap.pushCup(4);
+        specialSwap.pushCup(2);
+        specialSwap.pushCup(3);
+        specialSwap.pushCup(1);
+        specialSwap.pushLid(2);
+        specialSwap.pushLid(1);
+        specialSwap.pushLid(3);
+        specialSwap.pushLid(6);
         
         //specialSwap despues de aplicar el orderTower()
         specialSwapOrdered = new Tower(11,31);
-        specialSwapOrdered.pushCup("normal", 6);
-        specialSwapOrdered.pushLid("normal", 6);
-        specialSwapOrdered.pushCup("normal", 4);
-        specialSwapOrdered.pushCup("normal", 3);
-        specialSwapOrdered.pushLid("normal", 3);
-        specialSwapOrdered.pushCup("normal", 2);
-        specialSwapOrdered.pushLid("normal", 2);
-        specialSwapOrdered.pushCup("normal", 1);
-        specialSwapOrdered.pushLid("normal", 1);
+        specialSwapOrdered.pushCup(6);
+        specialSwapOrdered.pushLid(6);
+        specialSwapOrdered.pushCup(4);
+        specialSwapOrdered.pushCup(3);
+        specialSwapOrdered.pushLid(3);
+        specialSwapOrdered.pushCup(2);
+        specialSwapOrdered.pushLid(2);
+        specialSwapOrdered.pushCup(1);
+        specialSwapOrdered.pushLid(1);
                 
         //specialSwap despues de aplicar el reverseTower()
         specialSwapReverse = new Tower(11,31);
-        specialSwapReverse.pushCup("normal", 1);
-        specialSwapReverse.pushLid("normal", 1);
-        specialSwapReverse.pushCup("normal", 2);
-        specialSwapReverse.pushLid("normal", 2);
-        specialSwapReverse.pushCup("normal", 3);
-        specialSwapReverse.pushLid("normal", 3);
-        specialSwapReverse.pushCup("normal", 4);
-        specialSwapReverse.pushCup("normal", 6);
-        specialSwapReverse.pushLid("normal", 6);        
+        specialSwapReverse.pushCup(1);
+        specialSwapReverse.pushLid(1);
+        specialSwapReverse.pushCup(2);
+        specialSwapReverse.pushLid(2);
+        specialSwapReverse.pushCup(3);
+        specialSwapReverse.pushLid(3);
+        specialSwapReverse.pushCup(4);
+        specialSwapReverse.pushCup(6);
+        specialSwapReverse.pushLid(6);        
         //Torre con una taza tapada, con dos tazas y tapas de igual numero; pero que tienen una su tapa mas arriba sin taparla, y otra tiene la tapa abajo,
         //es especial para cover() ya que posiciona las tapas tanto arriba como abajo de tazas, y estan separadas por varios objetos de la taza de igual numero
         specialCover = new Tower(9,21);
-        specialCover.pushLid("normal",5);
-        specialCover.pushCup("normal",5);
-        specialCover.pushCup("normal",3);
-        specialCover.pushCup("normal",2);
-        specialCover.pushCup("normal",1);
-        specialCover.pushLid("normal",3);
-        specialCover.pushLid("normal",2);
+        specialCover.pushLid(5);
+        specialCover.pushCup(5);
+        specialCover.pushCup(3);
+        specialCover.pushCup(2);
+        specialCover.pushCup(1);
+        specialCover.pushLid(3);
+        specialCover.pushLid(2);
         
         //specialCover despues de aplicar el orderTower()
         specialCoverOrdered = new Tower(9,21);
-        specialCoverOrdered.pushCup("normal",5);
-        specialCoverOrdered.pushLid("normal",5);
-        specialCoverOrdered.pushCup("normal",3);
-        specialCoverOrdered.pushLid("normal",3);
-        specialCoverOrdered.pushCup("normal",2);
-        specialCoverOrdered.pushLid("normal",2);
-        specialCoverOrdered.pushCup("normal",1);
+        specialCoverOrdered.pushCup(5);
+        specialCoverOrdered.pushLid(5);
+        specialCoverOrdered.pushCup(3);
+        specialCoverOrdered.pushLid(3);
+        specialCoverOrdered.pushCup(2);
+        specialCoverOrdered.pushLid(2);
+        specialCoverOrdered.pushCup(1);
         
         //specialCover despues de aplicar el reverseTower()
         specialCoverReverse = new Tower(9,21);
-        specialCoverReverse.pushCup("normal",1);
-        specialCoverReverse.pushCup("normal",2);
-        specialCoverReverse.pushLid("normal",2);
-        specialCoverReverse.pushCup("normal",3);
-        specialCoverReverse.pushLid("normal",3);
-        specialCoverReverse.pushCup("normal",5);
-        specialCoverReverse.pushLid("normal",5);
+        specialCoverReverse.pushCup(1);
+        specialCoverReverse.pushCup(2);
+        specialCoverReverse.pushLid(2);
+        specialCoverReverse.pushCup(3);
+        specialCoverReverse.pushLid(3);
+        specialCoverReverse.pushCup(5);
+        specialCoverReverse.pushLid(5);
         
         //Inicializamos variables para las pruebas de nuestros compañeros
         tower = new Tower(100,100);
@@ -400,14 +400,14 @@ public class TowerTest {
     @Test
     public void shouldBeCorrectFormatForCupStackingItems() {//Comprobamos que el formato para una Cup sea correcto
         Tower t = new Tower(1,1);
-        t.pushCup("normal",1);
+        t.pushCup(1);
         assertTrue(Arrays.deepEquals(new String[][]{{"cup","1"}},t.stackingItems()));
     }
     
     @Test
     public void shouldBeCorrectFormatForLidStackingItems() {//Comprobamos que el formato para una Lid sea correcto
         Tower t = new Tower(1,1);
-        t.pushLid("normal",1);
+        t.pushLid(1);
         assertTrue(Arrays.deepEquals(new String[][]{{"lid","1"}},t.stackingItems()));
     }
     
@@ -450,22 +450,22 @@ public class TowerTest {
     @Test
     public void shouldNotCreateCupsByNegativeNumber() {
         Tower t = new Tower(4);
-        t.pushCup("normal", 0);
+        t.pushCup(0);
         assertFalse(t.ok());
     }
     
     @Test
     public void shouldNotCreateCupsByNumberAlreadyInUse() {
         Tower t = new Tower(4);
-        t.pushCup("normal", 1);
+        t.pushCup(1);
         assertFalse(t.ok());
     }
     
     @Test
     public void shouldNotCreateCupsByHeightExceed() {
         Tower t = new Tower(3,1);
-        t.pushCup("normal", 1);
-        t.pushCup("normal", 2);
+        t.pushCup(1);
+        t.pushCup(2);
         assertFalse(t.ok());
     }
     
@@ -474,203 +474,203 @@ public class TowerTest {
     @Test
     public void shouldBeCorrectHeightDoubleLidded() {
         Tower t = new Tower(7,13);
-        t.pushCup("normal", 3);
+        t.pushCup(3);
         assertEquals(5,t.height());
         
-        t.pushCup("normal", 4);
+        t.pushCup(4);
         assertEquals(12,t.height());
         
-        t.pushCup("normal", 2);
+        t.pushCup(2);
         assertEquals(12,t.height());
         
-        t.pushCup("normal", 1);
+        t.pushCup(1);
         assertEquals(12,t.height());
         
-        t.pushLid("normal", 2);
+        t.pushLid(2);
         assertEquals(12,t.height());
     
-        t.pushLid("normal", 4);
+        t.pushLid(4);
         assertEquals(13,t.height());
     }
     
     @Test
     public void shouldBeCorrectHeightOnlyCups() {
         Tower t = new Tower(9,10);
-        t.pushCup("normal",5);
+        t.pushCup(5);
         assertEquals(9,t.height());
         
-        t.pushCup("normal",4);
+        t.pushCup(4);
         assertEquals(9,t.height());
     
-        t.pushCup("normal",2);
+        t.pushCup(2);
         assertEquals(9,t.height());
     
-        t.pushCup("normal",3);
+        t.pushCup(3);
         assertEquals(10,t.height());
     
-        t.pushCup("normal",1);
+        t.pushCup(1);
         assertEquals(10,t.height());
     }
     
     @Test
     public void shouldBeCorrectHeightPerfectlyLidded() {
         Tower t = new Tower(7,8);
-        t.pushCup("normal",4);
+        t.pushCup(4);
         assertEquals(7,t.height());
         
-        t.pushCup("normal",1);
+        t.pushCup(1);
         assertEquals(7,t.height());
     
-        t.pushCup("normal",3);
+        t.pushCup(3);
         assertEquals(7,t.height());
     
-        t.pushLid("normal",4);
+        t.pushLid(4);
         assertEquals(8,t.height());
     }
     
     @Test
     public void shouldBeCorrectHeightBigCase() {
         Tower t = new Tower(9,10);
-        t.pushCup("normal",5);
+        t.pushCup(5);
         assertEquals(9,t.height());
         
-        t.pushCup("normal",4);
+        t.pushCup(4);
         assertEquals(9,t.height());
     
-        t.pushCup("normal",2);
+        t.pushCup(2);
         assertEquals(9,t.height());
     
-        t.pushCup("normal",3);
+        t.pushCup(3);
         assertEquals(10,t.height());
     
-        t.pushCup("normal",1);
+        t.pushCup(1);
         assertEquals(10,t.height());
     
-        t.pushLid("normal",2);
+        t.pushLid(2);
         assertEquals(10,t.height());
     
-        t.pushLid("normal",1);
+        t.pushLid(1);
         assertEquals(10,t.height());
     }
     
     @Test
     public void shouldBeCorrectHeightCupLidOne() {
         Tower t = new Tower(1,2);
-        t.pushCup("normal",1);
+        t.pushCup(1);
         assertEquals(1,t.height());
         
-        t.pushLid("normal",1);
+        t.pushLid(1);
         assertEquals(2,t.height());
     }
     
     @Test
     public void shouldBeCorrectHeightLidCupOne() {
         Tower t = new Tower(1,2);
-        t.pushLid("normal",1);
+        t.pushLid(1);
         assertEquals(1,t.height());
         
-        t.pushCup("normal",1);
+        t.pushCup(1);
         assertEquals(2,t.height());
     }
     
     @Test
     public void shouldBeCorrectHeightCupOverLid() {
         Tower t = new Tower(5,4);
-        t.pushLid("normal",3);
+        t.pushLid(3);
         assertEquals(1,t.height());
         
-        t.pushCup("normal",2);
+        t.pushCup(2);
         assertEquals(4,t.height());
     }
     
     @Test
     public void shouldBeCorrectHeightCupLidLid() {
         Tower t = new Tower(3,3);
-        t.pushCup("normal",1);
+        t.pushCup(1);
         assertEquals(1,t.height());
         
-        t.pushLid("normal",2);
+        t.pushLid(2);
         assertEquals(2,t.height());
     
-        t.pushLid("normal",1);
+        t.pushLid(1);
         assertEquals(3,t.height());
     }
     
     @Test
     public void shouldBeCorrectHeightLidLidCup() {
         Tower t = new Tower(3,3);
-        t.pushLid("normal",1);
+        t.pushLid(1);
         assertEquals(1,t.height());
         
-        t.pushLid("normal",2);
+        t.pushLid(2);
         assertEquals(2,t.height());
     
-        t.pushCup("normal",1);
+        t.pushCup(1);
         assertEquals(3,t.height());
     }
     
     @Test
     public void shouldBeCorrectHeightCupLidInside() {
         Tower t = new Tower(5,5);
-        t.pushCup("normal",3);
+        t.pushCup(3);
         assertEquals(5,t.height());
         
-        t.pushCup("normal",1);
+        t.pushCup(1);
         assertEquals(5,t.height());
     
-        t.pushLid("normal",2);
+        t.pushLid(2);
         assertEquals(5,t.height());
     }
     
     @Test
     public void shouldBeCorrectHeightLidCupInside() {
         Tower t = new Tower(5,5);
-        t.pushCup("normal",3);
+        t.pushCup(3);
         assertEquals(5,t.height());
         
-        t.pushLid("normal",2);
+        t.pushLid(2);
         assertEquals(5,t.height());
     
-        t.pushCup("normal",1);
+        t.pushCup(1);
         assertEquals(5,t.height());
     }
     
     @Test
     public void shouldBeCorrectHeightSmallLidOverInside() {
         Tower t = new Tower(5,5);
-        t.pushCup("normal",3);
+        t.pushCup(3);
         assertEquals(5,t.height());
         
-        t.pushLid("normal",2);
+        t.pushLid(2);
         assertEquals(5,t.height());
     
-        t.pushLid("normal",1);
+        t.pushLid(1);
         assertEquals(5,t.height());
     }
     
     @Test
     public void shouldBeCorrectHeightBigLidOverInside() {
         Tower t = new Tower(5,5);
-        t.pushCup("normal",3);
+        t.pushCup(3);
         assertEquals(5,t.height());
         
-        t.pushLid("normal",1);
+        t.pushLid(1);
         assertEquals(5,t.height());
     
-        t.pushLid("normal",2);
+        t.pushLid(2);
         assertEquals(5,t.height());
     }
     
     @Test
     public void shouldBeCorrectHeightPerfectlyLiddedInside() {
         Tower t = new Tower(5,5);
-        t.pushCup("normal",3);
+        t.pushCup(3);
         assertEquals(5,t.height());
         
-        t.pushCup("normal",2);
+        t.pushCup(2);
         assertEquals(5,t.height());
     
-        t.pushLid("normal",2);
+        t.pushLid(2);
         assertEquals(5,t.height());
     }
     
@@ -681,7 +681,7 @@ public class TowerTest {
         t.popCup();
         assertFalse(t.ok());
         
-        t.pushLid("normal",1);
+        t.pushLid(1);
         t.popCup();
         assertFalse(t.ok());
     }
@@ -692,7 +692,7 @@ public class TowerTest {
         Tower t = new Tower(5,5);
         t.popLid();
         assertFalse(t.ok());
-        t.pushCup("normal",1);
+        t.pushCup(1);
         t.popLid();
         assertFalse(t.ok());
     }
@@ -708,10 +708,10 @@ public class TowerTest {
     @Test
     public void afterPopCupShouldBeCorrectHeightExtraCase() {
         Tower t = new Tower(5,6);
-        t.pushCup("normal",3);
-        t.pushCup("normal",2);
-        t.pushLid("normal",2);
-        t.pushCup("normal",1);
+        t.pushCup(3);
+        t.pushCup(2);
+        t.pushLid(2);
+        t.pushCup(1);
         
         t.popCup();
         assertEquals(5,t.height());
@@ -723,7 +723,7 @@ public class TowerTest {
         Tower t = new Tower(5,5);
         t.removeCup(1);
         assertFalse(t.ok());
-        t.pushCup("normal",1);
+        t.pushCup(1);
         t.removeCup(2);
         assertFalse(t.ok());
     }
@@ -734,7 +734,7 @@ public class TowerTest {
         Tower t = new Tower(5,5);
         t.removeLid(1);
         assertFalse(t.ok());
-        t.pushLid("normal",1);
+        t.pushLid(1);
         t.removeLid(2);
         assertFalse(t.ok());
     }
@@ -1032,8 +1032,8 @@ public class TowerTest {
     @Test
     public void swapShouldExchange() {
         Tower t = new Tower(7, 50);
-        t.pushCup("normal",1);
-        t.pushCup("normal",2);
+        t.pushCup(1);
+        t.pushCup(2);
         t.swap(new String[]{"cup", "1"}, new String[]{"cup", "2"});
         assertTrue(t.ok());
         assertTrue(Arrays.deepEquals(new String[][]{{"cup","2"},{"cup","1"}},t.stackingItems()));
@@ -1042,7 +1042,7 @@ public class TowerTest {
     @Test
     public void swapFails() {
         Tower t = new Tower(7, 50);
-        t.pushCup("normal",1);
+        t.pushCup(1);
         t.swap(new String[]{"cup", "1"}, new String[]{"cup", "99"});
         assertFalse(t.ok());
     }
@@ -1181,12 +1181,12 @@ public class TowerTest {
     @Test
     public void shouldCoverAllCups() {
         Tower t = new Tower(7, 13);
-        t.pushCup("normal",3);
-        t.pushCup("normal",4);
-        t.pushCup("normal",2);
-        t.pushCup("normal",1);
-        t.pushLid("normal",2);
-        t.pushLid("normal",4);
+        t.pushCup(3);
+        t.pushCup(4);
+        t.pushCup(2);
+        t.pushCup(1);
+        t.pushLid(2);
+        t.pushLid(4);
         t.cover();
         assertTrue(t.ok());
     }
@@ -1248,9 +1248,9 @@ public class TowerTest {
     @Test
     public void liddedCupsOnlyLids() {
         Tower onlyLids = new Tower (7,3);
-        onlyLids.pushLid("normal",4);
-        onlyLids.pushLid("normal",3);
-        onlyLids.pushLid("normal",1);
+        onlyLids.pushLid(4);
+        onlyLids.pushLid(3);
+        onlyLids.pushLid(1);
         
         assertTrue(Arrays.equals(new int[]{},onlyLids.liddedCups()));
     }
@@ -1366,9 +1366,9 @@ public class TowerTest {
     @Test
     public void accordingMV_ShouldReturnTwoObjectsInSwapToReduce() {
         Tower t = new Tower(5, 30);
-        t.pushCup("normal",1);
-        t.pushCup("normal",3);
-        t.pushCup("normal",2);
+        t.pushCup(1);
+        t.pushCup(3);
+        t.pushCup(2);
  
         String[][] swap = t.swapToReduce();
         assertTrue(t.ok());
@@ -1390,8 +1390,8 @@ public class TowerTest {
     @Test
     public void accordingOR_testCover_noparejas_noHayCambios()
     {
-        tower.pushCup("normal",4);
-        tower.pushLid("normal",2);   
+        tower.pushCup(4);
+        tower.pushLid(2);   
         int h = tower.height();
         tower.cover();
         assertTrue(tower.ok());
@@ -1405,9 +1405,9 @@ public class TowerTest {
     @Test
     public void accordingOR_testSwapToReduce_returnsSwap()
     {
-        tower.pushCup("normal",3);
-        tower.pushCup("normal",5);
-        tower.pushLid("normal",3);   
+        tower.pushCup(3);
+        tower.pushCup(5);
+        tower.pushLid(3);   
         String[][] suggestion = tower.swapToReduce();
         assertNotNull(suggestion);
         assertEquals(2, suggestion.length);
