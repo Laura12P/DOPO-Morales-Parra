@@ -1,6 +1,7 @@
 package domain;
 
 import java.awt.Color;
+import java.awt.Graphics;
 
 /* La clase EndZone es una subclase de Zone en la cual el jugador termina el nivel.
  * 
@@ -20,5 +21,17 @@ public class EndZone extends Zone {
 	 */
 	public EndZone(double positionX, double positionY, double width, double height, Color color) {
 		super(positionX, positionY, width, height, color);
+	}
+	
+	@Override
+	public void activatedByPlayer(Player player) {
+	    // La lógica de completar nivel la maneja Board/CollisionController
+	    // Por ahora vacío ya veremos en el futuro 
+	}
+	
+	@Override
+	public void draw(Graphics g) {
+	    g.setColor(color);
+	    g.fillRect((int) positionX, (int) positionY, (int) width, (int) height);
 	}
 }
