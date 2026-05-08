@@ -1,29 +1,32 @@
 package domain;
-
+import java.awt.Graphics;
 import java.awt.Color;
 
-/* La clase StaticEnemy es una subclase de Enemy, la cual no permite el movimiento
+/* La clase Zone es la superclase abstracta que define el comportamiento de cualquier zona en el juego.
  * 
  * @author Laura Juliana Parra Velandia y Daniel Santiago Morales Perdomo
  */
 
-public class StaticEnemy extends Enemy{
+public abstract class Zone extends Element {
 	
-	/*Contructor de la clase StaticEnemy
+	/*Constructor de la clase Zone
 	 * 
-	 * @param positionX Numero entero positivo que define la posicion en el eje X del elemento.
-	 * @param positionY Numero entero positivo que define la posicion en el eje Y del elemento.
-	 * @param width Numero entero positivo que define el ancho del elemento.
-	 * @param height Numero entero positivo que define la altura del elemento.
-	 * @param speed Numero entero positivo que define la velocidad base del elemento.
+	 * @param positionX Numero entero positivo que define la posicion en el eje X de la zona.
+	 * @param positionY Numero entero positivo que define la posicion en el eje Y de la zona.
+	 * @param width Numero entero positivo que define el ancho de la zona.
+	 * @param height Numero entero positivo que define la altura de la zona.
 	 * @param color Color actual del elemento.
 	 */
-	public StaticEnemy(double positionX, double positionY, double width, double height, double speed, Color color) {
-		super(positionX, positionY, width, height, speed, color);
+	public Zone(double positionX, double positionY, double width, double height, Color color) {
+		super(positionX, positionY, width, height, 0, color);
+		
 	}
-	
+
 	@Override
-	public void move(int boardWidth, int boardHeight) {
-	    // No se mueve
+	public void draw(Graphics g) {
+	    g.setColor(color);
+	    g.fillRect((int) positionX, (int) positionY, (int) width, (int) height);
 	}
+
+	public abstract void activatedByPlayer(Player player);
 }
