@@ -21,4 +21,9 @@ public class StaticEnemy extends Enemy{
 	public StaticEnemy(double positionX, double positionY, double width, double height, double speed, Color color) {
 		super(positionX, positionY, width, height, speed, color);
 	}
+	
+	@Override
+	public void move(int boardWidth, int boardHeight) {
+	    // No se mueve
+	}
 }
