@@ -1,6 +1,7 @@
 package domain;
 
 import java.awt.Color;
+import java.awt.Graphics;
 
 /* La clase Collectionable es una subclase de Element, el cual es un colecionable interactuable por los jugadores, y que 
  * es obligatorio recolectar todos los existentes en el nivel para que un jugador pase de nivel.
@@ -25,5 +26,25 @@ public class Collectionable extends Element{
 		super(positionX, positionY, width, height, speed, color);
 		collected = false;
 		visible = true;
+	}
+	
+	@Override
+	public void draw(Graphics g) {
+	    if (visible) {
+	        g.setColor(color);
+	        g.fillOval((int) positionX, (int) positionY, (int) width, (int) height);
+	    }
+	}
+
+	public void collect() {
+	    collected = true;
+	    visible = false;
+	}
+
+	public boolean isCollected() {
+		return collected; 
+	}
+	public boolean isVisible() { 
+		return visible; 
 	}
 }
