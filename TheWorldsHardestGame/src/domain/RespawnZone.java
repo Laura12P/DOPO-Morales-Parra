@@ -1,5 +1,5 @@
 package domain;
-
+import java.awt.Graphics;
 import java.awt.Color;
 
 /*La clase RespawnZone es una subclase de Zone en la cual el jugador puede respawnear.
@@ -19,5 +19,11 @@ public class RespawnZone extends Zone {
 	 */
 	public RespawnZone(double positionX, double positionY, double width, double height, Color color) {
 		super(positionX, positionY, width, height, color);
+	}
+	
+	@Override
+	public void activatedByPlayer(Player player) {
+	    // Al entrar, actualiza el punto de reaparición del jugador
+	    player.respawn(positionX, positionY);
 	}
 }
