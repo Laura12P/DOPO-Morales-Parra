@@ -8,6 +8,8 @@ import java.awt.Color;
  */
 
 public class MovingEnemy extends Enemy{
+	private int dx; // dirección horizontal: -1, 0 o 1
+	private int dy; // dirección vertical: -1, 0 o 1
 	
 	/*Contructor de la clase MovingEnemy
 	 * 
@@ -18,7 +20,19 @@ public class MovingEnemy extends Enemy{
 	 * @param speed Numero entero positivo que define la velocidad base del elemento.
 	 * @param color Color actual del elemento.
 	 */
-	public MovingEnemy(double positionX, double positionY, double width, double height, double speed, Color color) {
-		super(positionX, positionY, width, height, speed, color);
+	public MovingEnemy(double positionX, double positionY, double width, double height, double speed, Color color, int dx, int dy) {
+	    super(positionX, positionY, width, height, speed, color);
+	    this.dx = dx;
+	    this.dy = dy;
+	}
+
+	@Override
+	public void move(int boardWidth, int boardHeight) {
+	    positionX += dx * speed;
+	    positionY += dy * speed;
+	    // Rebote horizontal
+	    if (positionX <= 0 || positionX + width >= boardWidth) dx = -dx;
+	    // Rebote vertical
+	    if (positionY <= 0 || positionY + height >= boardHeight) dy = -dy;
 	}
 }
