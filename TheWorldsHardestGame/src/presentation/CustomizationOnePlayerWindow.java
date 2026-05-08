@@ -120,7 +120,8 @@ public class CustomizationOnePlayerWindow extends JFrame {
                 JOptionPane.showMessageDialog(this, "Por favor ingresa un nombre y seleccione un color.");
                 return;
             }
-            JOptionPane.showMessageDialog(this, "Jugador: " + name + " | Color seleccionado: " + selectedColor.toString() );
+            dispose();
+            new GameWindow(getWidth(), getHeight(), name, selectedColor).setVisible(true);
         });
     }
     
