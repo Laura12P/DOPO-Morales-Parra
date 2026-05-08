@@ -1,32 +1,41 @@
 package domain;
-
 import java.awt.Color;
-
-/* La clase Player es una subclase de Element cuyo movimiento es controlado por el usuario
- * @author Laura Juliana Parra Velandia y Daniel Santiago Morales Perdomo
- */
+import java.awt.Graphics;
 
 public class Player extends Element {
-	private String name;
-	private int totalTime;
-	private int deaths;
-	private int coinsCollected;
-	
-	/*Constructor de la clase Player
-	 * 
-	 * @param positionX Numero entero positivo que define la posicion en el eje X del elemento.
-	 * @param positionY Numero entero positivo que define la posicion en el eje Y del elemento.
-	 * @param width Numero entero positivo que define el ancho del elemento.
-	 * @param height Numero entero positivo que define la altura del elemento.
-	 * @param speed Numero entero positivo que define la velocidad base del elemento.
-	 * @param color Color actual del elemento.
-	 * @param name Nombre del jugador.
-	 */
-	public Player(double positionX, double positionY, double width, double height, double speed, Color color, String name) {
-		super(positionX, positionY, width, height, speed, color);
-		this.name = name;
-		totalTime = 0;
-		deaths = 0;
-		coinsCollected = 0;
-	}
+    protected String name;
+    protected int totalTime;
+    protected int deaths;
+    protected int coinsCollected;
+
+    public Player(double positionX, double positionY, double width, double height, double speed, Color color, String name) {
+        super(positionX, positionY, width, height, speed, color);
+        this.name = name;
+        totalTime = 0;
+        deaths = 0;
+        coinsCollected = 0;
+    }
+
+    @Override
+    public void draw(Graphics g) {
+        g.setColor(color);
+        g.fillRect((int) positionX, (int) positionY, (int) width, (int) height);
+        g.setColor(Color.BLACK);
+        g.drawRect((int) positionX, (int) positionY, (int) width, (int) height);
+    }
+
+    public void move(int dx, int dy, int boardWidth, int boardHeight) {
+        double newX = positionX + dx * speed;
+        double newY = positionY + dy * speed;
+        if (newX >= 0 && newX + width <= boardWidth) positionX = newX;
+        if (newY >= 0 && newY + height <= boardHeight) positionY = newY;
+    }
+
+    public void coinCollected() { coinsCollected++; }
+
+    public void respawn(double x, double y) {
+        positionX = x;
+        positionY = y;
+        deaths++;
+    }
 }
