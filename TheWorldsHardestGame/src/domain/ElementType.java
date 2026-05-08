@@ -1,5 +1,5 @@
 package domain;
 
 public enum ElementType {	
-	EMPTY, FLOOR , WALL
+	EMPTY, WALL, PLAYER, ENEMY, COLLECTABLE, ZONE
 }
