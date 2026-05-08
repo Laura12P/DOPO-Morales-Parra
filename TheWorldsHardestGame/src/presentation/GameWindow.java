@@ -17,15 +17,15 @@ public class GameWindow extends JFrame {
     private JLabel lblCoins;
     private JButton btnPause;
     private JButton btnExit;
-    private GamePanel gamePanel;
- 
+
     private javax.swing.Timer countdownTimer;
     private int secondsLeft;
     private boolean paused;
  
     private String playerName;
     private Color playerColor;
- 
+    private GamePanel gamePanel;
+    
     public GameWindow(int lastWidth, int lastHeight, String playerName, Color playerColor) {
         this.playerName = playerName;
         this.playerColor = playerColor;
