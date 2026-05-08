@@ -1,6 +1,7 @@
 package domain;
 
 import java.awt.Color;
+import java.awt.Graphics;
 
 /* La clase Element es la superclase abstracta que define los atributos y metodos comunes de todo elemento dentro del juego.
  * 
@@ -8,12 +9,12 @@ import java.awt.Color;
  */
 
 public abstract class Element {
-	private double positionX;
-	private double positionY;
-	private double width;
-	private double height;
-	private double speed;
-	private Color color;
+	protected double positionX;
+	protected double positionY;
+	protected double width;
+	protected double height;
+	protected double speed;
+	protected Color color;
 	
 	/*Constructor de la clase Element
 	 * 
@@ -32,4 +33,7 @@ public abstract class Element {
 		this.speed = speed;
 		this.color = color;
 	}
+	
+	public abstract void draw(Graphics g);
+	
 }
