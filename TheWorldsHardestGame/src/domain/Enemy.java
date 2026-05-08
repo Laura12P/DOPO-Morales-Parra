@@ -1,6 +1,7 @@
 package domain;
 
 import java.awt.Color;
+import java.awt.Graphics;
 
 /* La clase Enemy es una subclase abstracta de Element, que al colisionar con un player, aumenta el contador de muertes del
  * mismo y lo hace respawnear.
@@ -22,4 +23,15 @@ public abstract class Enemy extends Element {
 	public Enemy(double positionX, double positionY, double width, double height, double speed, Color color) {
 		super(positionX, positionY, width, height, speed, color);
 	}
+	
+	@Override
+	public void draw(Graphics g) {
+	    g.setColor(color);
+	    g.fillOval((int) positionX, (int) positionY, (int) width, (int) height);
+	    g.setColor(Color.BLACK);
+	    g.drawOval((int) positionX, (int) positionY, (int) width, (int) height);
+	}
+	
+	public abstract void move(int boardWidth, int boardHeight);
+
 }
