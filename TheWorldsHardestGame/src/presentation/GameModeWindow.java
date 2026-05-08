@@ -114,7 +114,8 @@ public class GameModeWindow extends JFrame {
         });
 
         btnPvP.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, "Player vs Player");
+            dispose();
+            new CustomizationTwoPlayersWindow().setVisible(true);
         });
 
         btnPvM.addActionListener(e -> {
@@ -125,8 +126,7 @@ public class GameModeWindow extends JFrame {
         
         btnBack.addActionListener(e -> {
             dispose();
-            Dimension sizeJFrame = this.getSize();
-        	new PlayGameWindow(sizeJFrame.width, sizeJFrame.height).setVisible(true);
+            new GameModeWindow(getWidth(), getHeight()).setVisible(true);
         });
     }
     
