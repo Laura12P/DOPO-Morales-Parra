@@ -2,35 +2,44 @@ package domain;
 
 import java.util.ArrayList;
 
-/* La clase CollisionController es la encargada de calcular y determinar las colisiones entre elementos del tablero.
- *
- * @author Laura Juliana Parra Velandia y Daniel Santiago Morales Perdomo
- */
-
 public class CollisionController {
 
-    public CollisionController() {
+    public interface GameEventListener {
+        void onPlayerDied(Player player);
+        void onCoinCollected(Player player, int totalCoins);
+        void onLevelCompleted(Player player);
+    }
+
+    private GameEventListener listener;
+
+    public CollisionController() {}
+
+    public void setListener(GameEventListener listener) {
+        this.listener = listener;
     }
 
     public void checkCollisions(ArrayList<Player> players, ArrayList<Enemy> enemies,
-                                 ArrayList<Collectionable> collectables, EndZone endZone) {
+                                ArrayList<Collectionable> collectables, EndZone endZone) {
         for (Player player : players) {
-            // Colisión con enemigos
+
             for (Enemy enemy : enemies) {
                 if (intersects(player, enemy)) {
-                    player.respawn(player.positionX, player.positionY);
+                    player.respawn();
+                    if (listener != null) listener.onPlayerDied(player);
+                    break;
                 }
             }
-            // Colisión con monedas
+
             for (Collectionable c : collectables) {
                 if (!c.isCollected() && intersects(player, c)) {
                     c.collect();
                     player.coinCollected();
+                    if (listener != null) listener.onCoinCollected(player, collectables.size());
                 }
             }
-            // Colisión con zona final
+
             if (intersects(player, endZone)) {
-                // TODO: notificar que el nivel terminó
+                if (listener != null) listener.onLevelCompleted(player);
             }
         }
     }
