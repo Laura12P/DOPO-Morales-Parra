@@ -6,6 +6,7 @@ import java.awt.event.ComponentEvent;
 
 public class MainWindow extends JFrame {
 	
+	private static final long serialVersionUID = 1L;
 	private JPanel mainPanel;
 	private JLabel title;
 	private JPanel buttonPanel;
@@ -82,8 +83,7 @@ public class MainWindow extends JFrame {
     private void prepareActions() {
     	btnPlayGame.addActionListener(e -> {
         	dispose();
-        	Dimension sizeJFrame = this.getSize();
-        	new PlayGameWindow(sizeJFrame.width, sizeJFrame.height).setVisible(true);
+        	new PlayGameWindow(getWidth(), getHeight()).setVisible(true);
         });
 
         btnLeaderBoard.addActionListener(e -> {

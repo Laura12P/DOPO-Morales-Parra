@@ -7,6 +7,7 @@ import java.awt.event.ComponentEvent;
 
 public class CustomizationOnePlayerWindow extends JFrame {
 	
+	private static final long serialVersionUID = 1L;
     private JPanel mainPanel;
 	private JPanel colorsRow;
 	private JPanel namePanel;
@@ -16,17 +17,17 @@ public class CustomizationOnePlayerWindow extends JFrame {
 	private JButton btnBack;
 	private JButton btnContinue;
 	private Color selectedColor;
-	private boolean vsMachine;
+	private MachineDifficulty machineDifficulty;
 
-    public CustomizationOnePlayerWindow(int lastWidth, int lastHeight, boolean vsMachine) {
-    	this.vsMachine = vsMachine;
+    public CustomizationOnePlayerWindow(int lastWidth, int lastHeight, MachineDifficulty machineDifficulty) {
+    	this.machineDifficulty = machineDifficulty;
     	prepareElements(lastWidth, lastHeight);
     	prepareActions();
     	prepareResponsiveGUI();
     }
     
     private void prepareElements(int lastWidth, int lastHeight) {
-    	if (vsMachine == false) {
+    	if (machineDifficulty == MachineDifficulty.NONE) {
     		setTitle("One Player Mode");
     	} else {
     		setTitle("Player VS Machine Mode");
@@ -110,18 +111,23 @@ public class CustomizationOnePlayerWindow extends JFrame {
     private void prepareActions() {
     	btnBack.addActionListener(e -> {
             dispose();
-            Dimension sizeJFrame = this.getSize();
-        	new GameModeWindow(sizeJFrame.width, sizeJFrame.height).setVisible(true);
+            if (machineDifficulty == MachineDifficulty.NONE) {
+            	new GameModeWindow(getWidth(), getHeight()).setVisible(true);
+        	} else {
+        		new MachineDificultyWindow(getWidth(), getHeight()).setVisible(true);
+        	}
         });
 
         btnContinue.addActionListener(e -> {
-            String name = nameField.getText().trim();
-            if (name.isEmpty() || selectedColor == null) {
-                JOptionPane.showMessageDialog(this, "Por favor ingresa un nombre y seleccione un color.");
+            String name = nameField.getText();
+            if (name.isBlank() || selectedColor == null) {
+                JOptionPane.showMessageDialog(this, "Please enter a valid name and select a color.");
                 return;
             }
             dispose();
-            new GameWindow(getWidth(), getHeight(), name, selectedColor).setVisible(true);
+            GameConfig gameConfig = GameConfig.getInstance();
+            GameConfig.initSinglePlayer(name, selectedColor, machineDifficulty);
+            new LevelSelectorWindow(getWidth(), getHeight(), gameConfig).setVisible(true);
         });
     }
     

@@ -5,8 +5,10 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 public class LeaderBoardWindow extends JFrame {
+	
+	private static final long serialVersionUID = 1L;
 
-    public LeaderBoardWindow() {
+	public LeaderBoardWindow() {
         setTitle("Leader Board");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(740, 450);

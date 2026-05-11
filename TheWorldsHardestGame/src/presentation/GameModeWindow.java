@@ -7,6 +7,7 @@ import java.awt.event.ComponentEvent;
 
 public class GameModeWindow extends JFrame {
 	
+	private static final long serialVersionUID = 1L;
 	private JPanel mainPanel;
 	private JLabel title;
 	private JPanel buttonPanel;
@@ -109,19 +110,17 @@ public class GameModeWindow extends JFrame {
     private void prepareActions() {
     	btnOnePlayer.addActionListener(e -> {
         	dispose();
-        	Dimension sizeJFrame = this.getSize();
-        	new CustomizationOnePlayerWindow(sizeJFrame.width, sizeJFrame.height, false).setVisible(true);
+        	new CustomizationOnePlayerWindow(getWidth(), getHeight(), MachineDifficulty.NONE).setVisible(true);
         });
 
         btnPvP.addActionListener(e -> {
             dispose();
-            new CustomizationTwoPlayersWindow().setVisible(true);
+            new CustomizationTwoPlayersWindow(getWidth(), getHeight()).setVisible(true);
         });
 
         btnPvM.addActionListener(e -> {
         	dispose();
-        	Dimension sizeJFrame = this.getSize();
-        	new CustomizationOnePlayerWindow(sizeJFrame.width, sizeJFrame.height, true).setVisible(true);
+        	new MachineDificultyWindow(getWidth(), getHeight()).setVisible(true);
         });
         
         btnBack.addActionListener(e -> {

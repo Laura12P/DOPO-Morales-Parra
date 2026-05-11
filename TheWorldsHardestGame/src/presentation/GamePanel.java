@@ -12,7 +12,7 @@ public class GamePanel extends JPanel {
     private javax.swing.Timer gameTimer;
     private boolean paused;
 
-    public GamePanel(Color playerColor) {
+    public GamePanel(GameConfig gameConfig) {
         setBackground(Color.WHITE);
         setFocusable(true);
 
@@ -22,7 +22,7 @@ public class GamePanel extends JPanel {
         board = new Board(900, 500, start, end);
 
         // Jugador
-        Player player = new Player(70, 220, 30, 30, 3, playerColor, "Player");
+        Player player = new Player(70, 220, 30, 30, 3, Color.RED, "Player");
         board.addPlayer(player);
 
         // Monedas

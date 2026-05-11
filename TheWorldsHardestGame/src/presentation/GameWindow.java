@@ -8,8 +8,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
  
 public class GameWindow extends JFrame {
- 
-    private JPanel mainPanel;
+	private static final long serialVersionUID = 1L;
+	private JPanel mainPanel;
     private JPanel hudPanel;
     private JLabel lblLevel;
     private JLabel lblTime;
@@ -21,17 +21,13 @@ public class GameWindow extends JFrame {
     private javax.swing.Timer countdownTimer;
     private int secondsLeft;
     private boolean paused;
- 
-    private String playerName;
-    private Color playerColor;
+    
     private GamePanel gamePanel;
     
-    public GameWindow(int lastWidth, int lastHeight, String playerName, Color playerColor) {
-        this.playerName = playerName;
-        this.playerColor = playerColor;
+    public GameWindow(int lastWidth, int lastHeight, GameConfig gameConfig) {
         this.secondsLeft = 180;
         this.paused = false;
-        gamePanel = new GamePanel(playerColor); 
+        gamePanel = new GamePanel(gameConfig); 
         prepareElements(lastWidth, lastHeight);
         prepareActions();
         prepareTimer();
@@ -92,8 +88,6 @@ public class GameWindow extends JFrame {
  
         hudPanel.add(hudLeft, BorderLayout.WEST);
         hudPanel.add(hudRight, BorderLayout.EAST);
- 
-        gamePanel = new GamePanel(playerColor);
  
         mainPanel.add(hudPanel, BorderLayout.NORTH);
         mainPanel.add(gamePanel, BorderLayout.CENTER);

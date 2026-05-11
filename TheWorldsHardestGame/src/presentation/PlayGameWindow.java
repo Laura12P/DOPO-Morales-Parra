@@ -8,6 +8,7 @@ import java.io.File;
 
 public class PlayGameWindow extends JFrame {
 	
+	private static final long serialVersionUID = 1L;
 	private JPanel mainPanel;
 	private JPanel buttonsRow;
 	private JPanel bottomPanel;
@@ -22,7 +23,7 @@ public class PlayGameWindow extends JFrame {
     }
     
     private void prepareElements(int lastWidth, int lastHeight) {
-    	setTitle("Nueva Partida o Carga");
+    	setTitle("New Game or Load Game");
     	setMinimumSize(new Dimension(720, 480));
         setSize(lastWidth, lastHeight);
         
@@ -86,8 +87,7 @@ public class PlayGameWindow extends JFrame {
     private void prepareActions() {
         btnNewGame.addActionListener(e -> {
         	dispose();
-        	Dimension sizeJFrame = this.getSize();
-        	new GameModeWindow(sizeJFrame.width, sizeJFrame.height).setVisible(true);
+        	new GameModeWindow(getWidth(), getHeight()).setVisible(true);
         });
 
         btnLoadGame.addActionListener(e -> {
@@ -101,8 +101,7 @@ public class PlayGameWindow extends JFrame {
         
         btnBack.addActionListener(e -> {
             dispose();
-            Dimension sizeJFrame = this.getSize();
-        	new MainWindow(sizeJFrame.width, sizeJFrame.height).setVisible(true);
+        	new MainWindow(getWidth() , getHeight()).setVisible(true);
         });
     }
     
