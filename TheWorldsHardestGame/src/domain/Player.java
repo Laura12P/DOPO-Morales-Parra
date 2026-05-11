@@ -1,19 +1,22 @@
 package domain;
+
 import java.awt.Color;
 import java.awt.Graphics;
 
 public class Player extends Element {
-    protected String name;
-    protected int totalTime;
-    protected int deaths;
-    protected int coinsCollected;
+    public String name;
+    public int deaths;
+    public int coinsCollected;
+    private double spawnX;
+    private double spawnY;
 
     public Player(double positionX, double positionY, double width, double height, double speed, Color color, String name) {
         super(positionX, positionY, width, height, speed, color);
         this.name = name;
-        totalTime = 0;
-        deaths = 0;
-        coinsCollected = 0;
+        this.spawnX = positionX;
+        this.spawnY = positionY;
+        this.deaths = 0;
+        this.coinsCollected = 0;
     }
 
     @Override
@@ -31,11 +34,18 @@ public class Player extends Element {
         if (newY >= 0 && newY + height <= boardHeight) positionY = newY;
     }
 
-    public void coinCollected() { coinsCollected++; }
+    public void setSpawn(double x, double y) {
+        this.spawnX = x;
+        this.spawnY = y;
+    }
 
-    public void respawn(double x, double y) {
-        positionX = x;
-        positionY = y;
+    public void respawn() {
+        positionX = spawnX;
+        positionY = spawnY;
         deaths++;
+    }
+
+    public void coinCollected() {
+        coinsCollected++;
     }
 }
