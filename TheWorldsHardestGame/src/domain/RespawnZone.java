@@ -18,12 +18,11 @@ public class RespawnZone extends Zone {
 	 * @param color Color actual del elemento.
 	 */
 	public RespawnZone(double positionX, double positionY, double width, double height, Color color) {
-		super(positionX, positionY, width, height, color);
-	}
-	
-	@Override
-	public void activatedByPlayer(Player player) {
-	    // Al entrar, actualiza el punto de reaparición del jugador
-	    player.respawn(positionX, positionY);
-	}
+        super(positionX, positionY, width, height, color);
+    }
+
+    @Override
+    public void activatedByPlayer(Player player) {
+        player.setSpawn(positionX, positionY);
+    }
 }
