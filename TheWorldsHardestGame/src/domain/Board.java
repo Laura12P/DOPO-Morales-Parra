@@ -2,37 +2,67 @@ package domain;
 
 import java.util.ArrayList;
 
-/* La clase Board es la encargada de generar el tablero del juego y de administrar cada uno de sus elementos, asi como de
- * llamar al colisionador para verificar colisiones y acciones respectivas.
- * 
- * @author Laura Juliana Parra Velandia y Daniel Santiago Morales Perdomo
- */
-
 public class Board {
-	private ElementType[][] grid;
-	private CollisionController collisionController;
-	private StartZone startZone;
-	private EndZone endZone;
-	private ArrayList<RespawnZone> respawnZones;
-	private ArrayList<Player> players;
-	private ArrayList<Collectionable> collectionables;
-	private ArrayList<Enemy> enemies;
-	
-	/*Constructor de la clase Board
-	 * 
-	 * @param ancho Numero entero positivo que define el ancho del tablero.
-	 * @param alto Numero entero positivo que define el alto del tablero.
-	 * @param startZone Primera zona de respawn donde comienza el jugador.
-	 * @param endZona Zona donde se termina el juego si el jugador colisiona con esta.
-	 */
-	public Board(int ancho, int alto, StartZone startZone, EndZone endZone) {
-		grid = new ElementType[ancho][alto];
-		collisionController = new CollisionController();
-		this.startZone = startZone;
-		this.endZone = endZone;
-		respawnZones = new ArrayList<RespawnZone>();
-		players = new ArrayList<Player>();
-		collectionables = new ArrayList<Collectionable>();
-		enemies = new ArrayList<Enemy>();
-	}
+    public ElementType[][] grid;
+    public CollisionController collisionController;
+    public StartZone startZone;
+    public EndZone endZone;
+    public ArrayList<RespawnZone> respawnZones;
+    public ArrayList<Player> players;
+    public ArrayList<Collectionable> collectionables;
+    public ArrayList<Enemy> enemies;
+    public ArrayList<StaticWall> walls;
+    public int width;
+    public int height;
+
+    public Board(int width, int height, StartZone startZone, EndZone endZone) {
+        this.width = width;
+        this.height = height;
+        grid = new ElementType[width][height];
+        collisionController = new CollisionController();
+        this.startZone = startZone;
+        this.endZone = endZone;
+        respawnZones = new ArrayList<>();
+        players = new ArrayList<>();
+        collectionables = new ArrayList<>();
+        enemies = new ArrayList<>();
+        walls = new ArrayList<>();
+    }
+
+    public void addPlayer(Player player) {
+    	players.add(player);
+    }
+    public void addEnemy(Enemy enemy) {
+    	enemies.add(enemy); 
+    }
+    public void addCollectionable(Collectionable c) {
+    	collectionables.add(c); 
+    }
+    public void addRespawnZone(RespawnZone r) {
+    	respawnZones.add(r); 
+    }
+    public void addWall(StaticWall w) {
+    	walls.add(w); 
+    }
+
+    public void setEventListener(CollisionController.GameEventListener listener) {
+        collisionController.setListener(listener);
+    }
+
+    public void update() {
+        for (Enemy e : enemies) {
+            e.move(width, height);
+        }
+        collisionController.checkCollisions(players, enemies, collectionables, endZone);
+    }
+
+    public int totalCoins() { return collectionables.size(); }
+
+    public int collectedCoins() {
+        int count = 0;
+        for (Collectionable c : collectionables) {
+            if (c.isCollected()) count++;
+        }
+        return count;
+    }
 }
