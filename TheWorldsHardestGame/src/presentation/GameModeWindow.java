@@ -125,7 +125,7 @@ public class GameModeWindow extends JFrame {
         
         btnBack.addActionListener(e -> {
             dispose();
-            new GameModeWindow(getWidth(), getHeight()).setVisible(true);
+            new PlayGameWindow(getWidth(), getHeight()).setVisible(true);
         });
     }
     

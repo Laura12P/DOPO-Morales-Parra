@@ -12,13 +12,9 @@ public class TheDOPOHardestGame {
 	
 	/*Constructor de la clase TheDOPOHardestGame
 	 * 
-	 * @param ancho Numero entero positivo que define el ancho del tablero.
-	 * @param alto Numero entero positivo que define el alto del tablero.
-	 * @param startZone Primera zona de respawn donde comienza el jugador.
-	 * @param endZona Zona donde se termina el juego si el jugador colisiona con esta.
+	 * @param levelPath Path correspondiente a la ubicacion del nivel que se desea jugar, y que se carga en el tablero.
 	 */
 	public TheDOPOHardestGame(String levelPath) throws IOException {
         board = LevelLoader.loadFromFile(levelPath);
     }
-	
 }

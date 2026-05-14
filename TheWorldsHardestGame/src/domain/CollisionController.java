@@ -1,4 +1,5 @@
 package domain;
+import domain.gameObjects.*;
 
 import java.util.ArrayList;
 
@@ -19,7 +20,7 @@ public class CollisionController {
     }
 
     public void checkCollisions(ArrayList<Player> players, ArrayList<Enemy> enemies,
-                                ArrayList<Collectionable> collectables, EndZone endZone) {
+                                ArrayList<Collectionable> collectables, ArrayList<EndZone> endZones) {
         for (Player player : players) {
 
             for (Enemy enemy : enemies) {
@@ -32,22 +33,25 @@ public class CollisionController {
 
             for (Collectionable c : collectables) {
                 if (!c.isCollected() && intersects(player, c)) {
-                    c.collect();
-                    player.coinCollected();
+                    c.collect(player);
+                    player.addCoinCollected();
                     if (listener != null) listener.onCoinCollected(player, collectables.size());
                 }
             }
 
-            if (intersects(player, endZone)) {
-                if (listener != null) listener.onLevelCompleted(player);
+            for (EndZone endZone : endZones) {
+                if (intersects(player, endZone)) {
+                    if (listener != null) listener.onLevelCompleted(player);
+                    break;
+                }
             }
         }
     }
 
     private boolean intersects(Element a, Element b) {
-        return a.positionX < b.positionX + b.width &&
-               a.positionX + a.width > b.positionX &&
-               a.positionY < b.positionY + b.height &&
-               a.positionY + a.height > b.positionY;
+        return a.getPositionX() < b.getPositionX() + b.getWidth() &&
+               a.getPositionX() + a.getWidth() > b.getPositionX() &&
+               a.getPositionY() < b.getPositionY() + b.getHeight() &&
+               a.getPositionY() + a.getHeight() > b.getPositionY();
     }
 }

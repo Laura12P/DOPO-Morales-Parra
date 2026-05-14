@@ -45,7 +45,7 @@ public class LevelSelectorWindow extends JFrame {
         btnNormalLevels.setForeground(Color.WHITE);
         btnNormalLevels.setFocusPainted(false);
         int btnNLWidth = btnNormalLevels.getWidth();
-        btnNormalLevels.setFont(new Font("Arial", Font.PLAIN, (int) (0.14 * btnNLWidth)));
+        btnNormalLevels.setFont(new Font("Arial", Font.PLAIN, (int) (0.13 * btnNLWidth)));
         btnNormalLevels.setBorderPainted(false);
 
         btnSpecificLevel = new JButton("Specific Level");
@@ -54,7 +54,7 @@ public class LevelSelectorWindow extends JFrame {
         btnSpecificLevel.setForeground(Color.WHITE);
         btnSpecificLevel.setFocusPainted(false);
         int btnSLWidth = btnSpecificLevel.getWidth();
-        btnSpecificLevel.setFont(new Font("Arial", Font.PLAIN, (int) (0.14 * btnSLWidth)));
+        btnSpecificLevel.setFont(new Font("Arial", Font.PLAIN, (int) (0.13 * btnSLWidth)));
         btnSpecificLevel.setBorderPainted(false);
         
         buttonsRow.add(btnNormalLevels);
@@ -89,7 +89,7 @@ public class LevelSelectorWindow extends JFrame {
     private void prepareActions() {
         btnNormalLevels.addActionListener(e -> {
         	dispose();
-        	new GameModeWindow(getWidth(), getHeight()).setVisible(true);
+        	new GameWindow(getWidth(), getHeight(), gameConfig).setVisible(true);
         });
 
         btnSpecificLevel.addActionListener(e -> {
@@ -106,7 +106,7 @@ public class LevelSelectorWindow extends JFrame {
             if (gameConfig.getGameMode() == GameMode.SINGLE_PLAYER) {
             	new CustomizationOnePlayerWindow(getWidth(), getHeight(), MachineDifficulty.NONE).setVisible(true);
             } else if (gameConfig.getGameMode() == GameMode.DOUBLE_PLAYER) {
-            	new CustomizationTwoPlayersWindow(getWidth() , getHeight()).setVisible(true);
+            	new CustomizationTwoPlayersWindow(getWidth(), getHeight()).setVisible(true);
             } else {
             	new CustomizationOnePlayerWindow(getWidth(), getHeight(), gameConfig.getMachineDifficulty()).setVisible(true);
             }
@@ -122,11 +122,11 @@ public class LevelSelectorWindow extends JFrame {
     	
     	        btnNormalLevels.setPreferredSize(new Dimension((int) (0.32 * newWidth), (int) (0.17 * newHeight)));
     	        int btnNGWidth = btnNormalLevels.getWidth();
-    	        btnNormalLevels.setFont(new Font("Arial", Font.PLAIN, (int) (0.14 * btnNGWidth)));
+    	        btnNormalLevels.setFont(new Font("Arial", Font.PLAIN, (int) (0.13 * btnNGWidth)));
     	        
     	        btnSpecificLevel.setPreferredSize(new Dimension((int) (0.32 * newWidth), (int) (0.17 * newHeight)));
     	        int btnLGWidth = btnSpecificLevel.getWidth();
-    	        btnSpecificLevel.setFont(new Font("Arial", Font.PLAIN, (int) (0.14 * btnLGWidth)));
+    	        btnSpecificLevel.setFont(new Font("Arial", Font.PLAIN, (int) (0.13 * btnLGWidth)));
     	        
     	        btnBack.setPreferredSize(new Dimension((int) (0.15 * newWidth), (int) (0.16 * newHeight)));
     	        int btnBWidth = btnBack.getWidth();

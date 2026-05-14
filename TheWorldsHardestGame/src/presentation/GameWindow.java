@@ -6,33 +6,37 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.File;
 
 public class GameWindow extends JFrame {
     private static final long serialVersionUID = 1L;
+    
     private JPanel mainPanel;
     private JPanel hudPanel;
-    private JLabel lblLevel;
+    private JLabel btnPause;
     private JLabel lblTime;
-    private JLabel lblDeaths;
     private JLabel lblCoins;
-    private JButton btnPause;
-    private JButton btnExit;
-
-    private javax.swing.Timer countdownTimer;
+    private JLabel lblLevel;
+    private JLabel lblDeaths;
+    
+    private Timer countdownTimer;
     private int secondsLeft;
     private boolean paused;
-
+    
     private GamePanel gamePanel;
-
+    
     public GameWindow(int lastWidth, int lastHeight, GameConfig gameConfig) {
-        this.secondsLeft = 180;
-        this.paused = false;
+    	secondsLeft = 180;
+        paused = false;
         gamePanel = new GamePanel(gameConfig, this);
         prepareElements(lastWidth, lastHeight);
         prepareActions();
+        prepareResponsiveGUI();
         prepareTimer();
         prepareKeyListener();
-        prepareResponsiveGUI();
+        SwingUtilities.invokeLater(() -> requestFocus());
     }
 
     private void prepareElements(int lastWidth, int lastHeight) {
@@ -43,68 +47,92 @@ public class GameWindow extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(true);
 
-        mainPanel = new JPanel(new BorderLayout());
-        mainPanel.setBackground(Color.WHITE);
+        mainPanel = new JPanel(new GridBagLayout());
+        mainPanel.setBackground(new Color(180,181,254));
 
-        hudPanel = new JPanel(new BorderLayout());
-        hudPanel.setBackground(Color.WHITE);
-        hudPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK));
-
-        JPanel hudLeft = new JPanel(new FlowLayout(FlowLayout.LEFT, 16, 4));
-        hudLeft.setBackground(Color.WHITE);
-
-        lblLevel = new JLabel("Level: 1");
-        lblLevel.setFont(new Font("Arial", Font.PLAIN, 14));
-
+        hudPanel = new JPanel(new GridBagLayout());
+        hudPanel.setBackground(Color.BLACK);
+        
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.VERTICAL;
+        gbc.weighty = 0;
+        gbc.weightx = 1;
+        
+        btnPause = new JLabel("Pause");
+        btnPause.setForeground(Color.WHITE);
+        btnPause.setFont(new Font("Arial", Font.PLAIN, (int) (0.019 * lastWidth)));
+        
         lblTime = new JLabel("Time: 3:00");
-        lblTime.setFont(new Font("Arial", Font.BOLD, 14));
+        lblTime.setFont(new Font("Arial", Font.PLAIN, (int) (0.019 * lastWidth)));
+        lblTime.setForeground(Color.WHITE);
+        
+        lblCoins = new JLabel("Coins: 0 / "+ "0");
+        lblCoins.setFont(new Font("Arial", Font.PLAIN, (int) (0.019 * lastWidth)));
+        lblCoins.setForeground(Color.WHITE);
+        
+        lblLevel = new JLabel("Level: " + "1" + " / " + "3");
+        lblLevel.setFont(new Font("Arial", Font.PLAIN, (int) (0.019 * lastWidth)));
+        lblLevel.setForeground(Color.WHITE);
 
         lblDeaths = new JLabel("Deaths: 0");
-        lblDeaths.setFont(new Font("Arial", Font.PLAIN, 14));
-        lblDeaths.setForeground(new Color(180, 0, 0));
-
-        lblCoins = new JLabel("Coins: 0/0");
-        lblCoins.setFont(new Font("Arial", Font.PLAIN, 14));
-
-        hudLeft.add(lblLevel);
-        hudLeft.add(lblTime);
-        hudLeft.add(lblDeaths);
-        hudLeft.add(lblCoins);
-
-        JPanel hudRight = new JPanel(new FlowLayout(FlowLayout.RIGHT, 8, 4));
-        hudRight.setBackground(Color.WHITE);
-
-        btnPause = new JButton("Pause");
-        btnPause.setFont(new Font("Arial", Font.PLAIN, 13));
-        btnPause.setFocusPainted(false);
-
-        btnExit = new JButton("Exit");
-        btnExit.setFont(new Font("Arial", Font.PLAIN, 13));
-        btnExit.setForeground(new Color(180, 0, 0));
-        btnExit.setFocusPainted(false);
-
-        hudRight.add(btnPause);
-        hudRight.add(btnExit);
-
-        hudPanel.add(hudLeft, BorderLayout.WEST);
-        hudPanel.add(hudRight, BorderLayout.EAST);
-
-        mainPanel.add(hudPanel, BorderLayout.NORTH);
-        mainPanel.add(gamePanel, BorderLayout.CENTER);
+        lblDeaths.setFont(new Font("Arial", Font.PLAIN, (int) (0.019 * lastWidth)));
+        lblDeaths.setForeground(Color.WHITE);
+        
+        hudPanel.add(btnPause, gbc);
+        gbc.gridx = 1;
+        hudPanel.add(lblTime, gbc);
+        gbc.gridx = 2;
+        hudPanel.add(lblCoins, gbc);
+        gbc.gridx = 3;
+        hudPanel.add(lblLevel, gbc);
+        gbc.gridx = 4;
+        hudPanel.add(lblDeaths, gbc);
+        
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weighty = 0;
+        gbc.weightx = 0;
+        mainPanel.add(hudPanel, gbc);
+        
+        gbc.gridy = 1;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weighty = 1;
+        gbc.weightx = 1;
+        mainPanel.add(gamePanel, gbc);
 
         add(mainPanel);
     }
 
     private void prepareActions() {
-        btnPause.addActionListener(e -> togglePause());
+        btnPause.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                togglePause();
+            }
+        });
+    }
+    
+    private void prepareResponsiveGUI() {
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+    	        int newWidth = getWidth();
+    	        
+    	        btnPause.setFont(new Font("Arial", Font.PLAIN, (int) (0.019 * newWidth)));
+    	        
+    	        lblTime.setFont(new Font("Arial", Font.PLAIN, (int) (0.019 * newWidth)));
+    	        
+    	        lblCoins.setFont(new Font("Arial", Font.PLAIN, (int) (0.019 * newWidth)));
+    	        
+    	        lblLevel.setFont(new Font("Arial", Font.PLAIN, (int) (0.019 * newWidth)));
 
-        btnExit.addActionListener(e -> {
-            int confirm = JOptionPane.showConfirmDialog(
-                this, "¿Seguro que quieres salir?", "Salir", JOptionPane.YES_NO_OPTION);
-            if (confirm == JOptionPane.YES_OPTION) {
-                countdownTimer.stop();
-                dispose();
-                new MainWindow(getWidth(), getHeight()).setVisible(true);
+    	        lblDeaths.setFont(new Font("Arial", Font.PLAIN, (int) (0.019 * newWidth)));
+    	        
+                revalidate();
+                repaint();
             }
         });
     }
@@ -116,7 +144,7 @@ public class GameWindow extends JFrame {
                 updateTimerLabel();
                 if (secondsLeft <= 0) {
                     countdownTimer.stop();
-                    onTimeOut();
+                    loseByTimeOut();
                 }
             }
         });
@@ -124,58 +152,53 @@ public class GameWindow extends JFrame {
     }
 
     private void prepareKeyListener() {
-        setFocusable(true);
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ESCAPE) togglePause();
-                if (!paused) gamePanel.handleKeyPressed(e.getKeyCode());
-            }
-        });
-    }
-
-    private void prepareResponsiveGUI() {
-        addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                revalidate();
-                repaint();
+                if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                	togglePause();
+                }
+                if (!paused) {
+                	gamePanel.handleKeyPressed(e.getKeyCode());
+                }
             }
         });
     }
 
     private void togglePause() {
-        paused = !paused;
+    	paused = true;
+    	gamePanel.setPaused(paused);
+    	PauseWindow pw = new PauseWindow(this);
+    	int ans = pw.showMessageDialog();
+    	if (ans == PauseWindow.RESUME) {
+    		paused = false;
+    		gamePanel.setPaused(paused);
+    		this.requestFocusInWindow();
+    	} else if (ans == PauseWindow.MENU) {
+    		countdownTimer.stop();
+    		dispose();
+    		new MainWindow(getWidth(), getHeight()).setVisible(true);
+    	} else if (ans == PauseWindow.SAVE) {
+    		JFileChooser fileChooser = new JFileChooser();
+            int result = fileChooser.showOpenDialog(this);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File file = fileChooser.getSelectedFile();
+                JOptionPane.showMessageDialog(this, "Archivo cargado: " + file.getName());
+            }
+    	} else if (ans == PauseWindow.LOAD) {
+    		JFileChooser fileChooser = new JFileChooser();
+            int result = fileChooser.showOpenDialog(this);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File file = fileChooser.getSelectedFile();
+                JOptionPane.showMessageDialog(this, "Archivo cargado: " + file.getName());
+            }
+    	}
+    }
+
+    private void loseByTimeOut() {
+    	paused = true;
         gamePanel.setPaused(paused);
-        if (paused) {
-            btnPause.setText("Resume");
-            showPauseDialog();
-        } else {
-            btnPause.setText("Pause");
-        }
-    }
-
-    private void showPauseDialog() {
-        String[] options = {"Resume", "Exit to Menu"};
-        int choice = JOptionPane.showOptionDialog(
-            this, "Juego pausado", "Pausa",
-            JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
-            null, options, options[0]);
-        if (choice == 0 || choice == JOptionPane.CLOSED_OPTION) {
-            paused = false;
-            gamePanel.setPaused(false);
-            btnPause.setText("Pause");
-        } else if (choice == 1) {
-            countdownTimer.stop();
-            dispose();
-            new MainWindow(getWidth(), getHeight()).setVisible(true);
-        }
-    }
-
-    private void onTimeOut() {
-        gamePanel.setPaused(true);
-        JOptionPane.showMessageDialog(
-            this, "¡Se acabó el tiempo!", "Game Over", JOptionPane.WARNING_MESSAGE);
+        JOptionPane.showMessageDialog(this, "¡Se acabó el tiempo!", "Game Over", JOptionPane.WARNING_MESSAGE);
         dispose();
         new MainWindow(getWidth(), getHeight()).setVisible(true);
     }

@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
+
 public class MainWindow extends JFrame {
 	
 	private static final long serialVersionUID = 1L;

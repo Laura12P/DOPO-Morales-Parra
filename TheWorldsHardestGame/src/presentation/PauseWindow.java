@@ -1,100 +1,135 @@
 package presentation;
 
-import javax.swing.*;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 public class PauseWindow extends JDialog {
 	private static final long serialVersionUID = 1L;
+	
+	public static final int RESUME = 0;
+	public static final int MENU = 1;
+	public static final int SAVE = 2;
+	public static final int LOAD = 3;
+	
+	private int answer = -1;
+	
+	private GameWindow parent;
 	private JPanel mainPanel;
-	private JButton btnContinue;
+	private JButton btnResume;
     private JButton btnBackMenu;
     private JButton btnSave;
     private JButton btnLoad;
     
-    public PauseWindow(JFrame parent) {
+    public PauseWindow(GameWindow parent) {
         super(parent, "Pause", true);
-        prepareElements(parent);
+        this.parent = parent;
+        prepareElements();
         prepareActions();
     }
     
-    public void prepareElements(JFrame parent) {
-    	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    private void prepareElements() {
+    	setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
     	setResizable(false);
         setSize(300, 400);
         setLocationRelativeTo(parent);
         
         mainPanel = new JPanel(new GridBagLayout());
+        mainPanel.setBackground(Color.BLACK);
+        
         GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weighty = 1;
         
-        gbc.gridx = 0; gbc.gridy = 0;
-        mainPanel.add(new JLabel("Color caja:"), gbc);
-        gbc.gridx = 1;
-        buttonColorCaja = new JButton("Elegir");
-        mainPanel.add(buttonColorCaja, gbc);
+        btnResume = new JButton("Resume");
+        btnResume.setPreferredSize(new Dimension(200, 50));
+        btnResume.setBackground(new Color(230, 200, 50));
+        btnResume.setForeground(Color.BLACK);
+        btnResume.setFont(new Font("Arial", Font.PLAIN, 19));
+        btnResume.setFocusPainted(false);
+        btnResume.setBorderPainted(false);
+        mainPanel.add(btnResume, gbc);
         
-        gbc.gridx = 0; gbc.gridy = 1;
-        mainPanel.add(new JLabel("Color caja destino:"), gbc);
-        gbc.gridx = 1;
-        buttonColorCajaDestino = new JButton("Elegir");
-        mainPanel.add(buttonColorCajaDestino, gbc);
+        btnBackMenu = new JButton("Back To Menu");
+        btnBackMenu.setPreferredSize(new Dimension(200, 50));
+        btnBackMenu.setBackground(new Color(220, 80, 80));
+        btnBackMenu.setForeground(Color.BLACK);
+        btnBackMenu.setFont(new Font("Arial", Font.PLAIN, 19));
+        btnBackMenu.setFocusPainted(false);
+        btnBackMenu.setBorderPainted(false);
+        gbc.gridy = 1;
+        mainPanel.add(btnBackMenu, gbc);
         
-        gbc.gridx = 0; gbc.gridy = 2;
-        mainPanel.add(new JLabel("Color destino:"), gbc);
-        gbc.gridx = 1;
-        buttonColorDestino = new JButton("Elegir");
-        mainPanel.add(buttonColorDestino, gbc);
+        btnSave = new JButton("Save");
+        btnSave.setPreferredSize(new Dimension(200, 50));
+        btnSave.setBackground(new Color(153, 255, 255));
+        btnSave.setForeground(Color.BLACK);
+        btnSave.setFont(new Font("Arial", Font.PLAIN, 19));
+        btnSave.setFocusPainted(false);
+        btnSave.setBorderPainted(false);
+        gbc.gridy = 2;
+        mainPanel.add(btnSave, gbc);
         
-        gbc.gridx = 0; gbc.gridy = 3;
-        buttonSalir = new JButton("Salir");
-        mainPanel.add(buttonSalir, gbc);
-        gbc.gridx = 1;
-        buttonAceptar = new JButton("Aceptar");
-        mainPanel.add(buttonAceptar, gbc);
+        btnLoad = new JButton("Load");
+        btnLoad.setPreferredSize(new Dimension(200, 50));
+        btnLoad.setBackground(new Color(153, 255, 255));
+        btnLoad.setForeground(Color.BLACK);
+        btnLoad.setFont(new Font("Arial", Font.PLAIN, 19));
+        btnLoad.setFocusPainted(false);
+        btnLoad.setBorderPainted(false);
+        gbc.gridy = 3;
+        mainPanel.add(btnLoad, gbc);
         
         add(mainPanel);
     }
     
-    public void prepareActions() {
-        buttonColorCaja.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) { elegirColorCaja(); }
+    private void prepareActions() {
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                resume();
+            }
         });
-        buttonColorCajaDestino.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) { elegirColorCajaDestino(); }
+    	
+    	btnResume.addActionListener(e -> {
+    		resume();
         });
-        buttonColorDestino.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) { elegirColorDestino(); }
+
+        btnBackMenu.addActionListener(e -> {
+        	answer = 1;
+        	dispose();
         });
-        buttonAceptar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) { aceptar(); }
+        
+        btnSave.addActionListener(e -> {
+        	answer = 2;
+        	dispose();
         });
-        buttonSalir.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) { dispose(); }
+
+        btnLoad.addActionListener(e -> {
+        	answer = 3;
+        	dispose();
         });
     }
     
-    public void elegirColorCaja() {
-        Color color = JColorChooser.showDialog(this, "Color caja", colorCaja);
-        if (color != null) colorCaja = color;
+    private void resume() {
+    	answer = 0;
+    	dispose();
     }
     
-    public void elegirColorCajaDestino() {
-        Color color = JColorChooser.showDialog(this, "Color caja destino", colorCajaDestino);
-        if (color != null) colorCajaDestino = color;
+    public int showMessageDialog() {
+    	this.setVisible(true);
+    	return answer;
     }
-    
-    public void elegirColorDestino() {
-        Color color = JColorChooser.showDialog(this, "Color destino", colorDestino);
-        if (color != null) colorDestino = color;
-    }
-    
-    public void aceptar() {
-        dispose();
-    }
-    
-    public Color getColorCaja() { return colorCaja; }
-    public Color getColorCajaDestino() { return colorCajaDestino; }
-    public Color getColorDestino() { return colorDestino; }
 }
