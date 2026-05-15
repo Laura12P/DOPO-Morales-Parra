@@ -23,6 +23,7 @@ public class Bomb extends Collectionable {
 	}
 	
 	public void collect(Player player) {
-		
+		setCollectedTrue();
+		player.respawn();
 	}
 }

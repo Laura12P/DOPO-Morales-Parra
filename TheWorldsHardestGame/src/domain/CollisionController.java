@@ -19,14 +19,15 @@ public class CollisionController {
         this.listener = listener;
     }
 
-    public void checkCollisions(ArrayList<Player> players, ArrayList<Enemy> enemies,
-                                ArrayList<Collectionable> collectables, ArrayList<EndZone> endZones) {
-        for (Player player : players) {
-
-            for (Enemy enemy : enemies) {
+    public void checkCollisions(ArrayList<Player> players, ArrayList<Enemy> enemies, ArrayList<Collectionable> collectables,
+    		ArrayList<EndZone> endZones) {
+    	for (Player player : players) {
+    		for (Enemy enemy : enemies) {
                 if (intersects(player, enemy)) {
                     player.respawn();
-                    if (listener != null) listener.onPlayerDied(player);
+                    if (listener != null) {
+                    	listener.onPlayerDied(player);
+                    }
                     break;
                 }
             }
@@ -34,18 +35,21 @@ public class CollisionController {
             for (Collectionable c : collectables) {
                 if (!c.isCollected() && intersects(player, c)) {
                     c.collect(player);
-                    player.addCoinCollected();
-                    if (listener != null) listener.onCoinCollected(player, collectables.size());
+                    if (listener != null) {
+                    	listener.onCoinCollected(player, collectables.size());
+                    }
                 }
             }
 
             for (EndZone endZone : endZones) {
                 if (intersects(player, endZone)) {
-                    if (listener != null) listener.onLevelCompleted(player);
+                    if (listener != null) {
+                    	listener.onLevelCompleted(player);
+                    }
                     break;
                 }
             }
-        }
+    	} 
     }
 
     private boolean intersects(Element a, Element b) {

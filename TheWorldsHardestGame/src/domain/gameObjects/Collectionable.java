@@ -36,8 +36,8 @@ public abstract class Collectionable extends Element{
 
 	public abstract void collect(Player player);
 	
-	public void setCollected(boolean collected) {
-		this.collected = collected;
+	public void setCollectedTrue() {
+		collected = true;
 	}
 
 	public boolean isCollected() {

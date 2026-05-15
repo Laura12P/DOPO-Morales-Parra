@@ -26,6 +26,7 @@ public class SkinChanger extends Collectionable {
 	}
 	
 	public void collect(Player player) {
-		
+		setCollectedTrue();
+		player.setColor(color);
 	}
 }

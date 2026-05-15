@@ -34,6 +34,10 @@ public abstract class Element {
 		this.color = color;
 	}
 	
+	public void setColor(Color color) {
+		this.color = color;
+	}
+	
 	/* Getter de la posicion en el eje X del elemento.
 	 * 
 	 * @return double - Numero decimal de precision doble, que representa la posicion en el eje X del elemento.

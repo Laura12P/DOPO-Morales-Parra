@@ -22,8 +22,8 @@ public class GamePanel extends JPanel implements CollisionController.GameEventLi
         
         try {
             game = new TheDOPOHardestGame("levels/level1.txt");
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "No se pudo cargar el nivel: " + e.getMessage());
+        } catch (TWHGException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
             return;
         }
         
@@ -40,7 +40,7 @@ public class GamePanel extends JPanel implements CollisionController.GameEventLi
         setBackground(new Color(180,181,254));
         setFocusable(true);
         
-        setPreferredSize(new Dimension(game.board.width,game.board.height));
+        setPreferredSize(new Dimension(game.getBoardWidth(),game.getBoardHeight()));
 
         game.board.setEventListener(this);
         gameTimer.start();
@@ -48,8 +48,10 @@ public class GamePanel extends JPanel implements CollisionController.GameEventLi
     }
 
     private void handleKey(int key) {
-        if (game.board.players.isEmpty()) return;
-        Player p = game.board.players.get(0);
+        if (game.amountOfPlayers() == 0) {
+        	return;
+        }
+        Player p = game.getPlayers().get(0);
         int dx = 0;
         int dy = 0;
         if (key == KeyEvent.VK_W || key == KeyEvent.VK_UP) {
@@ -64,7 +66,7 @@ public class GamePanel extends JPanel implements CollisionController.GameEventLi
         if (key == KeyEvent.VK_D || key == KeyEvent.VK_RIGHT) {
         	dx = 1;
         }
-        p.move(dx, dy, game.board.width, game.board.height);
+        p.move(dx, dy, game.getBoardWidth(), game.getBoardHeight());
     }
 
     public void setPaused(boolean paused) {
@@ -102,18 +104,13 @@ public class GamePanel extends JPanel implements CollisionController.GameEventLi
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         drawCheckerboard(g);
-        for (StartZone s : game.board.startZones) s.draw(g);
-        for (EndZone ez : game.board.endZones) ez.draw(g);
-        for (StaticWall w : game.board.walls) w.draw(g);
-        for (Collectionable c : game.board.collectionables) c.draw(g);
-        for (Enemy e : game.board.enemies) e.draw(g);
-        for (Player p : game.board.players) p.draw(g);
+        game.drawAllElements(g);
         drawBorder(g);
     }
 
     private void drawCheckerboard(Graphics g) {
         int tileSize = 48;
-        for (int[] corridor : game.board.corridors) {
+        for (int[] corridor : game.getCorridors()) {
             int startX = corridor[0];
             int startY = corridor[1];
             int endX = startX + corridor[2];
@@ -132,6 +129,6 @@ public class GamePanel extends JPanel implements CollisionController.GameEventLi
         g.setColor(Color.BLACK);
         Graphics2D g2 = (Graphics2D) g;
         g2.setStroke(new BasicStroke(3));
-        g2.drawRect(0, 0, game.board.width - 1, game.board.height - 1);
+        g2.drawRect(0, 0, game.getBoardWidth() - 1, game.getBoardHeight() - 1);
     }
 }

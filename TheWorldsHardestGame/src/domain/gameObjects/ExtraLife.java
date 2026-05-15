@@ -23,7 +23,7 @@ public class ExtraLife extends Collectionable {
 	}
 	
 	public void collect(Player player) {
-		this.setCollected(true);
+		setCollectedTrue();
 		player.addLife();
 	}
 }

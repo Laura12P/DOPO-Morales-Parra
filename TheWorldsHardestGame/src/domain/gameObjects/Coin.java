@@ -23,7 +23,7 @@ public class Coin extends Collectionable {
 	}
 	
 	public void collect(Player player) {
-		this.setCollected(true);
+		setCollectedTrue();
 		player.addCoinCollected();
 	}
 }

@@ -68,9 +68,9 @@ public class Player extends Element {
     }
 
     public void respawn() {
+    	deaths++;
         positionX = spawnX;
         positionY = spawnY;
-        deaths++;
     }
     
     public void addLife() {

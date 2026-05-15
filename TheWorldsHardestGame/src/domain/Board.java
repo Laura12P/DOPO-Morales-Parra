@@ -1,6 +1,7 @@
 package domain;
 import domain.gameObjects.*;
 
+import java.awt.Graphics;
 import java.util.ArrayList;
 
 /* La clase Board es la clase que gestiona el tablero y sus elementos.
@@ -9,18 +10,18 @@ import java.util.ArrayList;
  */
 
 public class Board {
-    public ElementType[][] grid;
-    public CollisionController collisionController;
-    public ArrayList<StartZone> startZones;
-    public ArrayList<EndZone> endZones;
-    public ArrayList<RespawnZone> respawnZones;
-    public ArrayList<Player> players;
-    public ArrayList<Collectionable> collectionables;
-    public ArrayList<Enemy> enemies;
-    public ArrayList<StaticWall> walls;
-    public ArrayList<int[]> corridors;
-    public int width;
-    public int height;
+    private ElementType[][] grid;
+    private CollisionController collisionController;
+    private ArrayList<StartZone> startZones;
+    private ArrayList<EndZone> endZones;
+    private ArrayList<RespawnZone> respawnZones;
+    private ArrayList<Player> players;
+    private ArrayList<Collectionable> collectionables;
+    private ArrayList<Enemy> enemies;
+    private ArrayList<StaticWall> walls;
+    private ArrayList<int[]> corridors;
+    private int width;
+    private int height;
     
     /* Constructor de la clase Board
      * 
@@ -42,6 +43,27 @@ public class Board {
         enemies = new ArrayList<>();
         walls = new ArrayList<>();
         corridors = new ArrayList<>();
+    }
+    
+    public void drawAllElements(Graphics g) {
+    	for (StartZone s : startZones) {
+    		s.draw(g);
+    	}
+        for (EndZone ez : endZones) {
+        	ez.draw(g);
+        }
+        for (StaticWall w : walls) {
+        	w.draw(g);
+        }
+        for (Collectionable c : collectionables) {
+        	c.draw(g);
+        }
+        for (Enemy e : enemies) {
+        	e.draw(g);
+        }
+        for (Player p : players) {
+        	p.draw(g);
+        }
     }
 
     public void addStartZone(StartZone s) { 
@@ -79,12 +101,24 @@ public class Board {
         }
         collisionController.checkCollisions(players, enemies, collectionables, endZones);
     }
+    
+    public ArrayList<int[]> getCorridors() {
+    	return corridors;
+    }
+    
+    public ArrayList<Player> getPlayers() {
+    	return players;
+    }
+    
+    public int getAmountOfPlayers() {
+    	return players.size();
+    }
 
     public int totalCoins() {
     	return collectionables.size();
     	}
 
-    public int collectedCoins() {
+    public int getAmountCollectedCoins() {
         int count = 0;
         for (Collectionable c : collectionables) {
             if (c.isCollected()) {
@@ -92,5 +126,13 @@ public class Board {
             }
         }
         return count;
+    }
+    
+    public int getWidth() {
+    	return width;
+    }
+    
+    public int getHeight() {
+    	return height;
     }
 }
