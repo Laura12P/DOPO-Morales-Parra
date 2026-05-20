@@ -7,12 +7,22 @@ import java.awt.*;
 public class LeaderBoardWindow extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
+	
+	private JButton btnBack;
 
 	public LeaderBoardWindow() {
-        setTitle("Leader Board");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(740, 450);
+        prepareElements();
+        prepareActions();
+        prepareResponsiveGUI();
+    }
+    
+    private void prepareElements() {
+    	setTitle("Leader Board");
+        setMinimumSize(new Dimension(720,480));
+        setSize(720, 480);
+        
         setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
 
         JPanel mainPanel = new JPanel(new BorderLayout());
@@ -43,35 +53,29 @@ public class LeaderBoardWindow extends JFrame {
         bottomPanel.setBackground(Color.WHITE);
         bottomPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 30, 0));
 
-        JButton btnBack = new JButton("Back To Menu");
+        btnBack = new JButton("Back To Menu");
         btnBack.setPreferredSize(new Dimension(180, 50));
         btnBack.setBackground(new Color(70, 130, 200));
         btnBack.setForeground(Color.WHITE);
         btnBack.setFocusPainted(false);
         btnBack.setFont(new Font("Arial", Font.PLAIN, 18));
         btnBack.setBorderPainted(false);
-
-        btnBack.addActionListener(e -> {
-            dispose();
-            Dimension sizeJFrame = this.getSize();
-        	new MainWindow(sizeJFrame.width, sizeJFrame.height).setVisible(true);
-        });
-
+        
         bottomPanel.add(btnBack);
         mainPanel.add(bottomPanel, BorderLayout.SOUTH);
 
         add(mainPanel);
     }
     
-    private void prepareElements() {
-    	
-    }
-    
     private void prepareActions() {
-    	
+    	btnBack.addActionListener(e -> {
+            dispose();
+            Dimension sizeJFrame = this.getSize();
+        	new MainWindow(sizeJFrame.width, sizeJFrame.height).setVisible(true);
+        });
     }
     
     private void prepareResponsiveGUI() {
-    	
+    	//Pendiente, estamos esperando a hacer la parte del Modelo que entrega estos datos para ahora si hacer responsivo y mejor este JFrame
     }
 }

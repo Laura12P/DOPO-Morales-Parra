@@ -5,6 +5,8 @@ import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
+import presentation.enums.MachineDifficulty;
+
 public class GameModeWindow extends JFrame {
 	
 	private static final long serialVersionUID = 1L;

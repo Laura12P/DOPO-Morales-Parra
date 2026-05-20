@@ -1,6 +1,8 @@
-package domain.gameObjects;
+package domain.collectables;
 
 import java.awt.Color;
+
+import domain.players.Player;
 
 /* La clase SkinChanger es una subclase de Collectionable, la cual al ser interactuada por un jugador cambia la skin del mismo por la del color del
  * SkinChanger durante un tiempo determinado.

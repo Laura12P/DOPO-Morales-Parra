@@ -5,9 +5,12 @@ import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
+import presentation.enums.MachineDifficulty;
+
 public class MachineDificultyWindow extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
+	
 	private JPanel mainPanel;
 	private JLabel title;
 	private JPanel buttonPanel;

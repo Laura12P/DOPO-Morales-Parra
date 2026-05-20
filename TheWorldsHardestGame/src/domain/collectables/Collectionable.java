@@ -1,7 +1,11 @@
-package domain.gameObjects;
+package domain.collectables;
 
 import java.awt.Color;
+
 import java.awt.Graphics;
+
+import domain.Element;
+import domain.players.Player;
 
 /* La clase Collectionable es una subclase de Element, el cual es un colecionable interactuable por los jugadores, y que 
  * es obligatorio recolectar todos los existentes en el nivel para que un jugador pase de nivel.
@@ -35,6 +39,14 @@ public abstract class Collectionable extends Element{
 	}
 
 	public abstract void collect(Player player);
+	
+	/**
+     * Indica si este coleccionable cuenta como moneda para completar el nivel.
+     * Las subclases que NO son monedas (Bomb, ExtraLife) deben sobreescribir esto y retornar false.
+     */
+    public boolean isCoin() {
+        return true;
+    }
 	
 	public void setCollectedTrue() {
 		collected = true;

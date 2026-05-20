@@ -1,6 +1,8 @@
-package domain.gameObjects;
+package domain.collectables;
 
 import java.awt.Color;
+
+import domain.players.Player;
 
 /* La clase ExtraLife es una subclase de Collectionable, la cual puede ser recolectada por el jugador para obtener una vida extra.
  * 
@@ -26,4 +28,9 @@ public class ExtraLife extends Collectionable {
 		setCollectedTrue();
 		player.addLife();
 	}
+	
+	@Override
+    public boolean isCoin() {
+        return false;
+    }
 }

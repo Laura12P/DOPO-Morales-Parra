@@ -1,6 +1,8 @@
-package domain.gameObjects;
+package domain.collectables;
 
 import java.awt.Color;
+
+import domain.players.Player;
 
 /* La clase Bomb es una subclase de Collectionable, que al ser interactuado por un jugador o enemigo, explota, generando daño en un radio determinado.
  * 
@@ -26,4 +28,9 @@ public class Bomb extends Collectionable {
 		setCollectedTrue();
 		player.respawn();
 	}
+	
+	@Override
+    public boolean isCoin() {
+        return false;
+    }
 }

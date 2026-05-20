@@ -1,6 +1,8 @@
-package domain.gameObjects;
+package domain.collectables;
 
 import java.awt.Color;
+
+import domain.players.Player;
 
 /* La clase Coin es una subclase de Collectionable, la cual debe de ser recolectado por el jugador para poder pasar el nivel.
  * 

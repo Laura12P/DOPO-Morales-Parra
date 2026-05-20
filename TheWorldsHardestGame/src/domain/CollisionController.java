@@ -1,8 +1,19 @@
 package domain;
-import domain.gameObjects.*;
 
 import java.util.ArrayList;
 
+import domain.players.Player;
+import domain.enemies.Enemy;
+import domain.collectables.Collectionable;
+import domain.walls.StaticWall;
+import domain.zones.EndZone;
+import domain.zones.RespawnZone;
+
+/**
+ * Clase encargada de detectar y manejar todas las colisiones del juego.
+ *
+ * @author Laura Juliana Parra Velandia y Daniel Santiago Morales Perdomo
+ */
 public class CollisionController {
 
     public interface GameEventListener {
@@ -19,37 +30,54 @@ public class CollisionController {
         this.listener = listener;
     }
 
-    public void checkCollisions(ArrayList<Player> players, ArrayList<Enemy> enemies, ArrayList<Collectionable> collectables,
-    		ArrayList<EndZone> endZones) {
-    	for (Player player : players) {
-    		for (Enemy enemy : enemies) {
+    public void checkCollisions(ArrayList<Player> players, ArrayList<Enemy> enemies,
+                                 ArrayList<Collectionable> collectables,
+                                 ArrayList<EndZone> endZones,
+                                 ArrayList<RespawnZone> respawnZones,
+                                 ArrayList<StaticWall> walls) {
+        for (Player player : players) {
+
+            // Colision con enemigos
+            for (Enemy enemy : enemies) {
                 if (intersects(player, enemy)) {
-                    player.respawn();
+                    player.onEnemyHit();
                     if (listener != null) {
-                    	listener.onPlayerDied(player);
+                        listener.onPlayerDied(player);
                     }
                     break;
                 }
             }
 
+            // Colision con coleccionables
             for (Collectionable c : collectables) {
                 if (!c.isCollected() && intersects(player, c)) {
                     c.collect(player);
                     if (listener != null) {
-                    	listener.onCoinCollected(player, collectables.size());
+                        listener.onCoinCollected(player, collectables.size());
                     }
                 }
             }
 
-            for (EndZone endZone : endZones) {
-                if (intersects(player, endZone)) {
-                    if (listener != null) {
-                    	listener.onLevelCompleted(player);
-                    }
-                    break;
+            // Colision con zona de respawn — actualiza punto de reaparicion
+            for (RespawnZone respawnZone : respawnZones) {
+                if (intersects(player, respawnZone)) {
+                    respawnZone.activatedByPlayer(player);
                 }
             }
-    	} 
+
+            // Colision con zona final — solo si recolecto todas las monedas
+            boolean allCollected = collectables.stream().allMatch(Collectionable::isCollected);
+            if (allCollected) {
+                for (EndZone endZone : endZones) {
+                    if (intersects(player, endZone)) {
+                        if (listener != null) {
+                            listener.onLevelCompleted(player);
+                        }
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     private boolean intersects(Element a, Element b) {

@@ -1,7 +1,9 @@
-package domain.gameObjects;
+package domain.enemies;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
+import domain.walls.StaticWall;
 /* La clase StaticEnemy es una subclase de Enemy, la cual no permite el movimiento
  * 
  * @author Laura Juliana Parra Velandia y Daniel Santiago Morales Perdomo
@@ -23,7 +25,7 @@ public class StaticEnemy extends Enemy{
 	}
 	
 	@Override
-	public void move(int boardWidth, int boardHeight) {
+	public void move(int boardWidth, int boardHeight, ArrayList<StaticWall> walls){
 	    // No se mueve
 	}
 }

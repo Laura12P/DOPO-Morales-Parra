@@ -1,6 +1,9 @@
-package domain.gameObjects;
+package domain.enemies;
 
 import java.awt.Color;
+import java.util.ArrayList;
+
+import domain.walls.StaticWall;
 
 /* La clase MovingEnemy es una subclase de Enemy, la cual tiene la capacidad de moverse y no de mantenerse estatico.
  * 
@@ -44,16 +47,22 @@ public class MovingEnemy extends Enemy {
     }
 
     @Override
-    public void move(int boardWidth, int boardHeight) {
-        positionX += dx * speed;
-        positionY += dy * speed;
+    public void move(int boardWidth, int boardHeight, ArrayList<StaticWall> walls) {
+        double newX = positionX + dx * speed;
+        double newY = positionY + dy * speed;
+
         // Rebote horizontal dentro del rango
-        if (positionX <= minX || positionX + width >= maxX) {
-        	dx = -dx;
+        if (newX <= minX || newX + width >= maxX) {
+            dx = -dx;
+            newX = positionX + dx * speed;
         }
         // Rebote vertical dentro del rango
-        if (positionY <= minY || positionY + height >= maxY) {
-        	dy = -dy;
+        if (newY <= minY || newY + height >= maxY) {
+            dy = -dy;
+            newY = positionY + dy * speed;
         }
+
+        positionX = newX;
+        positionY = newY;
     }
 }

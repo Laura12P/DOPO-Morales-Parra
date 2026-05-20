@@ -1,7 +1,9 @@
-package domain.gameObjects;
+package domain.walls;
 
 import java.awt.Color;
 import java.awt.Graphics;
+
+import domain.Element;
 
 public class StaticWall extends Element {
 

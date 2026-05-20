@@ -1,80 +1,145 @@
 package presentation;
-import domain.gameObjects.*;
-import domain.*;
 
+import domain.CollisionController;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.io.IOException;
 
+import domain.TheDOPOHardestGame;
+import domain.TWHGException;
+import domain.players.Player;
+import presentation.enums.GameConfig;
+
+/**
+ * Panel principal del juego. Maneja el loop de juego, input y dibujado.
+ *
+ * @author Laura Juliana Parra Velandia y Daniel Santiago Morales Perdomo
+ */
 public class GamePanel extends JPanel implements CollisionController.GameEventListener {
-	private static final long serialVersionUID = 1L;
-	
-	private GameWindow gameWindow;
-	private TheDOPOHardestGame game;
-	
+
+    private static final long serialVersionUID = 1L;
+
+    private GameWindow gameWindow;
+    private TheDOPOHardestGame game;
+
     private Timer gameTimer;
     private boolean paused;
     private boolean levelCompleted;
 
+    private boolean up, down, left, right;
+    private boolean wKey, sKey, aKey, dKey;
+
     public GamePanel(GameConfig gameConfig, GameWindow gameWindow) {
         this.gameWindow = gameWindow;
-        
+
         try {
             game = new TheDOPOHardestGame("levels/level1.txt");
         } catch (TWHGException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
             return;
         }
-        
-        gameTimer = new javax.swing.Timer(16, e -> {
-            if (!paused && !levelCompleted) {
-                game.board.update();
-                repaint();
-            }
-        });
-        
+
         paused = false;
         levelCompleted = false;
 
-        setBackground(new Color(180,181,254));
+        setBackground(new Color(180, 181, 254));
         setFocusable(true);
-        
-        setPreferredSize(new Dimension(game.getBoardWidth(),game.getBoardHeight()));
+        setPreferredSize(new Dimension(game.getBoardWidth(), game.getBoardHeight()));
 
-        game.board.setEventListener(this);
+        game.setEventListener(this);
+
+        gameTimer = new Timer(16, e -> {
+            if (!paused && !levelCompleted) {
+                handleMovement();
+                game.update();
+                repaint();
+            }
+        });
         gameTimer.start();
-
     }
 
-    private void handleKey(int key) {
-        if (game.amountOfPlayers() == 0) {
-        	return;
+    private void handleMovement() {
+        if (game.amountOfPlayers() == 0) return;
+
+        Player p1 = game.getPlayers().get(0);
+        int dx1 = 0, dy1 = 0;
+        if (wKey) dy1 = -1;
+        if (sKey) dy1 = 1;
+        if (aKey) dx1 = -1;
+        if (dKey) dx1 = 1;
+        p1.move(dx1, dy1, game.getBoardWidth(), game.getBoardHeight(), game.getWalls());
+
+        if (game.amountOfPlayers() > 1) {
+            Player p2 = game.getPlayers().get(1);
+            int dx2 = 0, dy2 = 0;
+            if (up) dy2 = -1;
+            if (down) dy2 = 1;
+            if (left) dx2 = -1;
+            if (right) dx2 = 1;
+            p2.move(dx2, dy2, game.getBoardWidth(), game.getBoardHeight(), game.getWalls());
         }
-        Player p = game.getPlayers().get(0);
-        int dx = 0;
-        int dy = 0;
-        if (key == KeyEvent.VK_W || key == KeyEvent.VK_UP) {
-        	dy = -1;
+    }
+
+    public void keyPressed(int keyCode) {
+        switch (keyCode) {
+            case KeyEvent.VK_W:
+                wKey = true;
+                break;
+            case KeyEvent.VK_S:
+                sKey = true;
+                break;
+            case KeyEvent.VK_A:
+                aKey = true;
+                break;
+            case KeyEvent.VK_D:
+                dKey = true;
+                break;
+            case KeyEvent.VK_UP:
+                up = true;
+                break;
+            case KeyEvent.VK_DOWN:
+                down = true;
+                break;
+            case KeyEvent.VK_LEFT:
+                left = true;
+                break;
+            case KeyEvent.VK_RIGHT:
+                right = true;
+                break;
         }
-        if (key == KeyEvent.VK_S || key == KeyEvent.VK_DOWN) {
-        	dy = 1;
+    }
+
+    public void keyReleased(int keyCode) {
+        switch (keyCode) {
+            case KeyEvent.VK_W:
+                wKey = false;
+                break;
+            case KeyEvent.VK_S:
+                sKey = false;
+                break;
+            case KeyEvent.VK_A:
+                aKey = false;
+                break;
+            case KeyEvent.VK_D:
+                dKey = false;
+                break;
+            case KeyEvent.VK_UP:
+                up = false;
+                break;
+            case KeyEvent.VK_DOWN:
+                down = false;
+                break;
+            case KeyEvent.VK_LEFT:
+                left = false;
+                break;
+            case KeyEvent.VK_RIGHT:
+                right = false;
+                break;
         }
-        if (key == KeyEvent.VK_A || key == KeyEvent.VK_LEFT) {
-        	dx = -1;
-        }
-        if (key == KeyEvent.VK_D || key == KeyEvent.VK_RIGHT) {
-        	dx = 1;
-        }
-        p.move(dx, dy, game.getBoardWidth(), game.getBoardHeight());
     }
 
     public void setPaused(boolean paused) {
         this.paused = paused;
-    }
-
-    public void handleKeyPressed(int keyCode) {
-        handleKey(keyCode);
     }
 
     @Override
@@ -92,12 +157,7 @@ public class GamePanel extends JPanel implements CollisionController.GameEventLi
         levelCompleted = true;
         gameTimer.stop();
         gameWindow.stopTimer();
-        JOptionPane.showMessageDialog(gameWindow,
-            "¡Nivel completado!\nMuertes: " + player.getDeaths(),
-            "Victoria",
-            JOptionPane.INFORMATION_MESSAGE);
-        gameWindow.dispose();
-        new MainWindow(gameWindow.getWidth(), gameWindow.getHeight()).setVisible(true);
+        gameWindow.showWinWindow(player);
     }
 
     @Override
@@ -126,9 +186,16 @@ public class GamePanel extends JPanel implements CollisionController.GameEventLi
     }
 
     private void drawBorder(Graphics g) {
-        g.setColor(Color.BLACK);
         Graphics2D g2 = (Graphics2D) g;
+        g2.setColor(Color.BLACK);
         g2.setStroke(new BasicStroke(3));
         g2.drawRect(0, 0, game.getBoardWidth() - 1, game.getBoardHeight() - 1);
+    }
+    
+    public void restartLevel() {
+        for (Player p : game.getPlayers()) {
+            p.respawn();
+            gameWindow.updateDeaths(p.getDeaths());
+        }
     }
 }

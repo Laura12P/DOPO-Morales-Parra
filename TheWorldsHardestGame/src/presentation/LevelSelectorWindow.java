@@ -6,14 +6,19 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.File;
 
+import presentation.enums.GameConfig;
+import presentation.enums.GameMode;
+import presentation.enums.MachineDifficulty;
+
 public class LevelSelectorWindow extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
+	
 	private JPanel mainPanel;
 	private JPanel buttonsRow;
-	private JPanel bottomPanel;
     private JButton btnNormalLevels;
     private JButton btnSpecificLevel;
+    private JPanel bottomPanel;
     private JButton btnBack;
     private GameConfig gameConfig;
 

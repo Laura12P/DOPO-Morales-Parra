@@ -1,4 +1,4 @@
-package presentation;
+package presentation.enums;
 
 public enum MachineDifficulty {
 	NONE,

@@ -1,4 +1,4 @@
-package domain.gameObjects;
+package domain.zones;
 
 import java.awt.Color;
 

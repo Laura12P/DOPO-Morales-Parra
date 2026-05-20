@@ -1,4 +1,4 @@
-package domain.gameObjects;
+package domain;
 
 /* La clase TWHGException es la clase encargada de los mensajes de las excepciones propias del proyecto.
  * 

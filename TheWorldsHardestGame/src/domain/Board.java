@@ -1,17 +1,24 @@
 package domain;
-import domain.gameObjects.*;
 
 import java.awt.Graphics;
+
 import java.util.ArrayList;
 
-/* La clase Board es la clase que gestiona el tablero y sus elementos.
- * 
+import domain.players.Player;
+import domain.enemies.Enemy;
+import domain.collectables.Collectionable;
+import domain.walls.StaticWall;
+import domain.zones.StartZone;
+import domain.zones.EndZone;
+import domain.zones.RespawnZone;
+
+/**
+ * Clase que gestiona el tablero y todos sus elementos.
+ *
  * @author Laura Juliana Parra Velandia y Daniel Santiago Morales Perdomo
  */
-
 public class Board {
-    private ElementType[][] grid;
-    private CollisionController collisionController;
+
     private ArrayList<StartZone> startZones;
     private ArrayList<EndZone> endZones;
     private ArrayList<RespawnZone> respawnZones;
@@ -20,20 +27,13 @@ public class Board {
     private ArrayList<Enemy> enemies;
     private ArrayList<StaticWall> walls;
     private ArrayList<int[]> corridors;
+    private CollisionController collisionController;
     private int width;
     private int height;
-    
-    /* Constructor de la clase Board
-     * 
-     * @param width Ancho total del tablero.
-     * @param height Alto total del tablero.
-     * 
-     * @author Laura Juliana Parra Velandia y Daniel Santiago Morales Perdomo
-     */
+
     public Board(int width, int height) {
         this.width = width;
         this.height = height;
-        grid = new ElementType[width][height];
         collisionController = new CollisionController();
         startZones = new ArrayList<>();
         endZones = new ArrayList<>();
@@ -44,95 +44,101 @@ public class Board {
         walls = new ArrayList<>();
         corridors = new ArrayList<>();
     }
-    
-    public void drawAllElements(Graphics g) {
-    	for (StartZone s : startZones) {
-    		s.draw(g);
-    	}
-        for (EndZone ez : endZones) {
-        	ez.draw(g);
-        }
-        for (StaticWall w : walls) {
-        	w.draw(g);
-        }
-        for (Collectionable c : collectionables) {
-        	c.draw(g);
-        }
+
+    public void update() {
         for (Enemy e : enemies) {
-        	e.draw(g);
+            e.move(width, height, walls);
         }
-        for (Player p : players) {
-        	p.draw(g);
-        }
+        collisionController.checkCollisions(players, enemies, collectionables, endZones, respawnZones, walls);
     }
 
+    public void drawAllElements(Graphics g) {
+        for (StartZone s : startZones) s.draw(g);
+        for (EndZone ez : endZones) ez.draw(g);
+        for (RespawnZone rz : respawnZones) rz.draw(g);
+        for (StaticWall w : walls) w.draw(g);
+        for (Collectionable c : collectionables) c.draw(g);
+        for (Enemy e : enemies) e.draw(g);
+        for (Player p : players) p.draw(g);
+    }
+
+  
     public void addStartZone(StartZone s) { 
-    	startZones.add(s); 
+    	startZones.add(s);
     }
     public void addEndZone(EndZone e) {
     	endZones.add(e); 
     }
-    public void addPlayer(Player player) {
-    	players.add(player); 
+    public void addRespawnZone(RespawnZone r) {
+    	respawnZones.add(r); 
     }
-    public void addEnemy(Enemy enemy) { 
-    	enemies.add(enemy); 
+    public void addPlayer(Player p) {
+    	players.add(p);
+    }
+    public void addEnemy(Enemy e) {
+    	enemies.add(e);
     }
     public void addCollectionable(Collectionable c) {
     	collectionables.add(c); 
     }
-    public void addRespawnZone(RespawnZone r) { 
-    	respawnZones.add(r); 
-    }
-    public void addWall(StaticWall w) { 
-    	walls.add(w); 
+    public void addWall(StaticWall w) {
+    	walls.add(w);
     }
     public void addCorridor(int x, int y, int w, int h) {
-        corridors.add(new int[]{x, y, w, h});
+    	corridors.add(new int[]{x, y, w, h}); 
     }
 
     public void setEventListener(CollisionController.GameEventListener listener) {
         collisionController.setListener(listener);
     }
 
-    public void update() {
-        for (Enemy e : enemies) {
-            e.move(width, height);
-        }
-        collisionController.checkCollisions(players, enemies, collectionables, endZones);
-    }
-    
-    public ArrayList<int[]> getCorridors() {
-    	return corridors;
-    }
-    
+    // Getters
     public ArrayList<Player> getPlayers() {
-    	return players;
+    	return players; 
     }
-    
+    public ArrayList<Enemy> getEnemies() { 
+    	return enemies;
+    }
+    public ArrayList<StaticWall> getWalls() {
+    	return walls; 
+    }
+    public ArrayList<Collectionable> getCollectionables() {
+    	return collectionables; 
+    }
+    public ArrayList<int[]> getCorridors() {
+    	return corridors; 
+    }
     public int getAmountOfPlayers() {
     	return players.size();
     }
+    public int getWidth() {
+    	return width;
+    }
+    public int getHeight() {
+    	return height;
+    }
 
     public int totalCoins() {
-    	return collectionables.size();
-    	}
+        return collectionables.size();
+    }
 
     public int getAmountCollectedCoins() {
         int count = 0;
         for (Collectionable c : collectionables) {
-            if (c.isCollected()) {
-            	count++;
-            }
+            if (c.isCollected()) count++;
         }
         return count;
     }
     
-    public int getWidth() {
-    	return width;
-    }
-    
-    public int getHeight() {
-    	return height;
+    public ArrayList<int[]> getAllValidCells() {
+        ArrayList<int[]> cells = new ArrayList<>();
+        cells.addAll(corridors);
+        for (StartZone s : startZones)
+            cells.add(new int[]{(int)s.getPositionX(), (int)s.getPositionY(), (int)s.getWidth(), (int)s.getHeight()});
+        for (EndZone e : endZones)
+            cells.add(new int[]{(int)e.getPositionX(), (int)e.getPositionY(), (int)e.getWidth(), (int)e.getHeight()});
+        for (RespawnZone r : respawnZones)
+            cells.add(new int[]{(int)r.getPositionX(), (int)r.getPositionY(), (int)r.getWidth(), (int)r.getHeight()});
+        return cells;
     }
 }
