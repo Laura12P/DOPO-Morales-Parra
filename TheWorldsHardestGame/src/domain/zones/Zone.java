@@ -1,0 +1,36 @@
+package domain.zones;
+
+import java.awt.Graphics;
+import java.awt.Color;
+
+import domain.Element;
+import domain.players.Player;
+
+/* La clase Zone es una subclase abstracta de Elements y una superclase de las zonas, que define el comportamiento de cualquier zona en el juego.
+ * 
+ * @author Laura Juliana Parra Velandia y Daniel Santiago Morales Perdomo
+ */
+
+public abstract class Zone extends Element {
+	
+	/*Constructor de la clase Zone
+	 * 
+	 * @param positionX Numero entero positivo que define la posicion en el eje X de la zona.
+	 * @param positionY Numero entero positivo que define la posicion en el eje Y de la zona.
+	 * @param width Numero entero positivo que define el ancho de la zona.
+	 * @param height Numero entero positivo que define la altura de la zona.
+	 * @param color Color actual de la zona.
+	 */
+	public Zone(double positionX, double positionY, double width, double height, Color color) {
+		super(positionX, positionY, width, height, 0, color);
+		
+	}
+
+	@Override
+	public void draw(Graphics g) {
+	    g.setColor(color);
+	    g.fillRect((int) positionX, (int) positionY, (int) width, (int) height);
+	}
+
+	public abstract void activatedByPlayer(Player player);
+}
